@@ -10,6 +10,14 @@
     content="『Pokémon Sleep（ポケモンスリープ）』の全77種レシピ対応！鍋容量拡張（スキル・いいキャンプチケット1.5倍）、3ジャンル（カレー・サラダ・デザート）の最適備蓄トリオ算出、除外食材フィルター搭載の無料高機能計算ツール。">
   <meta name="keywords" content="ポケスリ,ポケモンスリープ,料理,計算機,鍋容量,食材備蓄,しんりょくアボカドグラタン,みつあつめチョコワッフル,ごろごろねっとうサラダ">
   <link rel="canonical" href="https://dyussuca.com/pokesleep/">
+  <!-- PWA (アプリ化) 設定 -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ポケスリ計算機">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
   <meta property="og:type" content="website">
   <meta property="og:title" content="ポケスリ 料理計算機＆食材備蓄シミュレーター | dyussuca.com">
   <meta property="og:description" content="全77種レシピ完全対応！鍋拡張・3ジャンル最適備蓄シナジー計算ツール。">
@@ -3140,6 +3148,15 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         document.querySelectorAll('.times-buttons .time-btn').forEach(btn => btn.classList.remove('active'));
         updateSingleCalculation();
       }
+    }
+
+    // Service Worker (PWA) 登録
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+          .catch(err => console.log('PWA Service Worker registration failed:', err));
+      });
     }
   </script>
 </body>
