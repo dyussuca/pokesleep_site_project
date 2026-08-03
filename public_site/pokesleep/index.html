@@ -1225,10 +1225,18 @@
     }
 
     @media (max-width: 680px) {
+      header {
+        padding-top: 48px;
+      }
       .header-btn-group {
-        position: static;
-        margin: 12px auto 0;
-        justify-content: center;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        margin: 0;
+      }
+      .credit-btn {
+        padding: 6px 12px;
+        font-size: 0.82rem;
       }
     }
 
@@ -1481,8 +1489,7 @@
 
   <header>
     <div class="header-btn-group">
-      <button class="header-btn" id="header-guide-btn" onclick="toggleUsageGuide()"><span>💡</span> 使い方</button>
-      <button class="credit-btn" onclick="openCreditModal()"><span>✉️</span> お問合せ / クレジット</button>
+      <button class="credit-btn" onclick="openCreditModal()"><span>✉️</span> お問合せ</button>
     </div>
     <div class="header-title"
       style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
@@ -1923,7 +1930,7 @@
       <a href="#" onclick="toggleUsageGuide(); return false;"
         style="color: var(--accent-blue); text-decoration: none;">💡 使い方ガイド</a>
       <a href="#" onclick="openCreditModal(); return false;"
-        style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ / クレジット</a>
+        style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
       <a href="#" onclick="openPrivacyModal(); return false;"
         style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー</a>
     </div>
@@ -1953,7 +1960,7 @@
   <div class="modal-overlay" id="credit-modal" onclick="closeCreditModal(event)">
     <div class="modal-container" onclick="event.stopPropagation()" style="max-width: 540px;">
       <div class="modal-header">
-        <div class="modal-title"><span>✉️</span> クレジット・お問合せ</div>
+        <div class="modal-title"><span>✉️</span>お問合せ</div>
         <button class="modal-close-btn" onclick="closeCreditModal()">✕</button>
       </div>
       <div style="padding: 24px; text-align: center;">
