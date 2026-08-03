@@ -1933,7 +1933,7 @@
       <a href="#" onclick="openCreditModal(); return false;"
         style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
       <a href="#" onclick="openPrivacyModal(); return false;"
-        style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー</a>
+        style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー ＆ 利用規約</a>
     </div>
     <div>© 2026 dyussuca.com - ポケスリ 料理計算機＆食材備蓄シミュレーター</div>
   </footer>
@@ -2000,36 +2000,47 @@
 
 
 
-  <!-- PRIVACY POLICY MODAL -->
+  <!-- PRIVACY POLICY & TERMS MODAL -->
   <div class="modal-overlay" id="privacy-modal" onclick="closePrivacyModal(event)">
     <div class="modal-container" onclick="event.stopPropagation()" style="max-width: 680px;">
       <div class="modal-header">
-        <div class="modal-title"><span>🔒</span> プライバシーポリシー</div>
+        <div class="modal-title"><span>🔒</span> プライバシーポリシー ＆ 利用規約</div>
         <button class="modal-close-btn" onclick="closePrivacyModal()">✕</button>
       </div>
       <div
         style="padding: 24px; font-size: 0.92rem; line-height: 1.7; color: var(--text-main); max-height: 70vh; overflow-y: auto;">
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">1. 個人情報の収集について
-        </h3>
+        
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">1. 著作権・商標権 ＆ 公式様へのリスペクト（非公式ファンツール）</h3>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
-          当サイト（dyussuca.com）では、ユーザーの個人識別情報を直接収集することはありません。お問合せメール（snorlax@dyussuca.com）経由でいただいた情報は、お問合せへの回答のみに使用します。
+          当サイト（dyussuca.com）は、『Pokémon Sleep（ポケモンスリープ）』を愛好するファンによって運営されている<b>非公式の便利ツールポータル</b>です。<br>
+          ゲーム内に登場する名称、画像、アセット等の知的財産権および著作権は、<b>任天堂株式会社・株式会社ポケモン・株式会社SELECT BUTTON様</b>ならびに関係各社に帰属します。当サイトは開発・運営関係者様とは一切関係ありません。素晴らしいゲーム体験を提供してくださる公式様へ深い感謝とリスペクトを捧げます。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">2.
-          アクセス解析・Cookie（クッキー）の使用について</h3>
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">2. 動画配信・SNS・ブログでの利用について（リンクフリー・二次利用歓迎）</h3>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
-          当サイトでは、サービスの利便性向上およびアクセス解析のため、Cookieを使用する場合があります。ブラウザの設定によりCookieを無効化することも可能です。
+          当サイトのツールで算出されたデータ、計算結果、画面のスクリーンショット等は、<b>YouTube・Twitch等の動画実況、ライブ配信、SNS（X / Instagram等）への投稿、攻略ブログ・記事等でご自由にご利用いただけます</b>（事前のご連絡は不要です。収益化された配信・動画内での使用も歓迎いたします）。<br>
+          ※動画の概要欄やブログ記事等に当サイト（<a href="https://dyussuca.com/pokesleep/" target="_blank" style="color: var(--accent-blue); font-weight: 800;">https://dyussuca.com/pokesleep/</a>）のリンクを掲載していただけますと大変励みになります！
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3.
-          ローカルストレージ（localStorage）の使用</h3>
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3. 個人情報の収集およびお問合せについて</h3>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
-          当サイトでは、ユーザーが設定した「鍋容量」「除外食材」「テーマ設定」などのシミュレーション条件を保存するため、お客様のブラウザのローカルストレージを利用しています。このデータが外部サーバーへ送信されることはありません。
+          当サイトでは、ユーザーの個人識別情報を直接取得することはありません。お問合せメール（<a href="mailto:snorlax@dyussuca.com" style="color: var(--accent-blue); font-weight: 800;">snorlax@dyussuca.com</a>）経由でいただいた情報については、回答およびサービス改善・不具合対応の目的のみに使用し、第三者に提供することはありません。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 免責事項</h3>
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 広告配信（Google AdSense）および Cookie（クッキー）について</h3>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
-          当サイトに掲載している情報の正確性には万全を期しておりますが、ゲームの仕様変更等によりデータが更新される場合があります。当サイトの利用により生じたトラブルや損害等について、一切の責任を負いかねます。
+          当サイトでは、第三者配信事業者（Google AdSense）による広告サービスを利用しています。広告事業者は、ユーザーの興味に応じた商品やサービスの広告を表示するため、当サイトや他サイトへのアクセスに関する情報「Cookie」（氏名、住所、メール アドレス、電話番号は含まれません）を使用することがあります。<br>
+          Cookieを無効にする設定およびGoogle AdSenseに関する詳細は<a href="https://policies.google.com/technologies/ads?hl=ja" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 800;">Googleの広告設定</a>をご確認ください。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">5. ローカルストレージ（localStorage）の使用</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトでは、ユーザーが選択した「鍋容量」「除外食材」「選択料理」「テーマ設定」などのシミュレーション条件をブラウザに自動保存するため、お客様の端末のローカルストレージを利用しています。このデータが外部サーバーへ送信されることはありません。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">6. 免責事項</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトのデータ計算精度には万全を期しておりますが、ゲームの仕様変更やアプデ等により実際のゲーム内データと相違が生じる場合があります。当サイトの利用によって生じたトラブルや損害について、当サイトは一切の責任を負いかねます。
         </p>
       </div>
     </div>
