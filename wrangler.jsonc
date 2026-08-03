@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "pokesleep",
+  "name": "pokesleep-site-project",
   "compatibility_date": "2026-08-03",
   "assets": {
     "directory": "public_site"
