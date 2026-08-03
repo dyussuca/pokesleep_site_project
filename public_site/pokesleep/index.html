@@ -3154,7 +3154,10 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+          .then(reg => {
+            console.log('PWA Service Worker registered:', reg.scope);
+            reg.update();
+          })
           .catch(err => console.log('PWA Service Worker registration failed:', err));
       });
     }

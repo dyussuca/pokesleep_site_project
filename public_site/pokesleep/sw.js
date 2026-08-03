@@ -1,23 +1,9 @@
-const CACHE_NAME = 'pokesleep-calc-v1';
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './recipes.csv',
-  './manifest.json',
-  './assets/favicon.png',
-  './assets/apple-touch-icon.png'
-];
+const CACHE_NAME = 'pokesleep-calc-v2';
 
-// インストール時にコアキャッシュを保存
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
-// 古いキャッシュをクリア
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -32,23 +18,10 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// リクエスト時のネットワーク / キャッシュ戦略 (Stale-While-Revalidate)
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
+  // ネットワークを優先し、接続不可時のみキャッシュを使用（ERR_FAILED防止）
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
-
-      return cachedResponse || fetchPromise;
-    })
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
