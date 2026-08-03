@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dyussuca.com - ポケスリ 料理計算機＆ツールポータル</title>
+  <meta name="description" content="dyussuca.com - ポケモンスリープ（Pokémon Sleep）の効率的な料理シミュレーターおよび各種便利ツールポータル。">
+  <link rel="canonical" href="https://dyussuca.com/pokesleep/">
+  <meta http-equiv="refresh" content="0;url=/pokesleep/">
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #f1f5f9; color: #0f172a; }
+    a { color: #0284c7; font-weight: bold; text-decoration: none; font-size: 1.2rem; }
+  
+    @media (max-width: 680px) {
+      .planner-ing-card {
+        height: auto !important;
+        min-height: 60px !important;
+        padding: 10px 16px !important;
+      }
+      .planner-ing-card span {
+        font-size: 1.1rem !important;
+      }
+      .planner-ing-img-icon {
+        width: 32px !important;
+        height: 32px !important;
+      }
+    }
+    
+  
+    /* PERFECT MODAL RESPONSIVE FIT FIX */
+    .modal-content {
+      width: 92% !important;
+      max-width: 640px !important;
+      max-height: 85vh !important;
+      padding: 16px !important;
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+    .modal-recipe-grid {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .modal-recipe-item {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 10px 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      overflow: hidden !important;
+    }
+    .modal-recipe-info {
+      flex: 1 !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+    }
+    .modal-recipe-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+    .modal-recipe-name {
+      font-size: 1.05rem !important;
+      font-weight: 900 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    .modal-chips-container {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 4px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin-top: 6px !important;
+    }
+    .modal-ing-chip {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+  
+    /* PERFECT MOBILE MODAL CENTERING */
+    @media (max-width: 680px) {
+      .modal-overlay {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+      }
+      .modal-content {
+        width: 92vw !important;
+        max-width: 92vw !important;
+        margin: 0 auto !important;
+        padding: 16px 12px !important;
+        box-sizing: border-box !important;
+      }
+      .modal-recipe-grid {
+        width: 100% !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+      }
+      .modal-recipe-item {
+        width: 100% !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+      }
+    }
+
+  
+    
+    .modal-recipe-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      gap: 8px !important;
+    }
+    .modal-recipe-name {
+      text-align: left !important;
+      flex: 1 !important;
+    }
+    .modal-energy-tag {
+      margin-left: auto !important;
+      white-space: nowrap !important;
+    }
+    .modal-chips-container {
+      justify-content: flex-start !important;
+    }
+
+  
+    /* PURE LEFT ALIGNMENT FOR MODAL RECIPES */
+    .modal-recipe-info {
+      text-align: left !important;
+    }
+    .modal-recipe-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      width: 100% !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+    .modal-recipe-name {
+      text-align: left !important;
+      flex: none !important;
+    }
+    .modal-energy-tag {
+      margin-left: 0 !important;
+      white-space: nowrap !important;
+    }
+    .modal-chips-container {
+      justify-content: flex-start !important;
+    }
+
+  
+    /* PICKER TRIGGER BUTTONS PURE LEFT ALIGNMENT */
+    .single-picker, .planner-picker, .picker-label, #single-picker-label, .trigger-label {
+      text-align: left !important;
+      justify-content: flex-start !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+
+  
+    /* ABSOLUTE PURE LEFT ALIGNMENT FOR MODAL RECIPE LIST CARDS */
+    .modal-recipe-card {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 14px !important;
+      padding: 14px 16px !important;
+      text-align: left !important;
+    }
+    .modal-recipe-card > div {
+      text-align: left !important;
+      flex: 1 !important;
+      min-width: 0 !important;
+    }
+    .modal-recipe-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      width: 100% !important;
+      gap: 10px !important;
+      flex-wrap: wrap !important;
+      text-align: left !important;
+    }
+    .modal-recipe-name {
+      font-size: 1.1rem !important;
+      font-weight: 900 !important;
+      color: var(--text-main) !important;
+      text-align: left !important;
+    }
+    .modal-energy-tag {
+      margin-left: 0 !important;
+      text-align: left !important;
+      white-space: nowrap !important;
+    }
+    .modal-ingredients-list {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+      margin-top: 8px !important;
+      justify-content: flex-start !important;
+      text-align: left !important;
+    }
+
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+</head>
+<body>
+  <h2>dyussuca.com ポケスリツールへ移動中...</h2>
+  <p>自動的に切り替わらない場合は以下のリンクをクリックしてください。</p>
+  <p><a href="/pokesleep/">👉 ポケスリ 料理計算機＆食材備蓄シミュレーターを開く (/pokesleep/)</a></p>
+</body>
+</html>
