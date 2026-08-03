@@ -1,6 +1,6 @@
 {
-  "name": "ポケスリ 料理計算機＆食材備蓄シミュレーター",
-  "short_name": "ポケスリ計算機",
+  "name": "ポケスリ 料理シミュ",
+  "short_name": "料理シミュ",
   "description": "ポケモンスリープの鍋容量計算・最適食材備蓄シミュレーター",
   "start_url": "./index.html",
   "display": "standalone",
