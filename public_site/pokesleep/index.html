@@ -1582,7 +1582,7 @@
         <div class="control-group">
           <label class="control-label">作る料理を選択</label>
           <button class="recipe-picker-trigger" onclick="openRecipeModal('single')">
-            <span id="single-picker-label">しんりょくアボカドグラタン (必要食材 115)</span>
+            <span id="single-picker-label">しんりょくアボカドグラタン</span>
             <span style="color: var(--accent-yellow);">一覧を開く ▾</span>
           </button>
         </div>
@@ -2697,7 +2697,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       });
 
       document.getElementById('res-total-count').textContent = totalCount;
-      document.getElementById('single-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name} (必要食材 ${recipe.total})`;
+      document.getElementById('single-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name}`;
     }
 
     function toggleIgnoreWeek(cat) {
