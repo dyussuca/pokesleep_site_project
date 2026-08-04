@@ -1772,13 +1772,19 @@
           </div>
         </div>
         <div class="guide-item">
-          <div class="guide-item-title">💾 5. 自動記憶・設定保存</div>
+          <div class="guide-item-title">📊 5. レシピレベルシミュレーター</div>
+          <div class="guide-item-desc">
+            料理の現在レベルと指定した調理回数から予想到達レベルを精密算出！<b>調理途中のレベルアップによる獲得EXPの増加（自己加速効果）も1回ごとに完全考慮</b>しているため、安心してレベル上げの計画にお役立てください。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">💾 6. 自動記憶・設定保存</div>
           <div class="guide-item-desc">
             鍋容量、除外設定、選択料理、テーマ、ガイドの表示状態はブラウザに自動保存され、次回訪問時もそのまま復元されます。
           </div>
         </div>
         <div class="guide-item">
-          <div class="guide-item-title">🌙 6. テーマのショートカット</div>
+          <div class="guide-item-title">🌙 7. テーマのショートカット</div>
           <div class="guide-item-desc">
             ライトモード・ダークモードに対応。パソコン版では <kbd
               style="background:var(--bg-card); border:1px solid var(--border-color); padding:2px 6px; border-radius:4px; font-weight:800;">Ctrl</kbd>
@@ -2259,16 +2265,32 @@
                 </div>
               </div>
 
-              <div style="display: flex; flex-direction: column; gap: 4px; width: 100%;">
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">料理チャンスS (スキル加算):</span>
-                  <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70"
-                    step="5" style="width: 75px; text-align: center; padding: 4px 6px;"
-                    oninput="onRLSkillChanceChange(this.value)">
-                  <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">%</span>
+              <!-- 料理チャンスS スキル入力エリア（強調カード化） -->
+              <div style="width: 100%; background: var(--bg-card); border: 2px solid var(--accent-yellow); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12); margin-top: 4px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                  <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 4px;">
+                    ⚡ 料理チャンスS (大成功確率スキル加算)
+                  </span>
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70" step="5"
+                      style="width: 85px; text-align: center; font-size: 1.2rem; font-weight: 900; padding: 6px; border: 2px solid var(--accent-yellow);"
+                      oninput="onRLSkillChanceChange(this.value)">
+                    <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
+                  </div>
                 </div>
-                <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub);">
-                  ※入力したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
+                
+                <!-- クイックタップボタン -->
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+                  <button type="button" class="quick-preset-btn rl-skill-btn active" onclick="setRLSkillChance(0, this)" style="padding: 4px 10px; font-size: 0.8rem;">+0%</button>
+                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(10, this)" style="padding: 4px 10px; font-size: 0.8rem;">+10%</button>
+                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(20, this)" style="padding: 4px 10px; font-size: 0.8rem;">+20%</button>
+                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(30, this)" style="padding: 4px 10px; font-size: 0.8rem;">+30%</button>
+                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(50, this)" style="padding: 4px 10px; font-size: 0.8rem;">+50%</button>
+                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(70, this)" style="padding: 4px 10px; font-size: 0.8rem;">+70% (MAX)</button>
+                </div>
+
+                <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 6px;">
+                  ※設定したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
                 </div>
               </div>
 
@@ -3736,8 +3758,22 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecipeLevelCalculation();
     }
 
+    function setRLSkillChance(val, btnElem) {
+      rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-skill-chance-input');
+      if (inputElem) inputElem.value = rlSkillChance;
+      document.querySelectorAll('.rl-skill-btn').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      updateRecipeLevelCalculation();
+    }
+
     function onRLSkillChanceChange(val) {
       rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
+      document.querySelectorAll('.rl-skill-btn').forEach(b => {
+        const btnVal = parseInt(b.textContent.replace('+', '').replace('%', '').replace(' (MAX)', '')) || 0;
+        if (btnVal === rlSkillChance) b.classList.add('active');
+        else b.classList.remove('active');
+      });
       updateRecipeLevelCalculation();
     }
 
@@ -3883,7 +3919,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       // Sync level inputs
       document.getElementById('rl-level-slider').value = rlCurrentLevel;
       document.getElementById('rl-level-input').value = rlCurrentLevel;
-      document.getElementById('rl-level-badge').textContent = `Lv.${rlCurrentLevel}`;
+      const levelBadgeElem = document.getElementById('rl-level-badge');
+      if (levelBadgeElem) levelBadgeElem.textContent = `Lv.${rlCurrentLevel}`;
 
       // Stats: bonus
       const multiplier = (1 + bonusPct / 100).toFixed(2);
@@ -3918,8 +3955,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       document.getElementById('rl-progress-bar').style.width = `${progressPct}%`;
 
       // Prediction
-      const mult = getRLMultiplier();
-      const multNote = (mult > 1.0) ? ` <span style="font-size:0.85rem; font-weight:800; color:var(--accent-yellow);">(倍率: ${mult.toFixed(2)}x)</span>` : '';
       const prediction = simulateCooking(recipe.energy, rlCurrentLevel, rlCookTimes);
       const levelGain = prediction.finalLevel - rlCurrentLevel;
       const predBonusPct = RECIPE_LEVEL_DATA[prediction.finalLevel - 1][0];
@@ -3928,7 +3963,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
           <div>
             <div style="font-size:0.95rem; font-weight:800; color:var(--text-sub); margin-bottom:4px;">
-              🍳 <b style="color:var(--text-main); font-size:1.15rem;">${rlCookTimes.toLocaleString()}回</b> 調理後の予想到達レベル ${multNote}
+              🍳 <b style="color:var(--text-main); font-size:1.15rem;">${rlCookTimes.toLocaleString()}回</b> 調理後の予想到達レベル
             </div>
             <div style="font-size:2.2rem; font-weight:900; color:var(--accent-green); line-height:1.2;">
               Lv.${prediction.finalLevel} <span style="font-size:1.35rem; font-weight:800; color:${levelGain > 0 ? 'var(--accent-green)' : 'var(--text-sub)'}; margin-left:6px;">(+${levelGain} レベル)</span>
@@ -3951,8 +3986,13 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const canvas = document.getElementById('rl-chart-canvas');
       if (!canvas) return;
 
-      // Skip rendering if container is hidden
-      if (canvas.offsetWidth === 0 && canvas.offsetHeight === 0) {
+      if (!recipe) {
+        recipe = RECIPES.find(r => r.id === rlRecipeId) || RECIPES[0];
+      }
+      if (!recipe) return;
+
+      // Skip rendering if container is hidden (will be rendered on tab switch)
+      if (canvas.parentElement && canvas.parentElement.offsetWidth === 0) {
         return;
       }
 
