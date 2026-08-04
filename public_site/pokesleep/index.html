@@ -1809,12 +1809,13 @@
       <button class="tab-btn" onclick="switchTab('optimizer')">
         <span>⚡</span> 最適備蓄シミュレータ
       </button>
-      <button class="tab-btn" onclick="switchTab('book')">
-        <span>📖</span> 全レシピ図鑑
-      </button>
       <button class="tab-btn" onclick="switchTab('recipe-level')">
         <span>📊</span> レシピレベル
       </button>
+      <button class="tab-btn" onclick="switchTab('book')">
+        <span>📖</span> 全レシピ図鑑
+      </button>
+
     </div>
 
     <!-- TAB 1: 単体調理計算 -->
@@ -2201,7 +2202,8 @@
             oninput="onRLLevelChange(this.value)">
           <div style="display: flex; align-items: center; gap: 6px;">
             <input type="number" class="number-input" id="rl-level-input" min="1" max="70" value="1"
-              oninput="onRLLevelInputChange(this.value)" style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              oninput="onRLLevelInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
             <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">Lv</span>
           </div>
         </div>
@@ -2214,187 +2216,193 @@
             oninput="onRLTimesSliderChange(this.value)">
           <div style="display: flex; align-items: center; gap: 6px;">
             <input type="number" class="number-input" id="rl-custom-times" min="1" max="100" value="50"
-              oninput="onRLCustomTimesChange(this.value)" style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              oninput="onRLCustomTimesChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
             <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
           </div>
         </div>
       </div>
 
-          <!-- イベントボーナス倍率選択 -->
-          <div class="control-group"
-            style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
-            <label class="control-label">🎉 イベントボーナス倍率</label>
-            <div class="times-buttons">
-              <button type="button" class="time-btn rl-event-btn active" onclick="setRLEventBonus(1.0, this)">1.0x
-                (通常)</button>
-              <button type="button" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)">1.5x
-                (イベント1.5倍)</button>
-            </div>
-          </div>
+      <!-- イベントボーナス倍率選択 -->
+      <div class="control-group"
+        style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
+        <label class="control-label">🎉 イベントボーナス倍率</label>
+        <div class="times-buttons">
+          <button type="button" class="time-btn rl-event-btn active" onclick="setRLEventBonus(1.0, this)">1.0x
+            (通常)</button>
+          <button type="button" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)">1.5x
+            (イベント1.5倍)</button>
+        </div>
+      </div>
 
-          <!-- 大成功（料理チャンス）補正設定 -->
-          <div class="control-group"
-            style="margin-top: 14px; background: var(--hero-bg); border: 1px solid var(--hero-border); padding: 14px 16px; border-radius: var(--radius-md);">
-            <div
-              style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-              <label class="control-label"
-                style="margin: 0; color: var(--accent-yellow); font-size: 1rem; font-weight: 900;">
-                🎲 大成功 期待値補正
-              </label>
-              <button type="button" id="rl-crit-toggle-btn" class="quick-preset-btn" onclick="toggleRLCritCalc()"
-                style="padding: 6px 14px; font-size: 0.88rem;">
-                補正: <b>OFF</b>
+      <!-- 大成功（料理チャンス）補正設定 -->
+      <div class="control-group"
+        style="margin-top: 14px; background: var(--hero-bg); border: 1px solid var(--hero-border); padding: 14px 16px; border-radius: var(--radius-md);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <label class="control-label"
+            style="margin: 0; color: var(--accent-yellow); font-size: 1rem; font-weight: 900;">
+            🎲 大成功 期待値補正
+          </label>
+          <button type="button" id="rl-crit-toggle-btn" class="quick-preset-btn" onclick="toggleRLCritCalc()"
+            style="padding: 6px 14px; font-size: 0.88rem;">
+            補正: <b>OFF</b>
+          </button>
+        </div>
+
+        <div id="rl-crit-options-container"
+          style="display: none; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color-soft);">
+          <div style="width: 100%;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">調理条件・曜日モデル:</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+              <button type="button" class="quick-preset-btn rl-day-btn active" onclick="setRLCritDay('weekly', this)">
+                🌈 1週間平均 (21回スパン: 平日18回＋日曜3回)
+              </button>
+              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('weekday', this)">
+                📅 平日のみ (2倍 / 10%)
+              </button>
+              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('sunday', this)">
+                🔥 日曜日のみ (3倍 / 30% / イベント時4.5倍)
               </button>
             </div>
+          </div>
 
-            <div id="rl-crit-options-container"
-              style="display: none; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color-soft);">
-              <div style="width: 100%;">
-                <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">調理条件・曜日モデル:</span>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
-                  <button type="button" class="quick-preset-btn rl-day-btn active"
-                    onclick="setRLCritDay('weekly', this)">
-                    🌈 1週間平均 (21回スパン: 平日18回＋日曜3回)
-                  </button>
-                  <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('weekday', this)">
-                    📅 平日のみ (2倍 / 10%)
-                  </button>
-                  <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('sunday', this)">
-                    🔥 日曜日のみ (3倍 / 30% / イベント時4.5倍)
-                  </button>
-                </div>
-              </div>
-
-              <!-- 料理チャンスS スキル入力エリア（強調カード化） -->
-              <div style="width: 100%; background: var(--bg-card); border: 2px solid var(--accent-yellow); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12); margin-top: 4px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-                  <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 4px;">
-                    ⚡ 料理チャンスS (大成功確率スキル加算)
-                  </span>
-                  <div style="display: flex; align-items: center; gap: 6px;">
-                    <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70" step="5"
-                      style="width: 85px; text-align: center; font-size: 1.2rem; font-weight: 900; padding: 6px; border: 2px solid var(--accent-yellow);"
-                      oninput="onRLSkillChanceChange(this.value)">
-                    <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
-                  </div>
-                </div>
-                
-                <!-- クイックタップボタン -->
-                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-                  <button type="button" class="quick-preset-btn rl-skill-btn active" onclick="setRLSkillChance(0, this)" style="padding: 4px 10px; font-size: 0.8rem;">+0%</button>
-                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(10, this)" style="padding: 4px 10px; font-size: 0.8rem;">+10%</button>
-                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(20, this)" style="padding: 4px 10px; font-size: 0.8rem;">+20%</button>
-                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(30, this)" style="padding: 4px 10px; font-size: 0.8rem;">+30%</button>
-                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(50, this)" style="padding: 4px 10px; font-size: 0.8rem;">+50%</button>
-                  <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(70, this)" style="padding: 4px 10px; font-size: 0.8rem;">+70% (MAX)</button>
-                </div>
-
-                <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 6px;">
-                  ※設定したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
-                </div>
-              </div>
-
-              <div style="font-size: 0.88rem; font-weight: 900; color: var(--accent-green); width: 100%;"
-                id="rl-crit-summary-text">
-                1週間平均 (平日18回+日曜3回) / 総合期待倍率: 1.17x
+          <!-- 料理チャンスS スキル入力エリア（強調カード化） -->
+          <div
+            style="width: 100%; background: var(--bg-card); border: 2px solid var(--accent-yellow); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12); margin-top: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <span
+                style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 4px;">
+                ⚡ 料理チャンスS (大成功確率スキル加算)
+              </span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70" step="5"
+                  style="width: 85px; text-align: center; font-size: 1.2rem; font-weight: 900; padding: 6px; border: 2px solid var(--accent-yellow);"
+                  oninput="onRLSkillChanceChange(this.value)">
+                <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- 選択中の料理ヒーロー + 予測結果 -->
-        <div class="card">
-          <div class="recipe-hero"
-            style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
-            <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
-              <img id="rl-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img"
-                alt="Recipe Image">
-              <div>
-                <div id="rl-recipe-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">
-                  しんりょくアボカドグラタン</div>
-                <div
-                  style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-                  <span>基本エナジー <b id="rl-base-energy"
-                      style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">24,802</b></span>
-                  <span id="rl-current-energy"
-                    style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">現Lv: 24,802</span>
-                </div>
-              </div>
+            <!-- クイックタップボタン -->
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+              <button type="button" class="quick-preset-btn rl-skill-btn active" onclick="setRLSkillChance(0, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+0%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(10, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+10%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(20, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+20%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(30, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+30%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(50, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+50%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(70, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+70% (MAX)</button>
+            </div>
+
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 6px;">
+              ※設定したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
             </div>
           </div>
 
-          <!-- 予測結果 -->
-          <div id="rl-prediction-result" class="rl-prediction-arrow" style="margin-top: 16px;">
-            🍳 50回調理後 → <b>Lv.1</b>（+0 レベル）
+          <div style="font-size: 0.88rem; font-weight: 900; color: var(--accent-green); width: 100%;"
+            id="rl-crit-summary-text">
+            1週間平均 (平日18回+日曜3回) / 総合期待倍率: 1.17x
           </div>
-        </div>
-
-        <!-- グラフ -->
-        <div class="card">
-          <div class="card-title" style="color: var(--accent-purple);"><span>📈</span> レシピレベル進行グラフ</div>
-          <div class="rl-chart-container">
-            <canvas id="rl-chart-canvas"></canvas>
-          </div>
-        </div>
-
-        <!-- 統計情報 -->
-        <div class="rl-stats-grid">
-          <div class="rl-stat-card">
-            <div class="rl-stat-label">⭐ 現在のボーナス倍率</div>
-            <div class="rl-stat-value" id="rl-stat-bonus">1.00x</div>
-            <div class="rl-stat-sub" id="rl-stat-bonus-pct">+0%</div>
-          </div>
-          <div class="rl-stat-card">
-            <div class="rl-stat-label">⏭️ 次レベルまで</div>
-            <div class="rl-stat-value" id="rl-stat-next-exp">1,080</div>
-            <div class="rl-stat-sub" id="rl-stat-next-cooks">約 ? 回調理</div>
-          </div>
-          <div class="rl-stat-card">
-            <div class="rl-stat-label">🏆 Lv.70 までの残り</div>
-            <div class="rl-stat-value" id="rl-stat-max-exp">13,355,125</div>
-            <div class="rl-stat-sub" id="rl-stat-max-cooks">約 ? 回調理</div>
-          </div>
-          <div class="rl-stat-card">
-            <div class="rl-stat-label">📊 全体進捗</div>
-            <div class="rl-stat-value" id="rl-stat-progress">0%</div>
-            <div class="rl-progress-bar-container">
-              <div class="rl-progress-bar" id="rl-progress-bar" style="width: 0%;"></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- BOTTOM AD SPACE -->
-      <div class="ad-container" style="margin-top: 30px;">
-        <div class="ad-label">スポンサーリンク</div>
-        <div class="ad-placeholder">
-          <!-- Google AdSense Code -->
-          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7117224755395397"
-            data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
-          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
       </div>
-
-
-
     </div>
 
-    <!-- FOOTER WITH PRIVACY POLICY LINK -->
-    <footer
-      style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.88rem; color: var(--text-sub);">
-      <div
-        style="display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; font-weight: 800; flex-wrap: wrap;">
-        <a href="#" onclick="toggleUsageGuide(); return false;"
-          style="color: var(--accent-blue); text-decoration: none;">💡 使い方ガイド</a>
-        <a href="#" onclick="openCreditModal(); return false;"
-          style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
-        <a href="#" onclick="openPrivacyModal(); return false;"
-          style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー ＆ 利用規約</a>
+    <!-- 選択中の料理ヒーロー + 予測結果 -->
+    <div class="card">
+      <div class="recipe-hero"
+        style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
+          <img id="rl-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img" alt="Recipe Image">
+          <div>
+            <div id="rl-recipe-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">
+              しんりょくアボカドグラタン</div>
+            <div
+              style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <span>基本エナジー <b id="rl-base-energy"
+                  style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">24,802</b></span>
+              <span id="rl-current-energy"
+                style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">現Lv: 24,802</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>© 2026 dyussuca.com - ポケスリ 料理計算機＆食材備蓄シミュレータ</div>
-    </footer>
+
+      <!-- 予測結果 -->
+      <div id="rl-prediction-result" class="rl-prediction-arrow" style="margin-top: 16px;">
+        🍳 50回調理後 → <b>Lv.1</b>（+0 レベル）
+      </div>
+    </div>
+
+    <!-- グラフ -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-purple);"><span>📈</span> レシピレベル進行グラフ</div>
+      <div class="rl-chart-container">
+        <canvas id="rl-chart-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- 統計情報 -->
+    <div class="rl-stats-grid">
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">⭐ 現在のボーナス倍率</div>
+        <div class="rl-stat-value" id="rl-stat-bonus">1.00x</div>
+        <div class="rl-stat-sub" id="rl-stat-bonus-pct">+0%</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">⏭️ 次レベルまで</div>
+        <div class="rl-stat-value" id="rl-stat-next-exp">1,080</div>
+        <div class="rl-stat-sub" id="rl-stat-next-cooks">約 ? 回調理</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">🏆 Lv.70 までの残り</div>
+        <div class="rl-stat-value" id="rl-stat-max-exp">13,355,125</div>
+        <div class="rl-stat-sub" id="rl-stat-max-cooks">約 ? 回調理</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">📊 全体進捗</div>
+        <div class="rl-stat-value" id="rl-stat-progress">0%</div>
+        <div class="rl-progress-bar-container">
+          <div class="rl-progress-bar" id="rl-progress-bar" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- BOTTOM AD SPACE -->
+  <div class="ad-container" style="margin-top: 30px;">
+    <div class="ad-label">スポンサーリンク</div>
+    <div class="ad-placeholder">
+      <!-- Google AdSense Code -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7117224755395397" data-ad-slot="0987654321"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+
+
+  </div>
+
+  <!-- FOOTER WITH PRIVACY POLICY LINK -->
+  <footer
+    style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.88rem; color: var(--text-sub);">
+    <div
+      style="display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; font-weight: 800; flex-wrap: wrap;">
+      <a href="#" onclick="toggleUsageGuide(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">💡 使い方ガイド</a>
+      <a href="#" onclick="openCreditModal(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
+      <a href="#" onclick="openPrivacyModal(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー ＆ 利用規約</a>
+    </div>
+    <div>© 2026 dyussuca.com - ポケスリ 料理計算機＆食材備蓄シミュレータ</div>
+  </footer>
 
 
   </div>
