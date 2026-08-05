@@ -2223,6 +2223,53 @@
         </div>
       </div>
 
+      <!-- フィールドボーナス設定 -->
+      <div class="control-group"
+        style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <label class="control-label" style="margin: 0;">🏞️ フィールドボーナス (0%〜85%)</label>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" id="rl-field-bonus-input" class="number-input" value="0" min="0" max="85" step="5"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px;"
+              oninput="onRLFieldBonusInputChange(this.value)">
+            <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
+          </div>
+        </div>
+        <div class="rl-level-input-group" style="margin-top: 8px;">
+          <input type="range" class="rl-slider" id="rl-field-bonus-slider" min="0" max="85" value="0" step="1"
+            oninput="onRLFieldBonusChange(this.value)">
+        </div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+          <button type="button" class="quick-preset-btn rl-fb-btn active" onclick="setRLFieldBonus(0, this)"
+            style="padding: 4px 10px; font-size: 0.8rem;">0%</button>
+          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(20, this)"
+            style="padding: 4px 10px; font-size: 0.8rem;">20%</button>
+          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(40, this)"
+            style="padding: 4px 10px; font-size: 0.8rem;">40%</button>
+          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(60, this)"
+            style="padding: 4px 10px; font-size: 0.8rem;">60%</button>
+          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(85, this)"
+            style="padding: 4px 10px; font-size: 0.8rem;">85% (MAX)</button>
+        </div>
+      </div>
+
+      <!-- 追加食材エナジー設定 -->
+      <div class="control-group"
+        style="margin-top: 14px; border-top: 1px dashed var(--border-color-soft); padding-top: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <label class="control-label" style="margin: 0; font-size: 0.95rem;">🥦 追加食材によるエナジー加算</label>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" id="rl-extra-energy-input" class="number-input" value="0" min="0" max="500000" step="100"
+              style="width: 110px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 6px;"
+              oninput="onRLExtraEnergyChange(this.value)">
+            <span style="font-size: 0.9rem; font-weight: 800; color: var(--text-sub);">Pt</span>
+          </div>
+        </div>
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 4px;">
+          ※レシピ食材以外に鍋に入れた追加食材の基本エナジー合計を入力（オプション）
+        </div>
+      </div>
+
       <!-- イベントボーナス倍率選択 -->
       <div class="control-group"
         style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
@@ -3385,7 +3432,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           rlRecipeId: rlRecipeId,
           rlCurrentLevel: rlCurrentLevel,
           rlCookTimes: rlCookTimes,
-          rlCategory: rlCategory
+          rlCategory: rlCategory,
+          rlFieldBonus: rlFieldBonus,
+          rlExtraEnergy: rlExtraEnergy
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
       } catch (e) {
@@ -3465,6 +3514,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         if (s.rlCurrentLevel) rlCurrentLevel = s.rlCurrentLevel;
         if (s.rlCookTimes) rlCookTimes = s.rlCookTimes;
         if (s.rlCategory) rlCategory = s.rlCategory;
+        if (typeof s.rlFieldBonus === 'number') rlFieldBonus = s.rlFieldBonus;
+        if (typeof s.rlExtraEnergy === 'number') rlExtraEnergy = s.rlExtraEnergy;
 
       } catch (e) {
         console.warn('Could not load settings from localStorage:', e);
@@ -3734,6 +3785,48 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     let rlCritEnabled = false;
     let rlCritDay = 'weekly'; // 'weekly' (18 weekday + 3 sunday), 'weekday', or 'sunday'
     let rlSkillChance = 0;
+    let rlFieldBonus = 0;
+    let rlExtraEnergy = 0;
+
+    function setRLFieldBonus(val, btnElem) {
+      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-field-bonus-input');
+      if (inputElem) inputElem.value = rlFieldBonus;
+      const sliderElem = document.getElementById('rl-field-bonus-slider');
+      if (sliderElem) sliderElem.value = rlFieldBonus;
+      document.querySelectorAll('.rl-fb-btn').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLFieldBonusChange(val) {
+      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-field-bonus-input');
+      if (inputElem) inputElem.value = rlFieldBonus;
+      document.querySelectorAll('.rl-fb-btn').forEach(b => {
+        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
+        if (v === rlFieldBonus) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLFieldBonusInputChange(val) {
+      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const sliderElem = document.getElementById('rl-field-bonus-slider');
+      if (sliderElem) sliderElem.value = rlFieldBonus;
+      document.querySelectorAll('.rl-fb-btn').forEach(b => {
+        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
+        if (v === rlFieldBonus) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLExtraEnergyChange(val) {
+      rlExtraEnergy = Math.max(0, parseInt(val) || 0);
+      updateRecipeLevelCalculation();
+    }
 
     function setRLEventBonus(val, btnElem) {
       rlEventBonus = parseFloat(val) || 1.0;
@@ -3829,8 +3922,10 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     function getExpPerCook(baseEnergy, level) {
       const bonusPct = RECIPE_LEVEL_DATA[level - 1][0];
       const baseDisplayEnergy = baseEnergy + Math.round(baseEnergy * bonusPct / 100);
+      const totalBeforeBonus = baseDisplayEnergy + rlExtraEnergy;
+      const fieldMult = 1 + (rlFieldBonus / 100);
       const mult = getRLMultiplier();
-      return Math.round(baseDisplayEnergy * mult);
+      return Math.floor(totalBeforeBonus * fieldMult * mult);
     }
 
     function setRLCategory(cat) {
@@ -3922,7 +4017,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const currentExpPerCook = getExpPerCook(recipe.energy, rlCurrentLevel);
       const currentDisplayEnergy = recipe.energy + Math.round(recipe.energy * bonusPct / 100);
 
-      document.getElementById('rl-current-energy').textContent = `現Lv: ${currentDisplayEnergy.toLocaleString()}`;
+      document.getElementById('rl-current-energy').innerHTML = `現Lvレシピ表示: <b>${currentDisplayEnergy.toLocaleString()}</b> <span style="color:var(--text-sub); font-size:0.85rem;">(1回実効獲得EXP: <b style="color:var(--accent-green); font-size:0.95rem;">${currentExpPerCook.toLocaleString()}</b>)</span>`;
 
       // Sync level inputs
       document.getElementById('rl-level-slider').value = rlCurrentLevel;
@@ -4177,6 +4272,20 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (customTimesInput) customTimesInput.value = rlCookTimes;
       const timesBadge = document.getElementById('rl-times-badge');
       if (timesBadge) timesBadge.textContent = `${rlCookTimes}回`;
+
+      // Restore field bonus & extra energy
+      const fbInput = document.getElementById('rl-field-bonus-input');
+      if (fbInput) fbInput.value = rlFieldBonus;
+      const fbSlider = document.getElementById('rl-field-bonus-slider');
+      if (fbSlider) fbSlider.value = rlFieldBonus;
+      document.querySelectorAll('.rl-fb-btn').forEach(b => {
+        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
+        if (v === rlFieldBonus) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      const extraInput = document.getElementById('rl-extra-energy-input');
+      if (extraInput) extraInput.value = rlExtraEnergy;
 
       updateRecipeLevelCalculation();
     }
