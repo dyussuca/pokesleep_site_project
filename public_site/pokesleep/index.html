@@ -2224,32 +2224,17 @@
       </div>
 
       <!-- フィールドボーナス設定 -->
-      <div class="control-group"
-        style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <label class="control-label" style="margin: 0;">🏞️ フィールドボーナス (0%〜85%)</label>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <input type="number" id="rl-field-bonus-input" class="number-input" value="0" min="0" max="85" step="5"
-              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px;"
-              oninput="onRLFieldBonusInputChange(this.value)">
-            <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
-          </div>
-        </div>
-        <div class="rl-level-input-group" style="margin-top: 8px;">
+      <div class="control-group">
+        <label class="control-label">フィールドボーナス (0%〜85%)</label>
+        <div class="rl-level-input-group">
           <input type="range" class="rl-slider" id="rl-field-bonus-slider" min="0" max="85" value="0" step="1"
             oninput="onRLFieldBonusChange(this.value)">
-        </div>
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-          <button type="button" class="quick-preset-btn rl-fb-btn active" onclick="setRLFieldBonus(0, this)"
-            style="padding: 4px 10px; font-size: 0.8rem;">0%</button>
-          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(20, this)"
-            style="padding: 4px 10px; font-size: 0.8rem;">20%</button>
-          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(40, this)"
-            style="padding: 4px 10px; font-size: 0.8rem;">40%</button>
-          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(60, this)"
-            style="padding: 4px 10px; font-size: 0.8rem;">60%</button>
-          <button type="button" class="quick-preset-btn rl-fb-btn" onclick="setRLFieldBonus(85, this)"
-            style="padding: 4px 10px; font-size: 0.8rem;">85% (MAX)</button>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="rl-field-bonus-input" min="0" max="85" value="0"
+              oninput="onRLFieldBonusInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">%</span>
+          </div>
         </div>
       </div>
 
@@ -3788,38 +3773,21 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     let rlFieldBonus = 0;
     let rlExtraEnergy = 0;
 
-    function setRLFieldBonus(val, btnElem) {
-      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
-      const inputElem = document.getElementById('rl-field-bonus-input');
-      if (inputElem) inputElem.value = rlFieldBonus;
-      const sliderElem = document.getElementById('rl-field-bonus-slider');
-      if (sliderElem) sliderElem.value = rlFieldBonus;
-      document.querySelectorAll('.rl-fb-btn').forEach(b => b.classList.remove('active'));
-      if (btnElem) btnElem.classList.add('active');
-      updateRecipeLevelCalculation();
-    }
+
 
     function onRLFieldBonusChange(val) {
-      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const v = Math.min(85, Math.max(0, parseInt(val) || 0));
+      rlFieldBonus = v;
       const inputElem = document.getElementById('rl-field-bonus-input');
-      if (inputElem) inputElem.value = rlFieldBonus;
-      document.querySelectorAll('.rl-fb-btn').forEach(b => {
-        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
-        if (v === rlFieldBonus) b.classList.add('active');
-        else b.classList.remove('active');
-      });
+      if (inputElem) inputElem.value = v;
       updateRecipeLevelCalculation();
     }
 
     function onRLFieldBonusInputChange(val) {
-      rlFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const v = Math.min(85, Math.max(0, parseInt(val) || 0));
+      rlFieldBonus = v;
       const sliderElem = document.getElementById('rl-field-bonus-slider');
-      if (sliderElem) sliderElem.value = rlFieldBonus;
-      document.querySelectorAll('.rl-fb-btn').forEach(b => {
-        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
-        if (v === rlFieldBonus) b.classList.add('active');
-        else b.classList.remove('active');
-      });
+      if (sliderElem) sliderElem.value = v;
       updateRecipeLevelCalculation();
     }
 
@@ -4278,11 +4246,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (fbInput) fbInput.value = rlFieldBonus;
       const fbSlider = document.getElementById('rl-field-bonus-slider');
       if (fbSlider) fbSlider.value = rlFieldBonus;
-      document.querySelectorAll('.rl-fb-btn').forEach(b => {
-        const v = parseInt(b.textContent.replace('%', '').replace(' (MAX)', '')) || 0;
-        if (v === rlFieldBonus) b.classList.add('active');
-        else b.classList.remove('active');
-      });
 
       const extraInput = document.getElementById('rl-extra-energy-input');
       if (extraInput) extraInput.value = rlExtraEnergy;
