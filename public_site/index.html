@@ -3260,6 +3260,27 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const recipe = RECIPES.find(r => r.id === currentSingleRecipeId);
       if (!recipe) return;
 
+      currentCategory = recipe.cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.classList.contains(currentCategory)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      const customInput = document.getElementById('custom-times-input');
+      if (customInput) customInput.value = currentTimes;
+      document.querySelectorAll('.times-buttons .time-btn').forEach(btn => {
+        if (btn.textContent.includes(`${currentTimes}回`)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      saveAllSettingsToStorage();
+
       document.getElementById('res-recipe-name').textContent = recipe.name;
       document.getElementById('res-recipe-img').src = getRecipeImg(recipe.name, recipe.cat);
       if (document.getElementById('res-recipe-total-val')) {
@@ -3479,6 +3500,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           plannerSaladId: plannerSaladId,
           plannerDessertId: plannerDessertId,
           plannerTimes: plannerTimes,
+          currentCategory: currentCategory,
           currentSingleRecipeId: currentSingleRecipeId,
           currentTimes: currentTimes,
           isGuideVisible: isGuideVisible,
@@ -3560,6 +3582,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
             }
           });
         }
+        if (s.currentCategory) currentCategory = s.currentCategory;
         if (s.currentSingleRecipeId) currentSingleRecipeId = s.currentSingleRecipeId;
         if (s.currentTimes) currentTimes = s.currentTimes;
 
