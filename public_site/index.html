@@ -1,32 +1,1371 @@
+<!-- Deployment Test: 2026-08-03 23:42 JST - Clean CI/CD Verification -->
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>dyussuca.com - ポケスリ 料理計算機＆ツールポータル</title>
-  <meta name="description" content="dyussuca.com - ポケモンスリープ（Pokémon Sleep）の効率的な料理シミュレーターおよび各種便利ツールポータル。">
-  <link rel="canonical" href="https://dyussuca.com/pokesleep/">
-  <meta http-equiv="refresh" content="0;url=/pokesleep/">
+  <title>ポケスリ 料理計算機＆食材備蓄シミュレーター | dyussuca.com</title>
+  <meta name="description"
+    content="『Pokémon Sleep（ポケモンスリープ）』の全77種レシピ対応！鍋容量拡張（スキル・いいキャンプチケット1.5倍）、3ジャンル（カレー・サラダ・デザート）の最適備蓄トリオ算出、除外食材フィルター搭載の無料高機能計算ツール。">
+  <meta name="keywords" content="ポケスリ,ポケモンスリープ,料理,計算機,鍋容量,食材備蓄,しんりょくアボカドグラタン,みつあつめチョコワッフル,ごろごろねっとうサラダ">
+  <link rel="canonical" href="https://dyussuca.com/">
+  <!-- PWA (アプリ化) 設定 -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="料理シミュ">
+  <link rel="apple-touch-icon" href="https://dyussuca.com/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://dyussuca.com/assets/favicon.png">
+  <link rel="shortcut icon" href="https://dyussuca.com/favicon.ico">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ポケスリ 料理計算機＆食材備蓄シミュレーター | dyussuca.com">
+  <meta property="og:description" content="全77種レシピ完全対応！鍋拡張・3ジャンル最適備蓄シナジー計算ツール。">
+  <meta property="og:url" content="https://dyussuca.com/">
+  <meta property="og:site_name" content="dyussuca.com ポケスリツール">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ポケスリ 料理計算機＆食材備蓄シミュレーター",
+    "url": "https://dyussuca.com/",
+    "description": "『Pokémon Sleep（ポケモンスリープ）』の全77種レシピ対応！鍋容量拡張、3ジャンル最適備蓄トリオ算出、除外食材フィルター搭載の無料高機能計算ツール。",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;600;800;900&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 50px 20px; background: #f1f5f9; color: #0f172a; }
-    a { color: #0284c7; font-weight: bold; text-decoration: none; font-size: 1.2rem; }
-  
+    :root,
+    :root[data-theme="light"] {
+      --bg-main: #e2e8f0;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --accent-green: #059669;
+      --accent-green-dark: #047857;
+      --accent-yellow: #d97706;
+      --accent-orange: #ea580c;
+      --accent-blue: #0284c7;
+      --accent-blue-dark: #0369a1;
+      --accent-purple: #7c3aed;
+      --accent-red: #dc2626;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --shadow-glass: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --header-bg: linear-gradient(180deg, rgba(226, 232, 240, 0.95) 0%, rgba(203, 213, 225, 0.98) 100%);
+      --modal-overlay-bg: rgba(15, 23, 42, 0.65);
+      --modal-bg: #ffffff;
+      --modal-header-bg: #f1f5f9;
+      --chip-bg: #e2e8f0;
+      --chip-border: #94a3b8;
+      --hero-bg: #f1f5f9;
+      --hero-border: #94a3b8;
+      --cat-btn-bg: #ffffff;
+    }
+
+    :root[data-theme="dark"] {
+      --bg-main: #0b1329;
+      --bg-card: rgba(20, 31, 54, 0.9);
+      --bg-card-hover: rgba(30, 45, 75, 0.95);
+      --accent-green: #10b981;
+      --accent-green-dark: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-orange: #f97316;
+      --accent-blue: #38bdf8;
+      --accent-blue-dark: #7dd3fc;
+      --accent-purple: #a78bfa;
+      --accent-red: #f87171;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.14);
+      --border-color-soft: rgba(255, 255, 255, 0.08);
+      --shadow-glass: 0 10px 35px 0 rgba(0, 0, 0, 0.45);
+      --header-bg: linear-gradient(180deg, rgba(11, 19, 41, 0.85) 0%, rgba(11, 19, 41, 0.98) 100%);
+      --modal-overlay-bg: rgba(0, 0, 0, 0.75);
+      --modal-bg: #0f172a;
+      --modal-header-bg: #1e293b;
+      --chip-bg: rgba(255, 255, 255, 0.08);
+      --chip-border: rgba(255, 255, 255, 0.15);
+      --hero-bg: rgba(255, 255, 255, 0.05);
+      --hero-border: rgba(255, 255, 255, 0.12);
+      --cat-btn-bg: rgba(255, 255, 255, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'M PLUS Rounded 1c', 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.14) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 60px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    header {
+      position: relative;
+      background: var(--header-bg), url('./assets/pokesleep_banner_1785393795627.jpg') center/cover no-repeat;
+      padding: 26px 20px 20px;
+      text-align: center;
+      border-bottom: 2px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-title {
+      font-size: 2.3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-sub {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-sub);
+      padding: 12px 26px;
+      border-radius: 30px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff;
+      border-color: #0284c7;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-glass);
+      margin-bottom: 24px;
+      transition: background-color 0.3s ease;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-yellow);
+    }
+
+    .card-title img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .cat-selector {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cat-btn {
+      flex: 1;
+      min-width: 130px;
+      background: var(--cat-btn-bg);
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .cat-btn img {
+      width: 26px;
+      height: 26px;
+    }
+
+    .cat-btn:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .cat-btn.active.curry {
+      background: rgba(234, 88, 12, 0.15);
+      border-color: #ea580c;
+      color: #f97316;
+    }
+
+    .cat-btn.active.salad {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: #10b981;
+      color: #10b981;
+    }
+
+    .cat-btn.active.dessert {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: #8b5cf6;
+      color: #a78bfa;
+    }
+
+    .recipe-picker-trigger {
+      width: 100%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 1.02rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .recipe-picker-trigger span {
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+    }
+
+    .recipe-picker-trigger:hover {
+      border-color: var(--accent-yellow);
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
+
+    .number-input {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .times-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .time-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-btn:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .time-btn.active {
+      background: #0284c7;
+      color: #fff;
+      border-color: #0284c7;
+    }
+
+    /* Single Calculator Hero */
+    .recipe-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--hero-bg);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      border: 1px solid var(--hero-border);
+    }
+
+    .recipe-hero-img {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: transparent;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+    }
+
+    .recipe-name {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .energy-val {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent-green);
+    }
+
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .ingredient-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      white-space: nowrap !important;
+    }
+
+    .ing-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      white-space: nowrap !important;
+    }
+
+    .ing-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap !important;
+    }
+
+    .ing-emoji {
+      font-size: 1.7rem;
+    }
+
+    .ing-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+    }
+
+    .ing-count {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--accent-yellow);
+    }
+
+    /* Weekly Grid Cards */
+    .weekly-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .week-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .week-card.disabled {
+      opacity: 0.45;
+      filter: grayscale(80%);
+      border-color: rgba(239, 68, 68, 0.4) !important;
+    }
+
+    .week-card.curry-week {
+      border-color: rgba(234, 88, 12, 0.5);
+    }
+
+    .week-card.salad-week {
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    .week-card.dessert-week {
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .week-title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .week-header img {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+    }
+
+    .ignore-btn {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ignore-btn.ignored {
+      background: #ef4444;
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(245, 158, 11, 0.12));
+      border: 2px solid var(--accent-green);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-top: 24px;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.12);
+    }
+
+    .total-count-badge {
+      background: var(--accent-yellow);
+      color: #000;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    /* Optimizer Controls */
+    .toggle-btn-expand {
+      width: 100%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+    }
+
+    .toggle-btn-expand.active {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      color: #ffffff;
+      border-color: #ea580c;
+      box-shadow: 0 4px 15px rgba(234, 88, 12, 0.35);
+    }
+
+    .quick-preset-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-preset-btn:hover {
+      background: var(--accent-yellow);
+      color: #000;
+      border-color: var(--accent-yellow);
+    }
+
+    .effective-pot-banner {
+      background: var(--hero-bg);
+      border: 2px solid var(--hero-border);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .rank-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s ease;
+    }
+
+    .rank-card.rank-1 {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), var(--bg-card));
+    }
+
+    .rank-card.rank-2 {
+      border-color: #94a3b8;
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.08), var(--bg-card));
+    }
+
+    .rank-card.rank-3 {
+      border-color: #b45309;
+      background: linear-gradient(135deg, rgba(180, 83, 9, 0.08), var(--bg-card));
+    }
+
+    .rank-badge {
+      font-size: 1.1rem;
+      font-weight: 900;
+      padding: 4px 14px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .rank-badge.badge-1 {
+      background: #f59e0b;
+      color: #fff;
+    }
+
+    .rank-badge.badge-2 {
+      background: #64748b;
+      color: #fff;
+    }
+
+    .rank-badge.badge-3 {
+      background: #b45309;
+      color: #fff;
+    }
+
+    .rank-badge.badge-sub {
+      background: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .apply-combo-btn {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.3);
+    }
+
+    .apply-combo-btn:hover {
+      background: linear-gradient(135deg, #0369a1, #075985);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(2, 132, 199, 0.45);
+    }
+
+    /* MODAL CHIPS */
+    .modal-ing-chip {
+      font-size: 0.92rem;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--chip-border);
+      background: var(--chip-bg);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 38px;
+      width: 100%;
+      box-sizing: border-box;
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+      transition: all 0.2s ease;
+    }
+
+    .modal-ing-chip.overlap-3-chip {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+      border: 2px solid #f59e0b !important;
+      color: #b45309 !important;
+      font-weight: 900 !important;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25) !important;
+    }
+
+    .modal-ing-chip.overlap-2-chip {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+      border: 2px solid #10b981 !important;
+      color: #047857 !important;
+      font-weight: 900 !important;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    .optimizer-chips-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      justify-items: center;
+      align-items: center;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    /* PLANNER EXTRA LARGE CARDS (SPACIOUS 3 COLUMNS) */
+    .planner-ing-card {
+      font-size: 1.2rem;
+      font-weight: 900;
+      padding: 16px 24px;
+      border-radius: 18px;
+      border: 2px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main) !important;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      width: 100%;
+      box-sizing: border-box;
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s ease;
+    }
+
+    .planner-ing-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .planner-ing-card.overlap-3-chip {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+      border: 2px solid #f59e0b !important;
+      color: #b45309 !important;
+      font-weight: 900 !important;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.25) !important;
+    }
+
+    .planner-ing-card.overlap-3-chip * {
+      color: #b45309 !important;
+    }
+
+    .planner-ing-card.overlap-2-chip {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+      border: 2px solid #10b981 !important;
+      color: #047857 !important;
+      font-weight: 900 !important;
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    .planner-ing-card.overlap-2-chip * {
+      color: #047857 !important;
+    }
+
+    .planner-grid-extra-large {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--modal-overlay-bg);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-container {
+      background: var(--modal-bg);
+      border: 2px solid var(--accent-yellow);
+      border-radius: var(--radius-lg);
+      width: 95vw;
+      max-width: 1240px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: var(--modal-header-bg);
+      border-bottom: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--accent-yellow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close-btn {
+      background: var(--border-color);
+      border: none;
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .modal-recipe-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .modal-recipe-card:hover {
+      border-color: var(--accent-yellow);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+    }
+
+    .modal-recipe-img {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: transparent;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .modal-recipe-top {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .modal-recipe-name {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .modal-energy-tag {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.15);
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .modal-ingredients-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    /* Book Grid */
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .recipe-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+    }
+
+    .modal-ing-chip {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .book-recipe-img {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: transparent;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .trigger-img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      vertical-align: middle;
+      margin-right: 8px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .filter-pill {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-sub);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-pill:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-yellow);
+      color: #000;
+      border-color: var(--accent-yellow);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .book-filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    /* Toast Notification */
+    .theme-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .theme-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      .modal-body {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .planner-grid-extra-large {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .optimizer-chips-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-title {
+        font-size: 1.8rem;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      .ingredients-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .weekly-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-body {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-recipe-img {
+        width: 64px;
+        height: 64px;
+      }
+
+      .optimizer-chips-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .planner-grid-extra-large {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .times-buttons-planner {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .time-btn-planner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .time-btn-planner:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .time-btn-planner.active {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+    }
+
+    .ing-img-icon {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      vertical-align: middle;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      flex-shrink: 0;
+    }
+
+    .planner-ing-img-icon {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.22));
+      flex-shrink: 0;
+    }
+
+
+    .exclude-ing-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .exclude-ing-btn {
+      position: relative;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .exclude-ing-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-red);
+      background: var(--bg-card-hover);
+    }
+
+    .exclude-ing-btn img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      transition: all 0.2s ease;
+    }
+
+    .exclude-ing-btn.excluded {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+      border: 2px solid #ef4444 !important;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+    }
+
+    .exclude-ing-btn.excluded img {
+      opacity: 0.45;
+      filter: grayscale(80%);
+    }
+
+    .exclude-ing-btn.excluded::after {
+      content: '✕';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ef4444;
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-btn-group {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .credit-btn,
+    .header-btn {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .credit-btn:hover,
+    .header-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.2);
+    }
+
+    .header-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue-dark);
+    }
+
+    @media (max-width: 680px) {
+      header {
+        padding-top: 48px;
+      }
+
+      .header-btn-group {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        margin: 0;
+      }
+
+      .credit-btn {
+        padding: 6px 12px;
+        font-size: 0.82rem;
+      }
+    }
+
+    /* USAGE GUIDE CARD STYLES */
+    .guide-card {
+      display: none;
+      background: var(--bg-card);
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-glass);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .guide-card.active {
+      display: block;
+    }
+
+    .guide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed var(--border-color-soft);
+    }
+
+    .guide-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .guide-item {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color-soft);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .guide-item-title {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-item-desc {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+
+
+    /* ADSENSE AD CONTAINERS */
+    .ad-container {
+      margin: 20px 0;
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .ad-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .ad-placeholder {
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--hero-bg);
+      border-radius: 8px;
+    }
+
     @media (max-width: 680px) {
       .planner-ing-card {
         height: auto !important;
         min-height: 60px !important;
         padding: 10px 16px !important;
       }
+
       .planner-ing-card span {
         font-size: 1.1rem !important;
       }
+
       .planner-ing-img-icon {
         width: 32px !important;
         height: 32px !important;
       }
     }
-    
-  
+
     /* PERFECT MODAL RESPONSIVE FIT FIX */
     .modal-content {
       width: 92% !important;
@@ -37,6 +1376,7 @@
       overflow-y: auto !important;
       overflow-x: hidden !important;
     }
+
     .modal-recipe-grid {
       display: grid !important;
       grid-template-columns: 1fr !important;
@@ -44,6 +1384,7 @@
       width: 100% !important;
       box-sizing: border-box !important;
     }
+
     .modal-recipe-item {
       width: 100% !important;
       box-sizing: border-box !important;
@@ -53,11 +1394,13 @@
       gap: 10px !important;
       overflow: hidden !important;
     }
+
     .modal-recipe-info {
       flex: 1 !important;
       min-width: 0 !important;
       overflow: hidden !important;
     }
+
     .modal-recipe-top {
       display: flex !important;
       align-items: center !important;
@@ -65,6 +1408,7 @@
       gap: 8px !important;
       flex-wrap: wrap !important;
     }
+
     .modal-recipe-name {
       font-size: 1.05rem !important;
       font-weight: 900 !important;
@@ -72,6 +1416,7 @@
       overflow: hidden !important;
       text-overflow: ellipsis !important;
     }
+
     .modal-chips-container {
       display: flex !important;
       flex-wrap: wrap !important;
@@ -80,12 +1425,13 @@
       box-sizing: border-box !important;
       margin-top: 6px !important;
     }
+
     .modal-ing-chip {
       max-width: 100% !important;
       box-sizing: border-box !important;
     }
 
-  
+
     /* PERFECT MOBILE MODAL CENTERING */
     @media (max-width: 680px) {
       .modal-overlay {
@@ -95,6 +1441,7 @@
         padding: 12px !important;
         box-sizing: border-box !important;
       }
+
       .modal-content {
         width: 92vw !important;
         max-width: 92vw !important;
@@ -102,11 +1449,13 @@
         padding: 16px 12px !important;
         box-sizing: border-box !important;
       }
+
       .modal-recipe-grid {
         width: 100% !important;
         margin: 0 auto !important;
         box-sizing: border-box !important;
       }
+
       .modal-recipe-item {
         width: 100% !important;
         margin: 0 auto !important;
@@ -114,8 +1463,12 @@
       }
     }
 
-  
-    
+
+    /* RIGHT ALIGN ENERGY & LEFT ALIGN NAME IN MODAL */
+    .modal-recipe-info {
+      text-align: left !important;
+    }
+
     .modal-recipe-top {
       display: flex !important;
       align-items: center !important;
@@ -123,105 +1476,2867 @@
       width: 100% !important;
       gap: 8px !important;
     }
+
     .modal-recipe-name {
       text-align: left !important;
       flex: 1 !important;
     }
+
     .modal-energy-tag {
       margin-left: auto !important;
       white-space: nowrap !important;
     }
+
     .modal-chips-container {
       justify-content: flex-start !important;
     }
 
-  
-    /* PURE LEFT ALIGNMENT FOR MODAL RECIPES */
-    .modal-recipe-info {
-      text-align: left !important;
-    }
-    .modal-recipe-top {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      width: 100% !important;
-      gap: 8px !important;
-      flex-wrap: wrap !important;
-    }
-    .modal-recipe-name {
-      text-align: left !important;
-      flex: none !important;
-    }
-    .modal-energy-tag {
-      margin-left: 0 !important;
-      white-space: nowrap !important;
-    }
-    .modal-chips-container {
-      justify-content: flex-start !important;
+    /* ===== RECIPE LEVEL TAB STYLES ===== */
+    .rl-chart-container {
+      position: relative;
+      width: 100%;
+      max-height: 420px;
+      background: var(--hero-bg);
+      border: 1px solid var(--hero-border);
+      border-radius: var(--radius-md);
+      padding: 16px 10px 10px 10px;
+      box-sizing: border-box;
     }
 
-  
-    /* PICKER TRIGGER BUTTONS PURE LEFT ALIGNMENT */
-    .single-picker, .planner-picker, .picker-label, #single-picker-label, .trigger-label {
-      text-align: left !important;
-      justify-content: flex-start !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
+    .rl-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
     }
 
-  
-    /* ABSOLUTE PURE LEFT ALIGNMENT FOR MODAL RECIPE LIST CARDS */
-    .modal-recipe-card {
-      display: flex !important;
-      align-items: flex-start !important;
-      gap: 14px !important;
-      padding: 14px 16px !important;
-      text-align: left !important;
+    .rl-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color-soft);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-glass);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-    .modal-recipe-card > div {
-      text-align: left !important;
-      flex: 1 !important;
-      min-width: 0 !important;
+
+    .rl-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -6px rgba(15, 23, 42, 0.12);
     }
-    .modal-recipe-top {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      width: 100% !important;
-      gap: 10px !important;
-      flex-wrap: wrap !important;
-      text-align: left !important;
+
+    .rl-stat-label {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .modal-recipe-name {
-      font-size: 1.1rem !important;
+
+    .rl-stat-value {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .rl-stat-sub {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-top: 4px;
+    }
+
+    .rl-level-input-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .rl-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      min-width: 160px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+      outline: none;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .rl-slider:hover {
+      opacity: 1;
+    }
+
+    .rl-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      border: 3px solid #fff;
+      transition: transform 0.15s ease;
+    }
+
+    .rl-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .rl-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      border: 3px solid #fff;
+    }
+
+    .rl-level-num {
+      width: 80px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 900;
+      padding: 8px 6px;
+    }
+
+    .rl-level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+    }
+
+    .rl-times-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .rl-times-buttons .time-btn {
+      min-width: 70px;
+      padding: 9px 16px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .rl-times-buttons .time-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .rl-times-buttons .time-btn.active {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    .rl-progress-bar-container {
+      width: 100%;
+      height: 18px;
+      border-radius: 9px;
+      background: var(--hero-bg);
+      border: 1px solid var(--border-color-soft);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .rl-progress-bar {
+      height: 100%;
+      border-radius: 9px;
+      background: linear-gradient(90deg, #0284c7, #7c3aed, #dc2626);
+      transition: width 0.5s ease;
+      min-width: 2px;
+    }
+
+    .quick-preset-btn.active,
+    .rl-day-btn.active,
+    .time-btn.active,
+    .rl-event-btn.active {
+      background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+      color: #ffffff !important;
+      border-color: #0284c7 !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
       font-weight: 900 !important;
-      color: var(--text-main) !important;
-      text-align: left !important;
-    }
-    .modal-energy-tag {
-      margin-left: 0 !important;
-      text-align: left !important;
-      white-space: nowrap !important;
-    }
-    .modal-ingredients-list {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      gap: 6px !important;
-      margin-top: 8px !important;
-      justify-content: flex-start !important;
-      text-align: left !important;
     }
 
+    .rl-prediction-arrow {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(2, 132, 199, 0.08));
+      border: 2px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 680px) {
+      .rl-stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rl-stat-value {
+        font-size: 1.35rem;
+      }
+
+      .rl-chart-container {
+        max-height: 300px;
+      }
+
+      .rl-level-input-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .rl-level-num {
+        width: 100%;
+      }
+    }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397" crossorigin="anonymous"></script>
-  <link rel="icon" type="image/png" sizes="192x192" href="https://dyussuca.com/pokesleep/assets/favicon.png">
-  <link rel="apple-touch-icon" href="https://dyussuca.com/pokesleep/assets/apple-touch-icon.png">
-  <link rel="shortcut icon" href="https://dyussuca.com/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
+    crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 </head>
+
 <body>
-  <h2>dyussuca.com ポケスリツールへ移動中...</h2>
-  <p>自動的に切り替わらない場合は以下のリンクをクリックしてください。</p>
-  <p><a href="/pokesleep/">👉 ポケスリ 料理計算機＆食材備蓄シミュレーターを開く (/pokesleep/)</a></p>
+
+  <header>
+    <div class="header-btn-group">
+      <button class="credit-btn" onclick="openCreditModal()"><span>✉️</span> お問合せ</button>
+    </div>
+    <div class="header-title"
+      style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+      <img src="./assets/favicon.png"
+        style="width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.18); border: 2px solid #ffffff; object-fit: cover;"
+        alt="カビゴンアイコン">
+      <span>ポケスリ 備蓄＆調理計算機</span>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- USAGE GUIDE SECTION -->
+    <div class="guide-card" id="usage-guide-card">
+      <div class="guide-header">
+        <div class="guide-title">💡 当サイトの使い方</div>
+        <button type="button" class="modal-close-btn" onclick="toggleUsageGuide(false)"
+          style="font-size:1.1rem; width:32px; height:32px;">✕</button>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-item">
+          <div class="guide-item-title">🧮 1. 単体調理計算</div>
+          <div class="guide-item-desc">
+            作りたい料理と作成回数を選ぶと、必要な全食材の個数が即座に計算されます。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">📦 2. 備蓄計画シミュレータ</div>
+          <div class="guide-item-desc">
+            カレー・サラダ・デザートを1つずつ組み合わせた際の一週間の総食材量と、食材の被りを一覧表示します。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">⚡ 3. 最適備蓄シミュレータ</div>
+          <div class="guide-item-desc">
+            あなたの「鍋容量」や「キャンチケ」「任意拡張個数」を入力すると、Lv.70時の最高エナジー ✕ 食材被り率が最も優秀なTOP5の料理トリオを自動算出しておすすめします。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">🚫 4. 除外食材フィルター</div>
+          <div class="guide-item-desc">
+            アイコンをタップして赤色(✕)にすると、その食材を使うレシピを最適化ランキングから一括除外できます。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">📊 5. レシピレベルシミュレーター</div>
+          <div class="guide-item-desc">
+            料理の現在レベルと指定した調理回数から予想到達レベルを精密算出！<b>調理途中のレベルアップによる獲得EXPの増加（自己加速効果）も1回ごとに完全考慮</b>しているため、安心してレベル上げの計画にお役立てください。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">💾 6. 自動記憶・設定保存</div>
+          <div class="guide-item-desc">
+            鍋容量、除外設定、選択料理、テーマ、ガイドの表示状態はブラウザに自動保存され、次回訪問時もそのまま復元されます。
+          </div>
+        </div>
+        <div class="guide-item">
+          <div class="guide-item-title">🌙 7. テーマのショートカット</div>
+          <div class="guide-item-desc">
+            ライトモード・ダークモードに対応。パソコン版では <kbd
+              style="background:var(--bg-card); border:1px solid var(--border-color); padding:2px 6px; border-radius:4px; font-weight:800;">Ctrl</kbd>
+            + <kbd
+              style="background:var(--bg-card); border:1px solid var(--border-color); padding:2px 6px; border-radius:4px; font-weight:800;">Shift</kbd>
+            + <kbd
+              style="background:var(--bg-card); border:1px solid var(--border-color); padding:2px 6px; border-radius:4px; font-weight:800;">L</kbd>
+            キーでいつでも画面テーマを切り替えできます。
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('calculator')">
+        <span>🧮</span> 単体調理計算
+      </button>
+      <button class="tab-btn" onclick="switchTab('planner')">
+        <span>📦</span> 備蓄計画シミュレータ
+      </button>
+      <button class="tab-btn" onclick="switchTab('optimizer')">
+        <span>⚡</span> 最適備蓄シミュレータ
+      </button>
+      <button class="tab-btn" onclick="switchTab('recipe-level')">
+        <span>📊</span> レシピレベル
+      </button>
+      <button class="tab-btn" onclick="switchTab('book')">
+        <span>📖</span> 全レシピ図鑑
+      </button>
+
+    </div>
+
+    <!-- TAB 1: 単体調理計算 -->
+
+    <!-- TOP AD SPACE -->
+    <div class="ad-container">
+      <div class="ad-label">スポンサーリンク</div>
+      <div class="ad-placeholder">
+        <!-- Google AdSense Code -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7117224755395397"
+          data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+
+
+    <div id="tab-calculator" class="tab-content active">
+      <div class="card">
+        <div class="card-title">料理と作成回数の選択</div>
+
+        <div class="control-group">
+          <label class="control-label">料理ジャンル</label>
+          <div class="cat-selector">
+            <button class="cat-btn active curry" onclick="setCategory('curry')">カレー</button>
+            <button class="cat-btn salad" onclick="setCategory('salad')">サラダ</button>
+            <button class="cat-btn dessert" onclick="setCategory('dessert')">デザート</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">作る料理を選択</label>
+          <button class="recipe-picker-trigger" onclick="openRecipeModal('single')">
+            <span id="single-picker-label">しんりょくアボカドグラタン</span>
+            <span style="color: var(--accent-yellow);"> ▾</span>
+          </button>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">作成回数</label>
+          <div class="times-buttons">
+            <button class="time-btn" onclick="setTimes(1)">1回</button>
+            <button class="time-btn" onclick="setTimes(2)">2回</button>
+            <button class="time-btn active" onclick="setTimes(3)">3回 </button>
+            <button class="time-btn" onclick="setTimes(6)">6回 </button>
+            <button class="time-btn" onclick="setTimes(9)">9回 </button>
+          </div>
+          <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 0.9rem; color: var(--text-sub);">カスタム回数:</span>
+            <input type="number" id="custom-times-input" class="number-input" style="width: 120px;" value="3" min="1"
+              max="100" oninput="onCustomTimesChange(this.value)">
+            <span style="font-size: 0.9rem; color: var(--text-sub);">回</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="recipe-hero"
+          style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
+            <img id="res-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img"
+              alt="Recipe Image">
+            <div>
+              <div class="recipe-name" id="res-recipe-name"
+                style="font-size:1.55rem; font-weight:900; color:var(--text-main);">しんりょくアボカドグラタン</div>
+              <div
+                style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <span>必要食材 <b id="res-recipe-total-val"
+                    style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">115</b></span>
+                <span id="res-energy-val"
+                  style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">基礎: 24,802</span>
+                <span class="modal-energy-tag" id="res-energy-max-tag" style="font-size:0.92rem;">Lv.70: 88,791</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-title" style="color: var(--accent-green); margin-top: 20px;">
+          <span>🛒</span> 必要な合計食材（<span id="res-times-display">3</span>回分）
+        </div>
+
+        <div class="planner-grid-extra-large" id="single-ingredients-result"></div>
+
+        <div
+          style="margin-top: 20px; text-align: right; font-size: 1.1rem; font-weight: 800; color: var(--accent-yellow);">
+          必要食材 総数: <span id="res-total-count" style="font-size:1.3rem; font-weight:900;">345</span>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+  </div>
+
+  <!-- TAB 2: 週別備蓄計画 -->
+  <div id="tab-planner" class="tab-content">
+    <div class="card">
+      <div class="card-title">備蓄計画シミュレータ
+      </div>
+      <p style="color: var(--text-sub); margin-bottom: 20px; font-size: 0.95rem;">
+        各ジャンルの目標料理をセットしてください。被り食材は自動でカラー強調されます！
+      </p>
+
+      <div class="weekly-grid">
+        <!-- Curry -->
+        <div class="week-card curry-week" id="week-card-curry">
+          <div class="week-header">
+            <div class="week-title-left" style="color: #ea580c; font-size:1.3rem; font-weight:900;">🍛 カレー・シチュー</div>
+            <button class="ignore-btn" id="ignore-btn-curry" onclick="toggleIgnoreWeek('curry')">
+              <span>💀</span> 無視
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">カレー・シチュー</label>
+            <button class="recipe-picker-trigger" onclick="openRecipeModal('curry')">
+              <span id="planner-curry-label">しんりょくアボカドグラタン</span>
+              <span style="color: #f39c12; font-size: 1.1rem; font-weight: 900;">▾</span>
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">備蓄回数</label>
+            <div class="times-buttons-planner" id="planner-curry-times-group">
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('curry', 1, this)">1回</button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('curry', 2, this)">2回</button>
+              <button type="button" class="time-btn-planner active" onclick="setPlannerTimes('curry', 3, this)">3回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('curry', 6, this)">6回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('curry', 9, this)">9回
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Salad -->
+        <div class="week-card salad-week" id="week-card-salad">
+          <div class="week-header">
+            <div class="week-title-left" style="color: #10b981; font-size:1.3rem; font-weight:900;">🥗 サラダ</div>
+            <button class="ignore-btn" id="ignore-btn-salad" onclick="toggleIgnoreWeek('salad')">
+              <span>💀</span> 無視
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">サラダ</label>
+            <button class="recipe-picker-trigger" onclick="openRecipeModal('salad')">
+              <span id="planner-salad-label">ごろごろねっとうサラダ</span>
+              <span style="color: #2ecc71; font-size: 1.1rem; font-weight: 900;">▾</span>
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">備蓄回数</label>
+            <div class="times-buttons-planner" id="planner-salad-times-group">
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('salad', 1, this)">1回</button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('salad', 2, this)">2回</button>
+              <button type="button" class="time-btn-planner active" onclick="setPlannerTimes('salad', 3, this)">3回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('salad', 6, this)">6回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('salad', 9, this)">9回
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dessert -->
+        <div class="week-card dessert-week" id="week-card-dessert">
+          <div class="week-header">
+            <div class="week-title-left" style="color: #8b5cf6; font-size:1.3rem; font-weight:900;">🍹 デザート・ドリンク</div>
+            <button class="ignore-btn" id="ignore-btn-dessert" onclick="toggleIgnoreWeek('dessert')">
+              <span>💀</span> 無視
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">デザート・ドリンク</label>
+            <button class="recipe-picker-trigger" onclick="openRecipeModal('dessert')">
+              <span id="planner-dessert-label">みつあつめチョコワッフル</span>
+              <span style="color: #9b59b6; font-size: 1.1rem; font-weight: 900;">▾</span>
+            </button>
+          </div>
+          <div class="control-group">
+            <label class="control-label">備蓄回数</label>
+            <div class="times-buttons-planner" id="planner-dessert-times-group">
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('dessert', 1, this)">1回</button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('dessert', 2, this)">2回</button>
+              <button type="button" class="time-btn-planner active" onclick="setPlannerTimes('dessert', 3, this)">3回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('dessert', 6, this)">6回
+              </button>
+              <button type="button" class="time-btn-planner" onclick="setPlannerTimes('dessert', 9, this)">9回
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-header"
+        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+        <div>
+          <div style="font-size:1.4rem; font-weight:900; color:var(--text-main);">📦 必要食材ストック数</div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--text-sub);">【被り色ガイド】:</span>
+            <span
+              style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #f59e0b; color: #b45309; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 900;">🔥
+              3被り </span>
+            <span
+              style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 2px solid #10b981; color: #047857; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 900;">⭐
+              2被り </span>
+            <span
+              style="background: var(--chip-bg); border: 1px solid var(--border-color); color: var(--text-sub); padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 800;">⚪
+              単体</span>
+          </div>
+        </div>
+        <div class="total-count-badge">総合計: <span id="planner-grand-total"
+            style="font-size:1.4rem; font-weight:900;">0</span></div>
+      </div>
+      <div class="planner-grid-extra-large" id="planner-ingredients-result"></div>
+    </div>
+  </div>
+
+  <!-- TAB 3: 備蓄最適化 -->
+  <div id="tab-optimizer" class="tab-content">
+    <div class="card">
+      <div class="card-title">
+        <span>⚡</span> 最適備蓄シミュレータ
+      </div>
+      <p style="color: var(--text-sub); margin-bottom: 20px; font-size: 0.95rem; font-weight: 700;">
+        あなたの「基本鍋容量」「キャンチケ (1.5倍)」「スキル拡張個数」に合わせて、最適備蓄TOP 5を算出します！
+      </p>
+
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div class="control-group">
+          <label class="control-label">🍲 鍋の基本容量を選択</label>
+          <select id="opt-pot-select" class="select-input" onchange="runOptimizerCalculation()"
+            style="background: var(--bg-card); border: 2px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: var(--radius-md); width: 100%; font-size: 1rem; font-weight: 800;">
+            <option value="21" selected>21 個</option>
+            <option value="23">23 個</option>
+            <option value="25">25 個</option>
+            <option value="27">27 個</option>
+            <option value="29">29 個</option>
+            <option value="31">31 個</option>
+            <option value="33">33 個</option>
+            <option value="36">36 個</option>
+            <option value="39">39 個</option>
+            <option value="42">42 個</option>
+            <option value="45">45 個</option>
+            <option value="48">48 個</option>
+            <option value="51">51 個</option>
+            <option value="54">54 個</option>
+            <option value="57">57 個</option>
+            <option value="60">60 個</option>
+            <option value="63">63 個</option>
+            <option value="66">66 個</option>
+            <option value="69">69 個</option>
+            <option value="72">72 個</option>
+            <option value="75">75 個</option>
+            <option value="78">78 個</option>
+            <option value="81">81 個</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">⛺ いいキャンプチケット (鍋容量 1.5倍)</label>
+          <button type="button" id="opt-camp-btn" class="toggle-btn-expand" onclick="toggleCampTicket()">
+            <span>⛺</span> キャンチケ (1.5倍): <strong id="opt-camp-status">OFF</strong>
+          </button>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">🔥 鍋拡張容量 </label>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="number" id="opt-expand-input" class="number-input" value="0" min="0" max="300"
+              oninput="runOptimizerCalculation()" placeholder="例: 31, 62"
+              style="width: 120px; text-align: center; font-size: 1.1rem; font-weight: 900; border-color: var(--accent-yellow);">
+            <span style="font-size: 0.95rem; font-weight: 800; color: var(--text-main);">個追加</span>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+            <button type="button" class="quick-preset-btn" onclick="addExpandVal(12)">＋12</button>
+            <button type="button" class="quick-preset-btn" onclick="addExpandVal(31)">＋31</button>
+            <button type="button" class="quick-preset-btn" onclick="addExpandVal(62)">＋62</button>
+            <button type="button" class="quick-preset-btn" onclick="setExpandVal(0)">0 (リセット)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group"
+        style="margin-top: 18px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <label class="control-label"
+            style="font-size: 1.05rem; font-weight: 900; color: var(--accent-red); margin-bottom: 0;">
+            🚫 除外食材の選択 <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-sub);">(タップで除外)</span>
+          </label>
+          <button type="button" class="quick-preset-btn" onclick="clearExcludedIngredients()"
+            style="border-color: rgba(239, 68, 68, 0.4); color: #ef4444;">
+            🔄 除外リセット
+          </button>
+        </div>
+        <div class="exclude-ing-grid" id="opt-exclude-ingredients-grid"></div>
+      </div>
+
+      <div class="effective-pot-banner">
+        <div>
+          <div style="font-size:0.9rem; font-weight:800; color:var(--text-sub);">現在の有効最大鍋容量</div>
+          <div style="font-size:1.8rem; font-weight:900; color:var(--accent-blue);" id="opt-effective-display">21 個
+          </div>
+        </div>
+        <div style="font-size:0.9rem; font-weight:800; color:var(--text-sub);" id="opt-pot-breakdown">
+          (ベース: 21個)
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranking Results (ONLY IN OPTIMIZER TAB) -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-yellow);">
+        🏆 最適備蓄トリオ組み合わせ
+      </div>
+      <div id="opt-ranking-results" style="display: flex; flex-direction: column; gap: 16px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 4: 全レシピ図鑑 -->
+  <div id="tab-book" class="tab-content">
+    <div class="card">
+      <div class="card-title">
+        <span>📖</span> ポケスリ全77種 レシピ図鑑
+      </div>
+
+      <div class="book-filter-bar">
+        <button class="filter-pill active" onclick="setBookFilter('all', this)">✨ すべて (<span
+            id="count-all">77</span>)</button>
+        <button class="filter-pill" onclick="setBookFilter('curry', this)">🍛 カレー (<span
+            id="count-curry">23</span>)</button>
+        <button class="filter-pill" onclick="setBookFilter('salad', this)">🥗 サラダ (<span
+            id="count-salad">27</span>)</button>
+        <button class="filter-pill" onclick="setBookFilter('dessert', this)">🍹 デザート (<span
+            id="count-dessert">27</span>)</button>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <input type="text" id="recipe-search-input" class="number-input" placeholder="🔍 料理名や食材名で検索..."
+          oninput="filterRecipeBook()">
+      </div>
+      <div class="book-grid" id="recipe-book-grid"></div>
+    </div>
+  </div>
+
+
+
+  <!-- TAB 5: レシピレベル -->
+  <div id="tab-recipe-level" class="tab-content">
+
+    <!-- 料理選択カード -->
+    <div class="card">
+      <div class="card-title"><span>📊</span> レシピレベル シミュレータ</div>
+
+      <div class="control-group">
+        <label class="control-label">料理ジャンル</label>
+        <div class="cat-selector">
+          <button class="cat-btn active curry rl-cat-btn" onclick="setRLCategory('curry')">カレー</button>
+          <button class="cat-btn salad rl-cat-btn" onclick="setRLCategory('salad')">サラダ</button>
+          <button class="cat-btn dessert rl-cat-btn" onclick="setRLCategory('dessert')">デザート</button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">レベルを確認する料理</label>
+        <button class="recipe-picker-trigger" onclick="openRecipeModal('recipe-level')">
+          <span id="rl-picker-label">しんりょくアボカドグラタン</span>
+          <span style="color: var(--accent-yellow);"> ▾</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- レベル入力カード -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-blue);"><span>🎚️</span> 現在のレシピレベル & 調理条件設定</div>
+
+      <div class="control-group">
+        <label class="control-label">現在のレシピレベル (Lv.1〜70)</label>
+        <div class="rl-level-input-group">
+          <input type="range" class="rl-slider" id="rl-level-slider" min="1" max="70" value="1"
+            oninput="onRLLevelChange(this.value)">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="rl-level-input" min="1" max="70" value="1"
+              oninput="onRLLevelInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">Lv</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">これから調理する予定回数 (1〜100回)</label>
+        <div class="rl-level-input-group">
+          <input type="range" class="rl-slider" id="rl-times-slider" min="1" max="100" value="50"
+            oninput="onRLTimesSliderChange(this.value)">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="rl-custom-times" min="1" max="100" value="50"
+              oninput="onRLCustomTimesChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- フィールドボーナス設定 -->
+      <div class="control-group">
+        <label class="control-label">フィールドボーナス (0%〜85%)</label>
+        <div class="rl-level-input-group">
+          <input type="range" class="rl-slider" id="rl-field-bonus-slider" min="0" max="85" value="0" step="1"
+            oninput="onRLFieldBonusChange(this.value)">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="rl-field-bonus-input" min="0" max="85" value="0"
+              oninput="onRLFieldBonusInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 追加食材エナジー設定 -->
+      <div class="control-group"
+        style="margin-top: 14px; border-top: 1px dashed var(--border-color-soft); padding-top: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <label class="control-label" style="margin: 0; font-size: 0.95rem;">🥦 追加食材によるエナジー加算</label>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" id="rl-extra-energy-input" class="number-input" value="0" min="0" max="500000" step="100"
+              style="width: 110px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 6px;"
+              oninput="onRLExtraEnergyChange(this.value)">
+            <span style="font-size: 0.9rem; font-weight: 800; color: var(--text-sub);">Pt</span>
+          </div>
+        </div>
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 4px;">
+          ※レシピ食材以外に鍋に入れた追加食材の基本エナジー合計を入力（オプション）
+        </div>
+      </div>
+
+      <!-- イベントボーナス倍率選択 -->
+      <div class="control-group"
+        style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
+        <label class="control-label">🎉 イベントボーナス倍率</label>
+        <div class="times-buttons">
+          <button type="button" class="time-btn rl-event-btn active" onclick="setRLEventBonus(1.0, this)">1.0x
+            (通常)</button>
+          <button type="button" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)">1.5x
+            (イベント1.5倍)</button>
+        </div>
+      </div>
+
+      <!-- 大成功（料理チャンス）補正設定 -->
+      <div class="control-group"
+        style="margin-top: 14px; background: var(--hero-bg); border: 1px solid var(--hero-border); padding: 14px 16px; border-radius: var(--radius-md);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <label class="control-label"
+            style="margin: 0; color: var(--accent-yellow); font-size: 1rem; font-weight: 900;">
+            🎲 大成功 期待値補正
+          </label>
+          <button type="button" id="rl-crit-toggle-btn" class="quick-preset-btn" onclick="toggleRLCritCalc()"
+            style="padding: 6px 14px; font-size: 0.88rem;">
+            補正: <b>OFF</b>
+          </button>
+        </div>
+
+        <div id="rl-crit-options-container"
+          style="display: none; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color-soft);">
+          <div style="width: 100%;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">調理条件・曜日モデル:</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+              <button type="button" class="quick-preset-btn rl-day-btn active" onclick="setRLCritDay('weekly', this)">
+                🌈 1週間平均 (21回スパン: 平日18回＋日曜3回)
+              </button>
+              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('weekday', this)">
+                📅 平日のみ (2倍 / 10%)
+              </button>
+              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('sunday', this)">
+                🔥 日曜日のみ (3倍 / 30% / イベント時4.5倍)
+              </button>
+            </div>
+          </div>
+
+          <!-- 料理チャンスS スキル入力エリア（強調カード化） -->
+          <div
+            style="width: 100%; background: var(--bg-card); border: 2px solid var(--accent-yellow); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12); margin-top: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <span
+                style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 4px;">
+                ⚡ 料理チャンスS (大成功確率スキル加算)
+              </span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70" step="5"
+                  style="width: 85px; text-align: center; font-size: 1.2rem; font-weight: 900; padding: 6px; border: 2px solid var(--accent-yellow);"
+                  oninput="onRLSkillChanceChange(this.value)">
+                <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
+              </div>
+            </div>
+
+            <!-- クイックタップボタン -->
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
+              <button type="button" class="quick-preset-btn rl-skill-btn active" onclick="setRLSkillChance(0, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+0%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(10, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+10%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(20, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+20%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(30, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+30%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(50, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+50%</button>
+              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(70, this)"
+                style="padding: 4px 10px; font-size: 0.8rem;">+70% (MAX)</button>
+            </div>
+
+            <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 6px;">
+              ※設定したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
+            </div>
+          </div>
+
+          <div style="font-size: 0.88rem; font-weight: 900; color: var(--accent-green); width: 100%;"
+            id="rl-crit-summary-text">
+            1週間平均 (平日18回+日曜3回) / 総合期待倍率: 1.17x
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 選択中の料理ヒーロー + 予測結果 -->
+    <div class="card">
+      <div class="recipe-hero"
+        style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
+          <img id="rl-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img" alt="Recipe Image">
+          <div>
+            <div id="rl-recipe-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">
+              しんりょくアボカドグラタン</div>
+            <div
+              style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <span>基本エナジー <b id="rl-base-energy"
+                  style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">24,802</b></span>
+              <span id="rl-current-energy"
+                style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">現Lv: 24,802</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 予測結果 -->
+      <div id="rl-prediction-result" class="rl-prediction-arrow" style="margin-top: 16px;">
+        🍳 50回調理後 → <b>Lv.1</b>（+0 レベル）
+      </div>
+    </div>
+
+    <!-- グラフ -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-purple);"><span>📈</span> レシピレベル進行グラフ</div>
+      <div class="rl-chart-container">
+        <canvas id="rl-chart-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- 統計情報 -->
+    <div class="rl-stats-grid">
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">⭐ 現在のボーナス倍率</div>
+        <div class="rl-stat-value" id="rl-stat-bonus">1.00x</div>
+        <div class="rl-stat-sub" id="rl-stat-bonus-pct">+0%</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">⏭️ 次レベルまで</div>
+        <div class="rl-stat-value" id="rl-stat-next-exp">1,080</div>
+        <div class="rl-stat-sub" id="rl-stat-next-cooks">約 ? 回調理</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">🏆 Lv.70 までの残り</div>
+        <div class="rl-stat-value" id="rl-stat-max-exp">13,355,125</div>
+        <div class="rl-stat-sub" id="rl-stat-max-cooks">約 ? 回調理</div>
+      </div>
+      <div class="rl-stat-card">
+        <div class="rl-stat-label">📊 全体進捗</div>
+        <div class="rl-stat-value" id="rl-stat-progress">0%</div>
+        <div class="rl-progress-bar-container">
+          <div class="rl-progress-bar" id="rl-progress-bar" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- BOTTOM AD SPACE -->
+  <div class="ad-container" style="margin-top: 30px;">
+    <div class="ad-label">スポンサーリンク</div>
+    <div class="ad-placeholder">
+      <!-- Google AdSense Code -->
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7117224755395397" data-ad-slot="0987654321"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+
+
+  </div>
+
+  <!-- FOOTER WITH PRIVACY POLICY LINK -->
+  <footer
+    style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.88rem; color: var(--text-sub);">
+    <div
+      style="display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; font-weight: 800; flex-wrap: wrap;">
+      <a href="#" onclick="toggleUsageGuide(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">💡 使い方ガイド</a>
+      <a href="#" onclick="openCreditModal(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
+      <a href="#" onclick="openPrivacyModal(); return false;"
+        style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー ＆ 利用規約</a>
+    </div>
+    <div>© 2026 dyussuca.com - ポケスリ 料理計算機＆食材備蓄シミュレータ</div>
+  </footer>
+
+
+  </div>
+
+  <!-- POPUP MODAL -->
+  <div class="modal-overlay" id="recipe-modal" onclick="closeRecipeModal(event)">
+    <div class="modal-container" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title-text"><span>🍱</span> 料理を選択</div>
+        <button class="modal-close-btn" onclick="closeRecipeModal()">✕</button>
+      </div>
+      <div style="padding:16px 24px 0;">
+        <input type="text" id="modal-search-input" class="number-input" placeholder="🔍 料理名・食材名で絞り込み..."
+          oninput="filterModalRecipes()">
+      </div>
+      <div class="modal-body" id="modal-recipe-grid"></div>
+    </div>
+  </div>
+
+
+  <!-- CREDIT & CONTACT MODAL -->
+  <div class="modal-overlay" id="credit-modal" onclick="closeCreditModal(event)">
+    <div class="modal-container" onclick="event.stopPropagation()" style="max-width: 540px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>✉️</span>お問合せ</div>
+        <button class="modal-close-btn" onclick="closeCreditModal()">✕</button>
+      </div>
+      <div style="padding: 24px; text-align: center;">
+        <div style="font-size: 1.2rem; font-weight: 900; color: var(--text-main); margin-bottom: 12px;">
+          ポケスリ 食材備蓄＆調理計算ツール
+        </div>
+        <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; font-weight: 700;">
+          ご利用いただきありがとうございます！<br>
+          機能のご要望、不具合のご報告、改善のご意見などがございましたら、お気軽に以下の連絡先までお寄せください。
+        </p>
+
+        <div
+          style="background: var(--hero-bg); border: 2px dashed var(--accent-blue); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub); margin-bottom: 6px;">📧 連絡先メールアドレス
+          </div>
+          <div style="font-size: 1.35rem; font-weight: 900; color: var(--accent-blue); word-break: break-all;"
+            id="contact-email-text">
+            snorlax@dyussuca.com
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="apply-combo-btn" onclick="copyContactEmail()"
+            style="padding: 10px 20px; font-size: 0.95rem;">
+            📋 アドレスをコピー
+          </button>
+          <button type="button" class="apply-combo-btn" onclick="openGuideFromCredit()"
+            style="padding: 10px 20px; font-size: 0.95rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));">
+            💡 使い方ガイドを表示
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- PRIVACY POLICY & TERMS MODAL -->
+  <div class="modal-overlay" id="privacy-modal" onclick="closePrivacyModal(event)">
+    <div class="modal-container" onclick="event.stopPropagation()" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title"><span>🔒</span> プライバシーポリシー ＆ 利用規約</div>
+        <button class="modal-close-btn" onclick="closePrivacyModal()">✕</button>
+      </div>
+      <div
+        style="padding: 24px; font-size: 0.92rem; line-height: 1.7; color: var(--text-main); max-height: 70vh; overflow-y: auto;">
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">1. 著作権・商標権 ＆
+          公式様へのリスペクト（非公式ファンツール）</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイト（dyussuca.com）は、『Pokémon Sleep（ポケモンスリープ）』を愛好するファンによって運営されている<b>非公式の便利ツールポータル</b>です。<br>
+          ゲーム内に登場する名称、画像、アセット等の知的財産権および著作権は、<b>任天堂株式会社・株式会社ポケモン・株式会社SELECT
+            BUTTON様</b>ならびに関係各社に帰属します。当サイトは開発・運営関係者様とは一切関係ありません。素晴らしいゲーム体験を提供してくださる公式様へ深い感謝とリスペクトを捧げます。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">2.
+          動画配信・SNS・ブログでの利用について（リンクフリー・二次利用歓迎）</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトのツールで算出されたデータ、計算結果、画面のスクリーンショット等は、<b>YouTube・Twitch等の動画実況、ライブ配信、SNS（X /
+            Instagram等）への投稿、攻略ブログ・記事等でご自由にご利用いただけます</b>（事前のご連絡は不要です。収益化された配信・動画内での使用も歓迎いたします）。<br>
+          ※動画の概要欄やブログ記事等に当サイト（<a href="https://dyussuca.com/" target="_blank"
+            style="color: var(--accent-blue); font-weight: 800;">https://dyussuca.com/</a>）のリンクを掲載していただけますと大変励みになります！
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3.
+          個人情報の収集およびお問合せについて</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトでは、ユーザーの個人識別情報を直接取得することはありません。お問合せメール（<a href="mailto:snorlax@dyussuca.com"
+            style="color: var(--accent-blue); font-weight: 800;">snorlax@dyussuca.com</a>）経由でいただいた情報については、回答およびサービス改善・不具合対応の目的のみに使用し、第三者に提供することはありません。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 広告配信（Google
+          AdSense）および Cookie（クッキー）について</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトでは、第三者配信事業者（Google
+          AdSense）による広告サービスを利用しています。広告事業者は、ユーザーの興味に応じた商品やサービスの広告を表示するため、当サイトや他サイトへのアクセスに関する情報「Cookie」（氏名、住所、メール
+          アドレス、電話番号は含まれません）を使用することがあります。<br>
+          Cookieを無効にする設定およびGoogle AdSenseに関する詳細は<a href="https://policies.google.com/technologies/ads?hl=ja"
+            target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 800;">Googleの広告設定</a>をご確認ください。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">5.
+          ローカルストレージ（localStorage）の使用</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトでは、ユーザーが選択した「鍋容量」「除外食材」「選択料理」「テーマ設定」などのシミュレーション条件をブラウザに自動保存するため、お客様の端末のローカルストレージを利用しています。このデータが外部サーバーへ送信されることはありません。
+        </p>
+
+        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">6. 免責事項</h3>
+        <p style="color: var(--text-sub); margin-bottom: 14px;">
+          当サイトのデータ計算精度には万全を期しておりますが、ゲームの仕様変更やアプデ等により実際のゲーム内データと相違が生じる場合があります。当サイトの利用によって生じたトラブルや損害について、当サイトは一切の責任を負いかねます。
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="theme-toast" class="theme-toast"></div>
+
+  <script>
+    const EMBEDDED_CSV = `id,category,name,total_ingredients,base_energy,max_energy_lv70,ing1,qty1,ing2,qty2,ing3,qty3,ing4,qty4
+c1,curry,しんりょくアボカドグラタン,115,24802,88791,milk,41,potato,20,oil,32,avocado,22
+c2,curry,いあいぎりすき焼きカレー,101,20655,73945,sausage,26,leek,27,egg,22,honey,26
+c3,curry,めざめるパワーシチュー,92,19061,68238,soy,28,tomato,25,mushroom,23,coffee,16
+c4,curry,なりきりバケッチャシチュー,69,15621,55923,sausage,16,potato,18,mushroom,25,pumpkin,10
+c5,curry,れんごくコーンキーマカレー,77,13690,49010,sausage,24,herb,27,ginger,12,corn,14
+c6,curry,ニンジャカレー,50,9445,33813,soy,24,sausage,9,leek,12,mushroom,5
+c7,curry,ぜったいねむりバターカレー,55,9010,32256,cacao,12,milk,10,potato,18,tomato,15
+c8,curry,あぶりテールカレー,33,7483,26789,herb,25,tail,8,,
+c9,curry,からくちネギもりカレー,32,5900,21122,leek,14,herb,8,ginger,10,
+c10,curry,ピヨピヨパンチ辛口カレー,33,5702,20413,herb,11,honey,11,coffee,11,
+c11,curry,じゅうなんコーンシチュー,30,4670,16719,milk,8,potato,8,corn,14,
+c12,curry,おやこあいカレー,35,4523,16192,potato,4,apple,11,egg,8,honey,12
+c13,curry,キノコのほうしカレー,23,4162,14900,potato,9,mushroom,14,,
+c14,curry,ビルドアップマメカレー,26,3372,12072,soy,12,sausage,6,egg,4,herb,4
+c15,curry,ほっこりホワイトシチュー,22,3181,11388,milk,10,potato,8,mushroom,4,
+c16,curry,とけるオムカレー,16,2150,7697,egg,10,tomato,6,,
+c17,curry,サンパワートマトカレー,15,2078,7439,herb,5,tomato,10,,
+c18,curry,ひでりカツレツカレー,15,1942,6952,sausage,10,oil,5,,
+c19,curry,満腹チーズバーグカレー,16,1910,6838,milk,8,sausage,8,,
+c20,curry,マメバーグカレー,7,856,3064,sausage,7,,,,,,
+c21,curry,ベイビィハニーカレー,7,839,3004,honey,7,,,,,,
+c22,curry,たんじゅんホワイトシチュー,7,814,2914,milk,7,,,,,,
+c23,curry,とくせんリンゴカレー,7,748,2678,apple,7,,,,,,
+s1,salad,ごろごろねっとうサラダ,95,25356,90774,potato,30,mushroom,27,corn,18,pumpkin,20
+s2,salad,じならしワカモレチップス,105,25162,90080,soy,22,herb,30,corn,25,avocado,28
+s3,salad,まけんきコーヒーサラダ,100,20218,72380,sausage,28,potato,22,oil,22,coffee,28
+s4,salad,りんごさんヨーグルトサラダ,104,19293,69069,milk,18,apple,28,egg,35,tomato,23
+s5,salad,はなふぶきミモザサラダ,69,11811,42283,sausage,12,potato,15,oil,17,egg,25
+s6,salad,ニンジャサラダ,57,11659,41739,soy,19,leek,15,ginger,11,mushroom,12
+s7,salad,ワカクササラダ,62,11393,40787,potato,9,oil,22,tomato,14,corn,17
+s8,salad,クロスチョップドサラダ,56,8755,31343,sausage,15,egg,20,tomato,10,corn,11
+s9,salad,ヤドンテールのペッパーサラダ,35,8169,29245,oil,15,herb,10,tail,10,
+s10,salad,めいそうスイートサラダ,49,7675,27477,apple,21,honey,16,corn,12,
+s11,salad,くだけるアボカドサラダ,42,7125,25508,soy,18,oil,10,avocado,14,
+s12,salad,キノコのほうしサラダ,33,5859,20975,oil,8,tomato,8,mushroom,17,
+s13,salad,オーバーヒートサラダ,35,5225,18706,herb,17,tomato,8,ginger,10,
+s14,salad,くいしんぼうポテトサラダ,36,5040,18043,sausage,7,potato,14,apple,6,egg,9
+s15,salad,ハツラツアボカドサラダ,28,4580,16396,avocado,14,tomato,8,oil,6,
+s16,salad,ムラっけチョコミートサラダ,23,3665,13121,cacao,14,sausage,9,,
+s17,salad,うるおいとうふサラダ,24,3113,11145,soy,15,tomato,9,,
+s18,salad,ばかぢからワイルドサラダ,23,3046,10905,sausage,9,potato,3,egg,5,ginger,6
+s19,salad,モーモーカプレーゼ,23,2942,10532,milk,12,oil,5,tomato,6,
+s20,salad,めんえきねぎサラダ,15,2845,10185,leek,10,ginger,5,,
+s21,salad,みだれづきコーンサラダ,17,2785,9970,oil,8,corn,9,,
+s22,salad,メロメロりんごのチーズサラダ,23,2655,9505,milk,5,oil,3,apple,15,
+s23,salad,ねっぷうとうふサラダ,16,2114,7568,soy,10,herb,6,,
+s24,salad,ゆきかきシーザーサラダ,16,1898,6795,milk,10,sausage,6,,
+s25,salad,あんみんトマトサラダ,8,1045,3741,tomato,8,,,,,,
+s26,salad,マメハムサラダ,8,978,3501,sausage,8,,,,,,
+s27,salad,とくせんリンゴサラダ,8,855,3061,apple,8,,,,,,
+d1,dessert,みつあつめチョコワッフル,115,25484,91233,cacao,21,oil,28,honey,38,corn,28
+d2,dessert,ドキドキこわいかおパンケーキ,103,24354,87187,egg,24,tomato,29,honey,32,pumpkin,18
+d3,dessert,ドオーのエクレア,102,20885,74768,cacao,30,milk,26,honey,22,coffee,24
+d4,dessert,スパークスパイスコーラ,87,17494,62629,leek,20,apple,35,ginger,20,coffee,12
+d5,dessert,フラワーギフトマカロン,77,13834,49526,cacao,25,milk,10,egg,25,honey,17
+d6,dessert,おちゃかいコーンスコーン,67,10925,39112,milk,9,apple,20,ginger,20,corn,18
+d7,dessert,グラスミキサースムージー,48,8165,29231,milk,14,tomato,16,avocado,18,,
+d8,dessert,プリンのプリンアラモード,55,7594,27187,milk,10,apple,10,egg,15,honey,20
+d9,dessert,かたやぶりコーンティラミス,40,7125,25508,milk,12,corn,14,coffee,14,,
+d10,dessert,はやおきコーヒーゼリー,42,6793,24319,milk,14,honey,12,coffee,16,,
+d11,dessert,だいばくはつポップコーン,36,6048,21652,milk,7,oil,14,corn,15,,
+d12,dessert,ちからもちソイドーナッツ,35,5547,19858,soy,16,cacao,7,oil,12,,
+d13,dessert,ネロリのデトックスティー,35,5065,18133,apple,15,ginger,11,mushroom,9,,
+d14,dessert,ふくつのジンジャークッキー,35,4921,17617,cacao,5,egg,4,honey,14,ginger,12
+d15,dessert,あくまのキッスフルーツオレ,35,4734,16948,cacao,8,milk,9,apple,11,honey,7
+d16,dessert,あまいかおりチョコケーキ,24,3378,12093,cacao,8,milk,7,honey,9,,
+d17,dessert,はなびらのまいチョコタルト,22,3314,11864,cacao,11,apple,11,,,
+d18,dessert,はりきりプロテインスムージー,23,3168,11341,soy,15,cacao,8,,,
+d19,dessert,おおきいマラサダ,23,3015,10794,milk,7,oil,10,honey,6,,
+d20,dessert,マイペースやさいジュース,16,1924,6888,apple,7,tomato,9,,,
+d21,dessert,かるわざソイケーキ,15,1924,6888,soy,7,egg,8,,,
+d22,dessert,ひのこのジンジャーティー,16,1913,6849,apple,7,ginger,9,,,
+d23,dessert,じゅくせいスイートポテト,14,1907,6827,milk,5,potato,9,,,
+d24,dessert,ねがいごとアップルパイ,16,1748,6258,milk,4,apple,12,,,
+d25,dessert,クラフトサイコソーダ,9,1079,3863,honey,9,,,,,,
+d26,dessert,とくせんリンゴジュース,8,855,3061,apple,8,,,,,,
+d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
+
+    const INGREDIENTS = {
+      leek: { name: "ふといながねぎ", img: "./assets/ingredients/leek.png" },
+      mushroom: { name: "あじわいキノコ", img: "./assets/ingredients/mushroom.png" },
+      egg: { name: "とくせんエッグ", img: "./assets/ingredients/egg.png" },
+      potato: { name: "ほっこりポテト", img: "./assets/ingredients/potato.png" },
+      apple: { name: "とくせんリンゴ", img: "./assets/ingredients/apple.png" },
+      herb: { name: "激辛ハーブ", img: "./assets/ingredients/herb.png" },
+      sausage: { name: "マメミート", img: "./assets/ingredients/sausage.png" },
+      milk: { name: "モーモーミルク", img: "./assets/ingredients/milk.png" },
+      honey: { name: "あまいミツ", img: "./assets/ingredients/honey.png" },
+      oil: { name: "ピュアなオイル", img: "./assets/ingredients/oil.png" },
+      ginger: { name: "あったかジンジャー", img: "./assets/ingredients/ginger.png" },
+      tomato: { name: "あんみんトマト", img: "./assets/ingredients/tomato.png" },
+      cacao: { name: "リラックスカカオ", img: "./assets/ingredients/cacao.png" },
+      tail: { name: "おいしいシッポ", img: "./assets/ingredients/tail.png" },
+      soy: { name: "ワカクサ大豆", img: "./assets/ingredients/soy.png" },
+      corn: { name: "ワカクサコーン", img: "./assets/ingredients/corn.png" },
+      avocado: { name: "つやつやアボカド", img: "./assets/ingredients/avocado.png" },
+      coffee: { name: "めざましコーヒー", img: "./assets/ingredients/coffee.png" },
+      pumpkin: { name: "ずっしりカボチャ", img: "./assets/ingredients/pumpkin.png" }
+    };
+
+    const RECIPE_IMAGE_MAP = {
+      "しんりょくアボカドグラタン": "./assets/recipes/しんりょくアボカドグラタン.png",
+      "いあいぎりすき焼きカレー": "./assets/recipes/いあいぎりすき焼きカレー.png",
+      "めざめるパワーシチュー": "./assets/recipes/めざめるパワーシチュー.png",
+      "なりきりバケッチャシチュー": "./assets/recipes/なりきりバケッチャシチュー.png",
+      "れんごくコーンキーマカレー": "./assets/recipes/れんごくコーンキーマカレー.png",
+      "ニンジャカレー": "./assets/recipes/ニンジャカレー.png",
+      "ぜったいねむりバターカレー": "./assets/recipes/ぜったいねむりバターカレー.png",
+      "あぶりテールカレー": "./assets/recipes/あぶりテールカレー.png",
+      "からくちネギもりカレー": "./assets/recipes/からくちネギもりカレー.png",
+      "ピヨピヨパンチ辛口カレー": "./assets/recipes/ピヨピヨパンチ辛口カレー.png",
+      "じゅうなんコーンシチュー": "./assets/recipes/じゅうなんコーンシチュー.png",
+      "おやこあいカレー": "./assets/recipes/おやこあいカレー.png",
+      "キノコのほうしカレー": "./assets/recipes/キノコのほうしカレー.png",
+      "ビルドアップマメカレー": "./assets/recipes/ビルドアップマメカレー.png",
+      "ほっこりホワイトシチュー": "./assets/recipes/ほっこりホワイトシチュー.png",
+      "とけるオムカレー": "./assets/recipes/とけるオムカレー.png",
+      "サンパワートマトカレー": "./assets/recipes/サンパワートマトカレー.png",
+      "ひでりカツレツカレー": "./assets/recipes/ひでりカツレツカレー.png",
+      "満腹チーズバーグカレー": "./assets/recipes/満腹チーズバーグカレー.png",
+      "マメバーグカレー": "./assets/recipes/マメバーグカレー.png",
+      "ベイビィハニーカレー": "./assets/recipes/ベイビィハニーカレー.png",
+      "たんじゅんホワイトシチュー": "./assets/recipes/たんじゅんホワイトシチュー.png",
+      "とくせんリンゴカレー": "./assets/recipes/とくせんリンゴカレー.png",
+      "ごろごろねっとうサラダ": "./assets/recipes/ごろごろねっとうサラダ.png",
+      "じならしワカモレチップス": "./assets/recipes/じならしワカモレチップス.png",
+      "まけんきコーヒーサラダ": "./assets/recipes/まけんきコーヒーサラダ.png",
+      "りんごさんヨーグルトサラダ": "./assets/recipes/りんごさんヨーグルトサラダ.png",
+      "はなふぶきミモザサラダ": "./assets/recipes/はなふぶきミモザサラダ.png",
+      "ニンジャサラダ": "./assets/recipes/ニンジャサラダ.png",
+      "ワカクササラダ": "./assets/recipes/ワカクササラダ.png",
+      "クロスチョップドサラダ": "./assets/recipes/クロスチョップドサラダ.png",
+      "ヤドンテールのペッパーサラダ": "./assets/recipes/ヤドンテールのペッパーサラダ.png",
+      "めいそうスイートサラダ": "./assets/recipes/めいそうスイートサラダ.png",
+      "くだけるアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.png",
+      "キノコのほうしサラダ": "./assets/recipes/キノコのほうしサラダ.png",
+      "オーバーヒートサラダ": "./assets/recipes/オーバーヒートサラダ.png",
+      "くいしんぼうポテトサラダ": "./assets/recipes/くいしんぼうポテトサラダ.png",
+      "ハツラツアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.png",
+      "ムラっけチョコミートサラダ": "./assets/recipes/ムラっけチョコミートサラダ.png",
+      "うるおいとうふサラダ": "./assets/recipes/うるおいとうふサラダ.png",
+      "ばかぢからワイルドサラダ": "./assets/recipes/ばかぢからワイルドサラダ.png",
+      "モーモーカプレーゼ": "./assets/recipes/モーモーカプレーゼ.png",
+      "めんえきねぎサラダ": "./assets/recipes/めんえきねぎサラダ.png",
+      "みだれづきコーンサラダ": "./assets/recipes/みだれづきコーンサラダ.png",
+      "メロメロりんごのチーズサラダ": "./assets/recipes/メロメロりんごのチーズサラダ.png",
+      "ねっぷうとうふサラダ": "./assets/recipes/ねっぷうとうふサラダ.png",
+      "ゆきかきシーザーサラダ": "./assets/recipes/ゆきかきシーザーサラダ.png",
+      "あんみんトマトサラダ": "./assets/recipes/あんみんトマトサラダ.png",
+      "マメハムサラダ": "./assets/recipes/マメハムサラダ.png",
+      "とくせんリンゴサラダ": "./assets/recipes/とくせんリンゴサラダ.png",
+      "みつあつめチョコワッフル": "./assets/recipes/みつあつめチョコワッフル.png",
+      "ドキドキこわいかおパンケーキ": "./assets/recipes/ドキドキこわいかおパンケーキ.png",
+      "ドオーのエクレア": "./assets/recipes/ドオーのエクレア.png",
+      "スパークスパイスコーラ": "./assets/recipes/スパークスパイスコーラ.png",
+      "フラワーギフトマカロン": "./assets/recipes/フラワーギフトマカロン.png",
+      "おちゃかいコーンスコーン": "./assets/recipes/おちゃかいコーンスコーン.png",
+      "グラスミキサースムージー": "./assets/recipes/グラスミキサースムージー.png",
+      "プリンのプリンアラモード": "./assets/recipes/プリンのプリンアラモード.png",
+      "かたやぶりコーンティラミス": "./assets/recipes/かたやぶりコーンティラミス.png",
+      "はやおきコーヒーゼリー": "./assets/recipes/はやおきコーヒーゼリー.png",
+      "だいばくはつポップコーン": "./assets/recipes/だいばくはつポップコーン.png",
+      "ちからもちソイドーナッツ": "./assets/recipes/ちからもちソイドーナッツ.png",
+      "ネロリのデトックスティー": "./assets/recipes/ネロリのデトックスティー.png",
+      "ふくつのジンジャークッキー": "./assets/recipes/ふくつのジンジャークッキー.png",
+      "あくまのキッスフルーツオレ": "./assets/recipes/あくまのキッスフルーツオレ.png",
+      "あまいかおりチョコケーキ": "./assets/recipes/あまいかおりチョコケーキ.png",
+      "はなびらのまいチョコタルト": "./assets/recipes/はなびらのまいチョコタルト.png",
+      "はりきりプロテインスムージー": "./assets/recipes/はりきりプロテインスムージー.png",
+      "おおきいマラサダ": "./assets/recipes/おおきいマラサダ.png",
+      "マイペースやさいジュース": "./assets/recipes/マイペースやさいジュース.png",
+      "かるわざソイケーキ": "./assets/recipes/かるわざソイケーキ.png",
+      "ひのこのジンジャーティー": "./assets/recipes/ひのこのジンジャーティー.png",
+      "じゅくせいスイートポテト": "./assets/recipes/じゅくせいスイートポテト.png",
+      "ねがいごとアップルパイ": "./assets/recipes/ねがいごとアップルパイ.png",
+      "クラフトサイコソーダ": "./assets/recipes/クラフトサイコソーダ.png",
+      "とくせんリンゴジュース": "./assets/recipes/とくせんリンゴジュース.png",
+      "モーモーホットミルク": "./assets/recipes/モーモーホットミルク.png"
+    };
+
+    function getRecipeImg(name, category) {
+      if (RECIPE_IMAGE_MAP[name]) return RECIPE_IMAGE_MAP[name];
+      const cleanName = name ? name.replace(/\s/g, '') : '';
+      if (RECIPE_IMAGE_MAP[cleanName]) return RECIPE_IMAGE_MAP[cleanName];
+      const catIconMap = {
+        curry: './assets/curry_icon_1785393806184.jpg',
+        salad: './assets/salad_icon_1785393816107.jpg',
+        dessert: './assets/dessert_icon_1785393825865.jpg'
+      };
+      return catIconMap[category] || './assets/ingredients_icon_1785393835027.jpg';
+    }
+
+    let RECIPES = [];
+    let currentSingleRecipeId = 'c1';
+    let plannerCurryId = 'c1';
+    let plannerSaladId = 's1';
+    let plannerDessertId = 'd1';
+
+    let currentCategory = 'curry';
+    let currentTimes = 3;
+    let modalTargetKey = 'single';
+    let currentBookFilterCat = 'all';
+
+    const ignoredWeeks = { curry: false, salad: false, dessert: false };
+
+    function parseCSV(csvText) {
+      const lines = csvText.trim().split('\n');
+      const recipes = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(',').map(s => s.trim());
+        if (row.length < 6) continue;
+
+        const id = row[0];
+        const cat = row[1];
+        const name = row[2];
+        const total = parseInt(row[3]) || 0;
+        const energy = parseInt(row[4]) || 0;
+        const maxEnergy = parseInt(row[5]) || 0;
+
+        const items = {};
+        for (let j = 6; j < row.length; j += 2) {
+          const ingKey = row[j];
+          const qty = parseInt(row[j + 1]) || 0;
+          if (ingKey && qty > 0) items[ingKey] = qty;
+        }
+
+        recipes.push({ id, cat, name, total, energy, maxEnergy, items });
+      }
+
+      recipes.sort((a, b) => b.maxEnergy - a.maxEnergy);
+      return recipes;
+    }
+
+    async function loadRecipesCSV() {
+      try {
+        const response = await fetch('./recipes.csv?v=' + Date.now());
+        if (response.ok) {
+          const text = await response.text();
+          RECIPES = parseCSV(text);
+        } else {
+          throw new Error('CORS or file not found');
+        }
+      } catch (err) {
+        RECIPES = parseCSV(EMBEDDED_CSV);
+      }
+      initApp();
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('pokesleep_theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      }
+
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+          if (!localStorage.getItem('pokesleep_theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+          }
+        });
+      }
+    }
+
+    let isGuideVisible = false;
+
+    function toggleUsageGuide(forceState) {
+      if (typeof forceState === 'boolean') {
+        isGuideVisible = forceState;
+      } else {
+        isGuideVisible = !isGuideVisible;
+      }
+
+      const card = document.getElementById('usage-guide-card');
+      const btn = document.getElementById('header-guide-btn');
+
+      if (card) {
+        if (isGuideVisible) {
+          card.classList.add('active');
+          if (btn) btn.classList.add('active');
+        } else {
+          card.classList.remove('active');
+          if (btn) btn.classList.remove('active');
+        }
+      }
+
+      saveAllSettingsToStorage();
+    }
+
+    function openGuideFromCredit() {
+      closeCreditModal();
+      toggleUsageGuide(true);
+      const card = document.getElementById('usage-guide-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openPrivacyModal() {
+      const modal = document.getElementById('privacy-modal');
+      if (modal) modal.classList.add('open');
+    }
+    function closePrivacyModal(e) {
+      const modal = document.getElementById('privacy-modal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function openCreditModal() {
+      const modal = document.getElementById('credit-modal');
+      if (modal) modal.classList.add('open');
+    }
+
+
+    function closeCreditModal(e) {
+      const modal = document.getElementById('credit-modal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function copyContactEmail() {
+      const email = 'snorlax@dyussuca.com';
+      navigator.clipboard.writeText(email).then(() => {
+        showThemeToast('📋 メールアドレスをコピーしました！');
+      }).catch(() => {
+        showThemeToast('📧 snorlax@dyussuca.com');
+      });
+    }
+
+    function showThemeToast(msg) {
+      const toast = document.getElementById('theme-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pokesleep_theme', next);
+      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+
+    let isCampTicketOn = false;
+
+    function toggleCampTicket() {
+      isCampTicketOn = !isCampTicketOn;
+      const btn = document.getElementById('opt-camp-btn');
+      const statusLabel = document.getElementById('opt-camp-status');
+
+      if (isCampTicketOn) {
+        btn.classList.add('active');
+        statusLabel.textContent = 'ON';
+      } else {
+        btn.classList.remove('active');
+        statusLabel.textContent = 'OFF';
+      }
+      runOptimizerCalculation();
+      saveAllSettingsToStorage();
+    }
+
+    function setExpandVal(val) {
+      const input = document.getElementById('opt-expand-input');
+      if (input) {
+        input.value = val;
+        runOptimizerCalculation();
+      }
+    }
+
+    function addExpandVal(val) {
+      const input = document.getElementById('opt-expand-input');
+      if (input) {
+        const current = parseInt(input.value || 0, 10) || 0;
+        input.value = current + val;
+        runOptimizerCalculation();
+      }
+    }
+
+    function applyComboToPlanner(curryId, saladId, dessertId, rankTitle) {
+      plannerCurryId = curryId;
+      plannerSaladId = saladId;
+      plannerDessertId = dessertId;
+
+      updatePlannerCalculation();
+
+      const plannerTabBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes("'planner'"));
+      if (plannerTabBtn) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.getElementById('tab-planner').classList.add('active');
+        plannerTabBtn.classList.add('active');
+      }
+
+      showThemeToast(`✨ ${rankTitle} の組み合わせを備蓄計画シミュレータにセットしました！`);
+    }
+
+    const excludedIngredients = new Set();
+
+    function toggleExcludeIngredient(ingKey) {
+      if (excludedIngredients.has(ingKey)) {
+        excludedIngredients.delete(ingKey);
+      } else {
+        excludedIngredients.add(ingKey);
+      }
+      renderExcludeIngredientButtons();
+      runOptimizerCalculation();
+    }
+
+    function clearExcludedIngredients() {
+      excludedIngredients.clear();
+      renderExcludeIngredientButtons();
+      runOptimizerCalculation();
+    }
+
+    function renderExcludeIngredientButtons() {
+      const grid = document.getElementById('opt-exclude-ingredients-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      Object.keys(INGREDIENTS).forEach(key => {
+        const ing = INGREDIENTS[key];
+        const isEx = excludedIngredients.has(key);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `exclude-ing-btn ${isEx ? 'excluded' : ''}`;
+        btn.title = `${ing.name} (${isEx ? '除外中' : '利用可能'})`;
+        btn.onclick = () => toggleExcludeIngredient(key);
+        btn.innerHTML = `<img src="${ing.img}" alt="${ing.name}">`;
+        grid.appendChild(btn);
+      });
+    }
+
+    function runOptimizerCalculation() {
+      renderExcludeIngredientButtons();
+
+      const potSelect = document.getElementById('opt-pot-select');
+      const expandInput = document.getElementById('opt-expand-input');
+      if (!potSelect) return;
+
+      const rawBaseCap = parseInt(potSelect && potSelect.value ? potSelect.value : 21, 10) || 21;
+      const baseCap = isCampTicketOn ? Math.ceil(rawBaseCap * 1.5) : rawBaseCap;
+      const expandCap = parseInt(expandInput && expandInput.value ? expandInput.value : 0, 10) || 0;
+      const effectiveCap = baseCap + expandCap;
+
+      const effDisplay = document.getElementById('opt-effective-display');
+      const breakdown = document.getElementById('opt-pot-breakdown');
+      if (effDisplay) effDisplay.textContent = `${effectiveCap} 個`;
+
+      let breakdownText = `(ベース: ${rawBaseCap}個`;
+      if (isCampTicketOn) breakdownText += ` ✕ 1.5 ＝ ${baseCap}個`;
+      if (expandCap > 0) breakdownText += ` ＋ 拡張: ${expandCap}個`;
+      breakdownText += `)`;
+      if (breakdown) breakdown.textContent = breakdownText;
+
+      const rankingContainer = document.getElementById('opt-ranking-results');
+      if (!rankingContainer) return;
+      rankingContainer.innerHTML = '';
+
+      // Filter recipes by pot capacity AND excluded ingredients
+      const isRecipeValid = (r) => {
+        if (r.total > effectiveCap) return false;
+        const usesExcluded = Object.keys(r.items).some(ingKey => excludedIngredients.has(ingKey));
+        return !usesExcluded;
+      };
+
+      const curries = RECIPES.filter(r => r.cat === 'curry' && isRecipeValid(r));
+      const salads = RECIPES.filter(r => r.cat === 'salad' && isRecipeValid(r));
+      const desserts = RECIPES.filter(r => r.cat === 'dessert' && isRecipeValid(r));
+
+      if (curries.length === 0 || salads.length === 0 || desserts.length === 0) {
+        let msg = `⚠️ 鍋容量 ${effectiveCap} 個で作れる 組み合わせが見つかりませんでした。`;
+        if (excludedIngredients.size > 0) {
+          msg = `⚠️ 除外食材の条件により、作れる組み合わせがなくなりました。<br>除外食材を減らすか、鍋容量を増やしてみてください。`;
+        }
+        rankingContainer.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-sub); font-weight:800;">${msg}</div>`;
+        return;
+      }
+
+      let combos = [];
+
+      for (const c of curries) {
+        for (const s of salads) {
+          for (const d of desserts) {
+            const ingCounts = {};
+            const ingTotals = {};
+
+            [c, s, d].forEach(recipe => {
+              Object.keys(recipe.items).forEach(ingKey => {
+                ingCounts[ingKey] = (ingCounts[ingKey] || 0) + 1;
+                ingTotals[ingKey] = (ingTotals[ingKey] || 0) + recipe.items[ingKey];
+              });
+            });
+
+            const uniqueIngCount = Object.keys(ingCounts).length;
+            const overlap3Keys = Object.keys(ingCounts).filter(k => ingCounts[k] === 3);
+            const overlap2Keys = Object.keys(ingCounts).filter(k => ingCounts[k] === 2);
+
+            const totalEnergy = c.maxEnergy + s.maxEnergy + d.maxEnergy;
+
+            const overlapMultiplier = 1 + (overlap3Keys.length * 0.25) + (overlap2Keys.length * 0.10) + ((10 - uniqueIngCount) * 0.04);
+            const balanceScore = totalEnergy * overlapMultiplier;
+
+            combos.push({
+              curry: c,
+              salad: s,
+              dessert: d,
+              uniqueIngCount,
+              overlap3Keys,
+              overlap2Keys,
+              ingCounts,
+              ingTotals,
+              totalEnergy,
+              balanceScore
+            });
+          }
+        }
+      }
+
+      combos.sort((a, b) => b.balanceScore - a.balanceScore);
+      const top5Combos = combos.slice(0, 5);
+
+      top5Combos.forEach((combo, index) => {
+        const rankNum = index + 1;
+        let badgeClass = 'badge-sub';
+        let cardClass = '';
+        let crown = `第 ${rankNum} 位`;
+        if (rankNum === 1) { badgeClass = 'badge-1'; cardClass = 'rank-1'; crown = '🥇 第 1 位 (おすすめ備蓄)'; }
+        else if (rankNum === 2) { badgeClass = 'badge-2'; cardClass = 'rank-2'; crown = '🥈 第 2 位'; }
+        else if (rankNum === 3) { badgeClass = 'badge-3'; cardClass = 'rank-3'; crown = '🥉 第 3 位'; }
+
+        let overlapSummaryHtml = '';
+        if (combo.overlap3Keys.length > 0) {
+          const names = combo.overlap3Keys.map(k => `${INGREDIENTS[k] ? INGREDIENTS[k].name : k}`).join(', ');
+          overlapSummaryHtml += `<div style="color:#d97706; font-size:0.92rem; font-weight:800;">🔥 3被り: <b>${names}</b></div>`;
+        }
+        if (combo.overlap2Keys.length > 0) {
+          const names = combo.overlap2Keys.map(k => `${INGREDIENTS[k] ? INGREDIENTS[k].name : k}`).join(', ');
+          overlapSummaryHtml += `<div style="color:#059669; font-size:0.92rem; font-weight:800; margin-top:2px;">⭐ 2被り: <b>${names}</b></div>`;
+        }
+        if (!overlapSummaryHtml) {
+          overlapSummaryHtml = '<div style="color:var(--text-sub); font-size:0.88rem; font-weight:700;">被り食材なし</div>';
+        }
+
+        const recipesList = [
+          { icon: '🍛', title: 'カレー', r: combo.curry },
+          { icon: '🥗', title: 'サラダ', r: combo.salad },
+          { icon: '🍹', title: 'デザート', r: combo.dessert }
+        ];
+
+        let recipesCardsHtml = '';
+        recipesList.forEach(item => {
+          recipesCardsHtml += `
+            <div style="display:flex; gap:10px; align-items:center; background:var(--hero-bg); padding:10px 12px; border-radius:12px; border:1px solid var(--border-color); flex:1; min-width:260px;">
+              <img src="${getRecipeImg(item.r.name, item.r.cat)}" style="width:48px; height:48px; object-fit:contain; border-radius:8px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));">
+              <div>
+                <div style="font-size:0.78rem; font-weight:800; color:var(--text-sub);">${item.icon} ${item.title}</div>
+                <div style="font-size:1.02rem; font-weight:900; color:var(--text-main);">${item.r.name}</div>
+                <div style="font-size:0.85rem; font-weight:800; color:var(--accent-green-dark);">
+                  必要食材 ${item.r.total} / Lv.70: <b>${item.r.maxEnergy.toLocaleString()}</b>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        let totalIngChipsHtml = '';
+        Object.keys(combo.ingTotals).forEach(k => {
+          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+          const cnt = combo.ingCounts[k];
+          let badgeClass = '';
+          if (cnt === 3) badgeClass = 'overlap-3-chip';
+          else if (cnt === 2) badgeClass = 'overlap-2-chip';
+
+          totalIngChipsHtml += `<span class="modal-ing-chip ${badgeClass}"><img src="${ing.img}" class="ing-img-icon"> ${ing.name} <b style="font-size:1.02rem; font-weight:900; margin-left:2px;">× ${combo.ingTotals[k]}</b></span>`;
+        });
+
+        const totalSetIngCount = Object.values(combo.ingTotals).reduce((a, b) => a + b, 0);
+
+        const rankCard = document.createElement('div');
+        rankCard.className = `rank-card ${cardClass}`;
+        rankCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <span class="rank-badge ${badgeClass}">${crown}</span>
+              <button type="button" class="apply-combo-btn" onclick="applyComboToPlanner('${combo.curry.id}', '${combo.salad.id}', '${combo.dessert.id}', '第 ${rankNum} 位')">
+                <span>📦</span> 備蓄計画シミュレータで開く ➔
+              </button>
+            </div>
+            <div style="font-size:1.15rem; font-weight:900; color:#d97706;">
+              3食合計Lv.70: <b>${combo.totalEnergy.toLocaleString()}</b> エナジー
+            </div>
+          </div>
+
+          <div style="background:var(--bg-card); border:2px solid var(--border-color); padding:12px 16px; border-radius:12px; margin-bottom:14px; box-shadow:inset 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:6px;">
+              <span style="font-size:0.95rem; font-weight:900; color:var(--text-main);">📦 食材被りシナジー評価</span>
+              <span style="font-size:0.9rem; font-weight:800; background:var(--accent-blue); color:#fff; padding:2px 10px; border-radius:12px;">
+                必要食材の種類: <b>${combo.uniqueIngCount}</b> 種類 (全12枠中)
+              </span>
+            </div>
+            ${overlapSummaryHtml}
+          </div>
+
+          <div style="font-size:0.9rem; font-weight:800; color:var(--text-sub); margin-bottom:8px;">🍱 対象の3ジャンル目標レシピ:</div>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            ${recipesCardsHtml}
+          </div>
+
+          <div style="font-size:0.9rem; font-weight:800; color:var(--text-sub); margin-bottom:8px;">🛒 ジャンル各1回の必要食材 (合計 <b style="font-size:1.1rem; color:var(--accent-yellow);">${totalSetIngCount}</b>):</div>
+          <div class="optimizer-chips-grid">
+            ${totalIngChipsHtml}
+          </div>
+        `;
+
+        rankingContainer.appendChild(rankCard);
+      });
+    }
+
+    function updateSingleCalculation() {
+      const recipe = RECIPES.find(r => r.id === currentSingleRecipeId);
+      if (!recipe) return;
+
+      document.getElementById('res-recipe-name').textContent = recipe.name;
+      document.getElementById('res-recipe-img').src = getRecipeImg(recipe.name, recipe.cat);
+      if (document.getElementById('res-recipe-total-val')) {
+        document.getElementById('res-recipe-total-val').textContent = recipe.total;
+      }
+      document.getElementById('res-energy-val').textContent = `基礎: ${recipe.energy.toLocaleString()}`;
+      if (document.getElementById('res-energy-max-tag')) {
+        document.getElementById('res-energy-max-tag').textContent = `Lv.70: ${recipe.maxEnergy.toLocaleString()}`;
+      }
+
+      document.getElementById('res-times-display').textContent = currentTimes;
+
+      const singleGrid = document.getElementById('single-ingredients-result');
+      singleGrid.innerHTML = '';
+
+      let totalCount = 0;
+      Object.keys(recipe.items).forEach(k => {
+        const qty = recipe.items[k] * currentTimes;
+        totalCount += qty;
+        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+
+        const card = document.createElement('div');
+        card.className = 'planner-ing-card';
+        card.innerHTML = `
+          <div style="display:flex; align-items:center; gap:14px;">
+            <img src="${ing.img}" class="planner-ing-img-icon" alt="${ing.name}">
+            <span style="font-size:1.25rem; font-weight:900;">${ing.name}</span>
+          </div>
+          <span style="font-size:1.95rem; font-weight:900; color:#d97706; margin-left:14px;">${qty}</span>
+        `;
+        singleGrid.appendChild(card);
+      });
+
+      document.getElementById('res-total-count').textContent = totalCount;
+      document.getElementById('single-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name}`;
+    }
+
+    function toggleIgnoreWeek(cat) {
+      ignoredWeeks[cat] = !ignoredWeeks[cat];
+      const card = document.getElementById(`week-card-${cat}`);
+      const btn = document.getElementById(`ignore-btn-${cat}`);
+
+      if (ignoredWeeks[cat]) {
+        card.classList.add('disabled');
+        btn.classList.add('ignored');
+        btn.innerHTML = '<span>⭕</span> 有効化';
+      } else {
+        card.classList.remove('disabled');
+        btn.classList.remove('ignored');
+        btn.innerHTML = '<span>💀</span> 無視';
+      }
+      updatePlannerCalculation();
+    }
+
+    const plannerTimes = { curry: 3, salad: 3, dessert: 3 };
+
+    function setPlannerTimes(cat, times, btnElem) {
+      plannerTimes[cat] = times;
+      const group = document.getElementById(`planner-${cat}-times-group`);
+      if (group) {
+        group.querySelectorAll('.time-btn-planner').forEach(btn => btn.classList.remove('active'));
+      }
+      if (btnElem) btnElem.classList.add('active');
+      updatePlannerCalculation();
+    }
+
+    function updatePlannerCalculation() {
+      saveAllSettingsToStorage();
+      const curryR = RECIPES.find(r => r.id === plannerCurryId);
+      const saladR = RECIPES.find(r => r.id === plannerSaladId);
+      const dessertR = RECIPES.find(r => r.id === plannerDessertId);
+
+      document.getElementById('planner-curry-label').innerHTML = curryR ? `<img src="${getRecipeImg(curryR.name, curryR.cat)}" class="trigger-img"> ${curryR.name}` : '料理を選択';
+      document.getElementById('planner-salad-label').innerHTML = saladR ? `<img src="${getRecipeImg(saladR.name, saladR.cat)}" class="trigger-img"> ${saladR.name}` : '料理を選択';
+      document.getElementById('planner-dessert-label').innerHTML = dessertR ? `<img src="${getRecipeImg(dessertR.name, dessertR.cat)}" class="trigger-img"> ${dessertR.name}` : '料理を選択';
+
+      const totals = {};
+      const usageCounts = {};
+
+      if (!ignoredWeeks.curry && curryR) {
+        const times = plannerTimes.curry || 3;
+        Object.keys(curryR.items).forEach(k => {
+          totals[k] = (totals[k] || 0) + curryR.items[k] * times;
+          usageCounts[k] = (usageCounts[k] || 0) + 1;
+        });
+      }
+
+      if (!ignoredWeeks.salad && saladR) {
+        const times = plannerTimes.salad || 3;
+        Object.keys(saladR.items).forEach(k => {
+          totals[k] = (totals[k] || 0) + saladR.items[k] * times;
+          usageCounts[k] = (usageCounts[k] || 0) + 1;
+        });
+      }
+
+      if (!ignoredWeeks.dessert && dessertR) {
+        const times = plannerTimes.dessert || 3;
+        Object.keys(dessertR.items).forEach(k => {
+          totals[k] = (totals[k] || 0) + dessertR.items[k] * times;
+          usageCounts[k] = (usageCounts[k] || 0) + 1;
+        });
+      }
+
+      const grid = document.getElementById('planner-ingredients-result');
+      grid.innerHTML = '';
+
+      let grandTotal = 0;
+      Object.keys(totals).forEach(k => {
+        const qty = totals[k];
+        grandTotal += qty;
+        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+        const overlapCount = usageCounts[k] || 1;
+
+        let badgeClass = '';
+        let numColor = '#d97706';
+        if (overlapCount >= 3) {
+          badgeClass = 'overlap-3-chip';
+          numColor = '#b45309';
+        } else if (overlapCount === 2) {
+          badgeClass = 'overlap-2-chip';
+          numColor = '#047857';
+        }
+
+        const card = document.createElement('div');
+        card.className = `planner-ing-card ${badgeClass}`;
+        card.innerHTML = `
+          <div style="display:flex; align-items:center; gap:14px;">
+            <img src="${ing.img}" class="planner-ing-img-icon" alt="${ing.name}">
+            <span style="font-size:1.25rem; font-weight:900;">${ing.name}</span>
+          </div>
+          <span style="font-size:1.95rem; font-weight:900; color:${numColor}; margin-left:14px;">${qty}</span>
+        `;
+        grid.appendChild(card);
+      });
+
+      document.getElementById('planner-grand-total').textContent = grandTotal;
+    }
+
+    function setBookFilter(cat, btnElem) {
+      currentBookFilterCat = cat;
+      document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+      btnElem.classList.add('active');
+      filterRecipeBook();
+    }
+
+    function filterRecipeBook() {
+      const q = (document.getElementById('recipe-search-input').value || '').toLowerCase().trim();
+      const grid = document.getElementById('recipe-book-grid');
+      grid.innerHTML = '';
+
+      let list = RECIPES;
+      if (currentBookFilterCat !== 'all') {
+        list = list.filter(r => r.cat === currentBookFilterCat);
+      }
+
+      if (q) {
+        list = list.filter(r => {
+          if (r.name.toLowerCase().includes(q)) return true;
+          const ingNames = Object.keys(r.items).map(k => (INGREDIENTS[k] ? INGREDIENTS[k].name : k));
+          return ingNames.some(name => name.toLowerCase().includes(q));
+        });
+      }
+
+      list.forEach(r => {
+        let ingChipsHtml = '';
+        Object.keys(r.items).forEach(k => {
+          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱' };
+          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || './assets/ingredients_icon_1785393835027.jpg'}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
+        });
+
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.style.display = 'flex';
+        card.style.gap = '12px';
+        card.style.alignItems = 'flex-start';
+
+        card.innerHTML = `
+          <img src="${getRecipeImg(r.name, r.cat)}" class="book-recipe-img" alt="${r.name}">
+          <div style="flex:1; min-width:0; overflow:hidden;">
+            <div style="margin-bottom:6px;">
+              <div style="font-size:1.12rem; font-weight:900; color:var(--text-main); line-height:1.3; white-space:nowrap !important; word-break:keep-all !important;">${r.name}</div>
+              <div class="modal-energy-tag" style="margin-top:4px; display:inline-block;">Lv.70: ${r.maxEnergy.toLocaleString()}</div>
+            </div>
+            <div style="font-size:0.85rem; color:var(--text-sub); margin-bottom:8px;">必要食材: <b style="color:var(--accent-yellow); font-size:1rem;">${r.total}</b> (基礎: ${r.energy.toLocaleString()})</div>
+            <div style="display:flex; flex-wrap:wrap; gap:4px;">
+              ${ingChipsHtml}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function updateCategoryCounts() {
+      const allCount = RECIPES.length;
+      const curryCount = RECIPES.filter(r => r.cat === 'curry').length;
+      const saladCount = RECIPES.filter(r => r.cat === 'salad').length;
+      const dessertCount = RECIPES.filter(r => r.cat === 'dessert').length;
+
+      document.getElementById('count-all').textContent = allCount;
+      document.getElementById('count-curry').textContent = curryCount;
+      document.getElementById('count-salad').textContent = saladCount;
+      document.getElementById('count-dessert').textContent = dessertCount;
+    }
+
+    // --- LocalStorage Settings Persistence ---
+    const STORAGE_KEY = 'pokesleep_app_settings_v1';
+
+    function saveAllSettingsToStorage() {
+      try {
+        const settings = {
+          potBaseCap: document.getElementById('opt-pot-select') ? document.getElementById('opt-pot-select').value : '21',
+          isCampTicketOn: isCampTicketOn,
+          expandCap: document.getElementById('opt-expand-input') ? document.getElementById('opt-expand-input').value : '0',
+          excludedIngredients: Array.from(excludedIngredients),
+          plannerCurryId: plannerCurryId,
+          plannerSaladId: plannerSaladId,
+          plannerDessertId: plannerDessertId,
+          plannerTimes: plannerTimes,
+          currentSingleRecipeId: currentSingleRecipeId,
+          currentTimes: currentTimes,
+          isGuideVisible: isGuideVisible,
+          rlRecipeId: rlRecipeId,
+          rlCurrentLevel: rlCurrentLevel,
+          rlCookTimes: rlCookTimes,
+          rlCategory: rlCategory,
+          rlFieldBonus: rlFieldBonus,
+          rlExtraEnergy: rlExtraEnergy
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+      } catch (e) {
+        console.warn('Could not save settings to localStorage:', e);
+      }
+    }
+
+    function loadAllSettingsFromStorage() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+        const s = JSON.parse(saved);
+
+        if (typeof s.isGuideVisible === 'boolean') {
+          isGuideVisible = s.isGuideVisible;
+          const card = document.getElementById('usage-guide-card');
+          const btn = document.getElementById('header-guide-btn');
+          if (card) {
+            if (isGuideVisible) {
+              card.classList.add('active');
+              if (btn) btn.classList.add('active');
+            } else {
+              card.classList.remove('active');
+              if (btn) btn.classList.remove('active');
+            }
+          }
+        }
+
+        if (s.potBaseCap && document.getElementById('opt-pot-select')) {
+
+          document.getElementById('opt-pot-select').value = s.potBaseCap;
+        }
+        if (typeof s.isCampTicketOn === 'boolean') {
+          isCampTicketOn = s.isCampTicketOn;
+          const btn = document.getElementById('opt-camp-btn');
+          const statusLabel = document.getElementById('opt-camp-status');
+          if (btn && statusLabel) {
+            if (isCampTicketOn) {
+              btn.classList.add('active');
+              statusLabel.textContent = 'ON (1.5倍)';
+            } else {
+              btn.classList.remove('active');
+              statusLabel.textContent = 'OFF';
+            }
+          }
+        }
+        if (s.expandCap !== undefined && document.getElementById('opt-expand-input')) {
+          document.getElementById('opt-expand-input').value = s.expandCap;
+        }
+        if (Array.isArray(s.excludedIngredients)) {
+          excludedIngredients.clear();
+          s.excludedIngredients.forEach(k => excludedIngredients.add(k));
+        }
+        if (s.plannerCurryId) plannerCurryId = s.plannerCurryId;
+        if (s.plannerSaladId) plannerSaladId = s.plannerSaladId;
+        if (s.plannerDessertId) plannerDessertId = s.plannerDessertId;
+        if (s.plannerTimes) {
+          Object.assign(plannerTimes, s.plannerTimes);
+          ['curry', 'salad', 'dessert'].forEach(cat => {
+            const times = plannerTimes[cat] || 3;
+            const group = document.getElementById(`planner-${cat}-times-group`);
+            if (group) {
+              group.querySelectorAll('.time-btn-planner').forEach(btn => {
+                if (btn.textContent.includes(`${times}回`)) {
+                  btn.classList.add('active');
+                } else {
+                  btn.classList.remove('active');
+                }
+              });
+            }
+          });
+        }
+        if (s.currentSingleRecipeId) currentSingleRecipeId = s.currentSingleRecipeId;
+        if (s.currentTimes) currentTimes = s.currentTimes;
+
+        if (s.rlRecipeId) rlRecipeId = s.rlRecipeId;
+        if (s.rlCurrentLevel) rlCurrentLevel = s.rlCurrentLevel;
+        if (s.rlCookTimes) rlCookTimes = s.rlCookTimes;
+        if (s.rlCategory) rlCategory = s.rlCategory;
+        if (typeof s.rlFieldBonus === 'number') rlFieldBonus = s.rlFieldBonus;
+        if (typeof s.rlExtraEnergy === 'number') rlExtraEnergy = s.rlExtraEnergy;
+
+      } catch (e) {
+        console.warn('Could not load settings from localStorage:', e);
+      }
+    }
+
+    function initApp() {
+      if (RECIPES.length > 0) {
+        const topCurry = RECIPES.find(r => r.cat === 'curry');
+        const topSalad = RECIPES.find(r => r.cat === 'salad');
+        const topDessert = RECIPES.find(r => r.cat === 'dessert');
+
+        if (topCurry) { currentSingleRecipeId = topCurry.id; plannerCurryId = topCurry.id; rlRecipeId = topCurry.id; }
+        if (topSalad) plannerSaladId = topSalad.id;
+        if (topDessert) plannerDessertId = topDessert.id;
+      }
+
+      loadAllSettingsFromStorage();
+      updateCategoryCounts();
+      updateSingleCalculation();
+      updatePlannerCalculation();
+      filterRecipeBook();
+      runOptimizerCalculation();
+      initRecipeLevelTab();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadRecipesCSV();
+    });
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      if (tabId === 'recipe-level') {
+        setTimeout(() => {
+          updateRecipeLevelCalculation();
+          if (rlChart) {
+            rlChart.resize();
+            rlChart.update();
+          }
+        }, 50);
+      }
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.cat-btn.${cat}`).classList.add('active');
+
+      const firstRecipe = RECIPES.find(r => r.cat === currentCategory);
+      if (firstRecipe) { currentSingleRecipeId = firstRecipe.id; }
+      updateSingleCalculation();
+    }
+
+    function openRecipeModal(targetKey) {
+      modalTargetKey = targetKey;
+      const modal = document.getElementById('recipe-modal');
+      const titleText = document.getElementById('modal-title-text');
+      document.getElementById('modal-search-input').value = '';
+
+      let catFilter = currentCategory;
+      if (targetKey === 'curry') catFilter = 'curry';
+      if (targetKey === 'salad') catFilter = 'salad';
+      if (targetKey === 'dessert') catFilter = 'dessert';
+      if (targetKey === 'recipe-level') catFilter = rlCategory;
+
+      let catName = 'カレー';
+      if (catFilter === 'salad') catName = 'サラダ';
+      if (catFilter === 'dessert') catName = 'デザート';
+
+      titleText.innerHTML = `<span>🍱</span> 【${catName}】料理選択`;
+
+      renderModalRecipes(catFilter, '');
+      modal.classList.add('open');
+    }
+
+    function closeRecipeModal() {
+      document.getElementById('recipe-modal').classList.remove('open');
+    }
+
+    function filterModalRecipes() {
+      const q = document.getElementById('modal-search-input').value.toLowerCase().trim();
+      let catFilter = currentCategory;
+      if (modalTargetKey === 'curry') catFilter = 'curry';
+      if (modalTargetKey === 'salad') catFilter = 'salad';
+      if (modalTargetKey === 'dessert') catFilter = 'dessert';
+      if (modalTargetKey === 'recipe-level') catFilter = rlCategory;
+
+      renderModalRecipes(catFilter, q);
+    }
+
+    function renderModalRecipes(category, query) {
+      const grid = document.getElementById('modal-recipe-grid');
+      grid.innerHTML = '';
+
+      let list = RECIPES.filter(r => r.cat === category);
+      if (query) {
+        list = list.filter(r => {
+          if (r.name.toLowerCase().includes(query)) return true;
+          const ingNames = Object.keys(r.items).map(k => (INGREDIENTS[k] ? INGREDIENTS[k].name : k));
+          return ingNames.some(name => name.toLowerCase().includes(query));
+        });
+      }
+
+      list.forEach(r => {
+        const totalIngCount = Object.values(r.items).reduce((a, b) => a + b, 0);
+        let ingChipsHtml = '';
+        Object.keys(r.items).forEach(k => {
+          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱' };
+          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || './assets/ingredients_icon_1785393835027.jpg'}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
+        });
+
+        const card = document.createElement('div');
+        card.className = 'modal-recipe-card';
+        card.onclick = () => selectRecipeFromModal(r.id);
+        card.setAttribute('style', 'display: flex !important; align-items: flex-start !important; gap: 12px !important; text-align: left !important; justify-content: flex-start !important; width: 100% !important; box-sizing: border-box !important;');
+        card.innerHTML = `
+          <img src="${getRecipeImg(r.name, r.cat)}" class="modal-recipe-img" alt="${r.name}" style="width: 48px; height: 48px; border-radius: 8px; flex-shrink: 0;">
+          <div style="flex: 1; min-width: 0; text-align: left !important;">
+            <div style="font-size: 1.08rem; font-weight: 900; color: var(--text-main); text-align: left !important; line-height: 1.3;">${r.name}</div>
+
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-sub, #666); text-align: left !important; margin-top: 2px;">
+              食材: ${totalIngCount}個
+            </div>
+
+            <div class="modal-energy-tag" style="margin-top: 4px; display: inline-block; font-size: 0.85rem; font-weight: 800; color: var(--accent-green-dark); background: rgba(16, 185, 129, 0.12); padding: 2px 8px; border-radius: 6px; text-align: left !important;">Lv.70: ${r.maxEnergy.toLocaleString()}</div>
+            <div class="modal-ingredients-list" style="display: flex !important; flex-wrap: wrap !important; gap: 4px !important; margin-top: 6px !important; justify-content: flex-start !important; text-align: left !important;">
+              
+              ${ingChipsHtml}
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function selectRecipeFromModal(recipeId) {
+      if (modalTargetKey === 'single') {
+        currentSingleRecipeId = recipeId;
+        updateSingleCalculation();
+      } else if (modalTargetKey === 'recipe-level') {
+        rlRecipeId = recipeId;
+        const recipe = RECIPES.find(r => r.id === recipeId);
+        if (recipe) rlCategory = recipe.cat;
+        updateRecipeLevelCalculation();
+      } else if (modalTargetKey === 'curry') {
+        plannerCurryId = recipeId;
+        updatePlannerCalculation();
+      } else if (modalTargetKey === 'salad') {
+        plannerSaladId = recipeId;
+        updatePlannerCalculation();
+      } else if (modalTargetKey === 'dessert') {
+        plannerDessertId = recipeId;
+        updatePlannerCalculation();
+      }
+      closeRecipeModal();
+    }
+
+    function setTimes(t) {
+      currentTimes = t;
+      document.getElementById('custom-times-input').value = t;
+      document.querySelectorAll('.times-buttons .time-btn').forEach(btn => btn.classList.remove('active'));
+
+      const matchBtn = Array.from(document.querySelectorAll('.times-buttons .time-btn')).find(b => b.textContent.includes(`${t}回`));
+      if (matchBtn) matchBtn.classList.add('active');
+      updateSingleCalculation();
+    }
+
+    function onCustomTimesChange(val) {
+      const parsed = parseInt(val, 10);
+      if (parsed > 0) {
+        currentTimes = parsed;
+        document.querySelectorAll('.times-buttons .time-btn').forEach(btn => btn.classList.remove('active'));
+        updateSingleCalculation();
+      }
+    }
+
+    // ===== RECIPE LEVEL TAB =====
+    let rlRecipeId = 'c1';
+    let rlCurrentLevel = 1;
+    let rlCookTimes = 50;
+    let rlCategory = 'curry';
+    let rlChart = null;
+
+    // レシピレベルデータ: [bonus%, expToNext, cumulativeExp]
+    const RECIPE_LEVEL_DATA = [
+      [0, 1080, 0],       // Lv1
+      [2, 1244, 1080],    // Lv2
+      [4, 1612, 2324],    // Lv3
+      [6, 1609, 3936],    // Lv4
+      [8, 1796, 5545],    // Lv5
+      [9, 2371, 7341],    // Lv6
+      [11, 3048, 9712],   // Lv7
+      [13, 3666, 12760],  // Lv8
+      [16, 4365, 16426],  // Lv9
+      [18, 4848, 20791],  // Lv10
+      [19, 5272, 25639],  // Lv11
+      [21, 5710, 30911],  // Lv12
+      [23, 6301, 36621],  // Lv13
+      [24, 6960, 42922],  // Lv14
+      [26, 7669, 49882],  // Lv15
+      [28, 8450, 57551],  // Lv16
+      [30, 9130, 66001],  // Lv17
+      [31, 9850, 75131],  // Lv18
+      [33, 10661, 84981], // Lv19
+      [35, 11517, 95642], // Lv20
+      [37, 12417, 107159],// Lv21
+      [40, 13362, 119576],// Lv22
+      [42, 14371, 132938],// Lv23
+      [45, 15312, 147309],// Lv24
+      [47, 16308, 162621],// Lv25
+      [50, 17634, 178929],// Lv26
+      [52, 19042, 196563],// Lv27
+      [55, 20544, 215605],// Lv28
+      [58, 22150, 236149],// Lv29
+      [61, 23656, 258299],// Lv30
+      [64, 24804, 281955],// Lv31
+      [67, 26010, 306759],// Lv32
+      [70, 27700, 332769],// Lv33
+      [74, 29474, 360469],// Lv34
+      [77, 31578, 389943],// Lv35
+      [81, 33859, 421521],// Lv36
+      [84, 35675, 455380],// Lv37
+      [88, 37608, 491055],// Lv38
+      [92, 40255, 528663],// Lv39
+      [96, 42623, 568918],// Lv40
+      [100, 45105, 611541],// Lv41
+      [104, 47698, 656646],// Lv42
+      [108, 50404, 704344],// Lv43
+      [113, 52436, 754748],// Lv44
+      [117, 55021, 807184],// Lv45
+      [122, 58731, 862205],// Lv46
+      [127, 62654, 920936],// Lv47
+      [132, 66801, 983590],// Lv48
+      [137, 71191, 1050391],// Lv49
+      [142, 75105, 1121582],// Lv50
+      [148, 122798, 1196687],// Lv51
+      [153, 151878, 1319485],// Lv52
+      [159, 201226, 1471363],// Lv53
+      [165, 258289, 1672589],// Lv54
+      [171, 300444, 1930878],// Lv55
+      [177, 347990, 2231322],// Lv56
+      [183, 398682, 2579312],// Lv57
+      [190, 435126, 2977994],// Lv58
+      [197, 478025, 3413120],// Lv59
+      [203, 542412, 3891145],// Lv60
+      [209, 621231, 4433557],// Lv61
+      [215, 718231, 5054788],// Lv62
+      [221, 833386, 5773019],// Lv63
+      [227, 992698, 6606405],// Lv64
+      [234, 1032639, 7599103],// Lv65
+      [239, 1078591, 8631742],// Lv66
+      [243, 1121112, 9710333],// Lv67
+      [248, 1205436, 10831445],// Lv68
+      [252, 1318244, 12036881],// Lv69
+      [258, 0, 13355125]  // Lv70 (MAX)
+    ];
+
+    const MAX_CUMULATIVE_EXP = 13355125;
+
+    let rlEventBonus = 1.0;
+    let rlCritEnabled = false;
+    let rlCritDay = 'weekly'; // 'weekly' (18 weekday + 3 sunday), 'weekday', or 'sunday'
+    let rlSkillChance = 0;
+    let rlFieldBonus = 0;
+    let rlExtraEnergy = 0;
+
+
+
+    function onRLFieldBonusChange(val) {
+      const v = Math.min(85, Math.max(0, parseInt(val) || 0));
+      rlFieldBonus = v;
+      const inputElem = document.getElementById('rl-field-bonus-input');
+      if (inputElem) inputElem.value = v;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLFieldBonusInputChange(val) {
+      const v = Math.min(85, Math.max(0, parseInt(val) || 0));
+      rlFieldBonus = v;
+      const sliderElem = document.getElementById('rl-field-bonus-slider');
+      if (sliderElem) sliderElem.value = v;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLExtraEnergyChange(val) {
+      rlExtraEnergy = Math.max(0, parseInt(val) || 0);
+      updateRecipeLevelCalculation();
+    }
+
+    function setRLEventBonus(val, btnElem) {
+      rlEventBonus = parseFloat(val) || 1.0;
+      document.querySelectorAll('.rl-event-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      updateRecipeLevelCalculation();
+    }
+
+    function toggleRLCritCalc() {
+      rlCritEnabled = !rlCritEnabled;
+      const btn = document.getElementById('rl-crit-toggle-btn');
+      const container = document.getElementById('rl-crit-options-container');
+
+      if (rlCritEnabled) {
+        btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
+        btn.style.borderColor = '#10b981';
+        container.style.display = 'flex';
+      } else {
+        btn.innerHTML = '補正: <b>OFF</b>';
+        btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        container.style.display = 'none';
+      }
+      updateRecipeLevelCalculation();
+    }
+
+    function setRLCritDay(day, btnElem) {
+      rlCritDay = day;
+      document.querySelectorAll('.rl-day-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      updateRecipeLevelCalculation();
+    }
+
+    function setRLSkillChance(val, btnElem) {
+      rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-skill-chance-input');
+      if (inputElem) inputElem.value = rlSkillChance;
+      document.querySelectorAll('.rl-skill-btn').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLSkillChanceChange(val) {
+      rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
+      document.querySelectorAll('.rl-skill-btn').forEach(b => {
+        const btnVal = parseInt(b.textContent.replace('+', '').replace('%', '').replace(' (MAX)', '')) || 0;
+        if (btnVal === rlSkillChance) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      updateRecipeLevelCalculation();
+    }
+
+    function getRLMultiplier() {
+      let multiplier = rlEventBonus;
+
+      if (rlCritEnabled) {
+        let expectedCritMult = 1.0;
+        let summaryDetailText = '';
+
+        const skillAddProb = rlSkillChance / 100;
+        const probWeekday = Math.min(1.0, 0.10 + skillAddProb);
+        const probSunday = Math.min(1.0, 0.30 + skillAddProb);
+
+        const weekdayCritMult = 2.0;
+        const sundayCritMult = 3.0;
+
+        const weekdayAvgMult = (1 - probWeekday) * 1.0 + probWeekday * weekdayCritMult;
+        const sundayAvgMult = (1 - probSunday) * 1.0 + probSunday * sundayCritMult;
+
+        if (rlCritDay === 'weekly') {
+          // 21-cook weekly distribution model: 18 weekday cooks + 3 sunday cooks
+          expectedCritMult = (weekdayAvgMult * 18 + sundayAvgMult * 3) / 21;
+          summaryDetailText = `1週間平均 (平日18回+日曜3回) / 大成功時: 平日${(2.0 * rlEventBonus).toFixed(1)}倍, 日曜${(3.0 * rlEventBonus).toFixed(1)}倍`;
+        } else if (rlCritDay === 'sunday') {
+          expectedCritMult = sundayAvgMult;
+          summaryDetailText = `日曜日のみ (大成功率 ${(probSunday * 100).toFixed(0)}% / 大成功時 ${(3.0 * rlEventBonus).toFixed(1)}倍)`;
+        } else {
+          // weekday
+          expectedCritMult = weekdayAvgMult;
+          summaryDetailText = `平日のみ (大成功率 ${(probWeekday * 100).toFixed(0)}% / 大成功時 ${(2.0 * rlEventBonus).toFixed(1)}倍)`;
+        }
+
+        multiplier *= expectedCritMult;
+
+        const summaryElem = document.getElementById('rl-crit-summary-text');
+        if (summaryElem) {
+          summaryElem.textContent = `${summaryDetailText} → 総合期待倍率: ${multiplier.toFixed(2)}x`;
+        }
+      }
+
+      return multiplier;
+    }
+
+    function getExpPerCook(baseEnergy, level) {
+      const bonusPct = RECIPE_LEVEL_DATA[level - 1][0];
+      const baseDisplayEnergy = baseEnergy + Math.round(baseEnergy * bonusPct / 100);
+      const totalBeforeBonus = baseDisplayEnergy + rlExtraEnergy;
+      const fieldMult = 1 + (rlFieldBonus / 100);
+      const mult = getRLMultiplier();
+      return Math.floor(totalBeforeBonus * fieldMult * mult);
+    }
+
+    function setRLCategory(cat) {
+      rlCategory = cat;
+      document.querySelectorAll('.rl-cat-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.rl-cat-btn.${cat}`).classList.add('active');
+
+      const firstRecipe = RECIPES.find(r => r.cat === cat);
+      if (firstRecipe) { rlRecipeId = firstRecipe.id; }
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLLevelChange(val) {
+      const v = Math.min(70, Math.max(1, parseInt(val) || 1));
+      rlCurrentLevel = v;
+      const inputElem = document.getElementById('rl-level-input');
+      if (inputElem) inputElem.value = v;
+      const badgeElem = document.getElementById('rl-level-badge');
+      if (badgeElem) badgeElem.textContent = `Lv.${v}`;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLLevelInputChange(val) {
+      const v = Math.min(70, Math.max(1, parseInt(val) || 1));
+      rlCurrentLevel = v;
+      const sliderElem = document.getElementById('rl-level-slider');
+      if (sliderElem) sliderElem.value = v;
+      const badgeElem = document.getElementById('rl-level-badge');
+      if (badgeElem) badgeElem.textContent = `Lv.${v}`;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLTimesSliderChange(val) {
+      const v = Math.min(100, Math.max(1, parseInt(val) || 1));
+      rlCookTimes = v;
+      const inputElem = document.getElementById('rl-custom-times');
+      if (inputElem) inputElem.value = v;
+      const badgeElem = document.getElementById('rl-times-badge');
+      if (badgeElem) badgeElem.textContent = `${v}回`;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLCustomTimesChange(val) {
+      const v = Math.min(100, Math.max(1, parseInt(val) || 1));
+      rlCookTimes = v;
+      const sliderElem = document.getElementById('rl-times-slider');
+      if (sliderElem) sliderElem.value = v;
+      const badgeElem = document.getElementById('rl-times-badge');
+      if (badgeElem) badgeElem.textContent = `${v}回`;
+      updateRecipeLevelCalculation();
+    }
+
+    function simulateCooking(baseEnergy, startLevel, numCooks) {
+      let currentLv = startLevel;
+      let currentCumulativeExp = RECIPE_LEVEL_DATA[currentLv - 1][2];
+
+      for (let i = 0; i < numCooks; i++) {
+        if (currentLv >= 70) break;
+        const expGain = getExpPerCook(baseEnergy, currentLv);
+        currentCumulativeExp += expGain;
+
+        while (currentLv < 70 && currentCumulativeExp >= RECIPE_LEVEL_DATA[currentLv][2]) {
+          currentLv++;
+        }
+      }
+      return { finalLevel: currentLv, finalExp: currentCumulativeExp };
+    }
+
+    function updateRecipeLevelCalculation() {
+      const recipe = RECIPES.find(r => r.id === rlRecipeId);
+      if (!recipe) return;
+
+      // Update hero display
+      document.getElementById('rl-recipe-name').textContent = recipe.name;
+      document.getElementById('rl-recipe-img').src = getRecipeImg(recipe.name, recipe.cat);
+      document.getElementById('rl-base-energy').textContent = recipe.energy.toLocaleString();
+      document.getElementById('rl-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name}`;
+
+      // Update RL category buttons
+      document.querySelectorAll('.rl-cat-btn').forEach(btn => btn.classList.remove('active'));
+      const catBtn = document.querySelector(`.rl-cat-btn.${recipe.cat}`);
+      if (catBtn) catBtn.classList.add('active');
+
+      // Current level stats
+      const lvIndex = rlCurrentLevel - 1;
+      const bonusPct = RECIPE_LEVEL_DATA[lvIndex][0];
+      const expToNext = RECIPE_LEVEL_DATA[lvIndex][1];
+      const cumulativeExp = RECIPE_LEVEL_DATA[lvIndex][2];
+      const currentExpPerCook = getExpPerCook(recipe.energy, rlCurrentLevel);
+      const currentDisplayEnergy = recipe.energy + Math.round(recipe.energy * bonusPct / 100);
+
+      document.getElementById('rl-current-energy').innerHTML = `現Lvレシピ表示: <b>${currentDisplayEnergy.toLocaleString()}</b> <span style="color:var(--text-sub); font-size:0.85rem;">(1回実効獲得EXP: <b style="color:var(--accent-green); font-size:0.95rem;">${currentExpPerCook.toLocaleString()}</b>)</span>`;
+
+      // Sync level inputs
+      document.getElementById('rl-level-slider').value = rlCurrentLevel;
+      document.getElementById('rl-level-input').value = rlCurrentLevel;
+      const levelBadgeElem = document.getElementById('rl-level-badge');
+      if (levelBadgeElem) levelBadgeElem.textContent = `Lv.${rlCurrentLevel}`;
+
+      // Stats: bonus
+      const multiplier = (1 + bonusPct / 100).toFixed(2);
+      document.getElementById('rl-stat-bonus').textContent = `${multiplier}x`;
+      document.getElementById('rl-stat-bonus-pct').textContent = `+${bonusPct}%`;
+
+      // Stats: next level
+      if (rlCurrentLevel >= 70) {
+        document.getElementById('rl-stat-next-exp').textContent = 'MAX';
+        document.getElementById('rl-stat-next-cooks').textContent = 'レベル上限到達！';
+      } else {
+        document.getElementById('rl-stat-next-exp').textContent = expToNext.toLocaleString();
+        const cooksTillNext = Math.ceil(expToNext / currentExpPerCook);
+        document.getElementById('rl-stat-next-cooks').textContent = `約 ${cooksTillNext.toLocaleString()} 回調理`;
+      }
+
+      // Stats: max level
+      const remainingExp = MAX_CUMULATIVE_EXP - cumulativeExp;
+      if (rlCurrentLevel >= 70) {
+        document.getElementById('rl-stat-max-exp').textContent = '到達済み!';
+        document.getElementById('rl-stat-max-cooks').textContent = '🎉 おめでとうございます！';
+      } else {
+        document.getElementById('rl-stat-max-exp').textContent = remainingExp.toLocaleString();
+        const avgExpPerCook = getExpPerCook(recipe.energy, Math.min(70, Math.floor((rlCurrentLevel + 70) / 2)));
+        const estimatedCooks = Math.ceil(remainingExp / avgExpPerCook);
+        document.getElementById('rl-stat-max-cooks').textContent = `推定 ${estimatedCooks.toLocaleString()} 回調理`;
+      }
+
+      // Stats: progress
+      const progressPct = rlCurrentLevel >= 70 ? 100 : (cumulativeExp / MAX_CUMULATIVE_EXP * 100);
+      document.getElementById('rl-stat-progress').textContent = `${progressPct.toFixed(1)}%`;
+      document.getElementById('rl-progress-bar').style.width = `${progressPct}%`;
+
+      // Prediction
+      const prediction = simulateCooking(recipe.energy, rlCurrentLevel, rlCookTimes);
+      const levelGain = prediction.finalLevel - rlCurrentLevel;
+      const predBonusPct = RECIPE_LEVEL_DATA[prediction.finalLevel - 1][0];
+
+      document.getElementById('rl-prediction-result').innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+          <div>
+            <div style="font-size:0.95rem; font-weight:800; color:var(--text-sub); margin-bottom:4px;">
+              🍳 <b style="color:var(--text-main); font-size:1.15rem;">${rlCookTimes.toLocaleString()}回</b> 調理後の予想到達レベル
+            </div>
+            <div style="font-size:2.2rem; font-weight:900; color:var(--accent-green); line-height:1.2;">
+              Lv.${prediction.finalLevel} <span style="font-size:1.35rem; font-weight:800; color:${levelGain > 0 ? 'var(--accent-green)' : 'var(--text-sub)'}; margin-left:6px;">(+${levelGain} レベル)</span>
+            </div>
+          </div>
+          <div style="background:var(--bg-card); border:2px solid var(--accent-purple); padding:10px 20px; border-radius:14px; text-align:center; min-width:160px; box-shadow:0 4px 12px rgba(124,58,237,0.15);">
+            <div style="font-size:0.82rem; font-weight:800; color:var(--text-sub); margin-bottom:2px;">到達後のレシピボーナス</div>
+            <div style="font-size:1.6rem; font-weight:900; color:var(--accent-purple);">${(1 + predBonusPct / 100).toFixed(2)}x <span style="font-size:0.85rem; font-weight:800;">(+${predBonusPct}%)</span></div>
+          </div>
+        </div>
+      `;
+
+      // Update chart
+      updateRecipeLevelChart(recipe);
+
+      saveAllSettingsToStorage();
+    }
+
+    function updateRecipeLevelChart(recipe) {
+      const canvas = document.getElementById('rl-chart-canvas');
+      if (!canvas) return;
+
+      if (!recipe) {
+        recipe = RECIPES.find(r => r.id === rlRecipeId) || RECIPES[0];
+      }
+      if (!recipe) return;
+
+      // Skip rendering if container is hidden (will be rendered on tab switch)
+      if (canvas.parentElement && canvas.parentElement.offsetWidth === 0) {
+        return;
+      }
+
+      // Re-create chart instance to handle dynamic label ranges properly
+      if (rlChart) {
+        rlChart.destroy();
+        rlChart = null;
+      }
+
+      const startLv = Math.min(70, Math.max(1, rlCurrentLevel));
+      const prediction = simulateCooking(recipe.energy, startLv, rlCookTimes);
+      const predLv = prediction.finalLevel;
+
+      // Labels from startLv to 70
+      const labels = [];
+      const cumulativeData = [];
+      for (let i = startLv; i <= 70; i++) {
+        labels.push(`Lv.${i}`);
+        cumulativeData.push(RECIPE_LEVEL_DATA[i - 1][2]);
+      }
+
+      // Determine colors based on theme
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+      const textColor = isDark ? '#94a3b8' : '#64748b';
+
+      const predIndex = predLv - startLv;
+
+      const pointBgColors = cumulativeData.map((_, idx) => {
+        if (idx === 0) return '#0284c7'; // Start level (Blue)
+        if (idx === predIndex) return '#10b981'; // Reached level (Green)
+        if (idx === cumulativeData.length - 1) return '#f59e0b'; // Lv.70 Max (Gold)
+        return 'transparent';
+      });
+
+      const pointRadii = cumulativeData.map((_, idx) => {
+        if (idx === 0) return 7;
+        if (idx === predIndex) return 8;
+        if (idx === cumulativeData.length - 1) return 6;
+        return 0;
+      });
+
+      const pointBorderColors = cumulativeData.map((_, idx) => {
+        if (idx === 0 || idx === predIndex || idx === cumulativeData.length - 1) return '#ffffff';
+        return 'transparent';
+      });
+
+      const chartConfig = {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '累計必要EXP',
+            data: cumulativeData,
+            fill: true,
+            tension: 0.35,
+            borderWidth: 3.5,
+            pointBackgroundColor: pointBgColors,
+            pointRadius: pointRadii,
+            pointBorderColor: pointBorderColors,
+            pointBorderWidth: 3,
+            pointHoverRadius: 7,
+            segment: {
+              borderColor: (ctx) => {
+                const p0Idx = ctx.p0DataIndex;
+                const lv = startLv + p0Idx;
+                if (lv < predLv) {
+                  return '#10b981'; // 到達予定区間（グリーン）
+                }
+                return '#8b5cf6'; // それ以降〜Lv.70（パープル）
+              },
+              backgroundColor: (ctx) => {
+                const p0Idx = ctx.p0DataIndex;
+                const lv = startLv + p0Idx;
+                if (lv < predLv) {
+                  return 'rgba(16, 185, 129, 0.25)'; // 到達区間（グリーンハイライト）
+                }
+                return 'rgba(139, 92, 246, 0.06)'; // 未到達区間（淡いパープル）
+              }
+            }
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: isDark ? '#1e293b' : '#ffffff',
+              titleColor: isDark ? '#e2e8f0' : '#0f172a',
+              bodyColor: isDark ? '#94a3b8' : '#334155',
+              borderColor: isDark ? '#334155' : '#e2e8f0',
+              borderWidth: 1.5,
+              cornerRadius: 12,
+              padding: 12,
+              titleFont: { weight: '900', size: 13 },
+              bodyFont: { weight: '700', size: 12 },
+              callbacks: {
+                title: (items) => items[0].label,
+                label: (item) => {
+                  const idx = item.dataIndex;
+                  const lv = startLv + idx;
+                  const bonus = RECIPE_LEVEL_DATA[lv - 1][0];
+                  const expNext = RECIPE_LEVEL_DATA[lv - 1][1];
+                  const lines = [];
+
+                  if (lv === startLv) {
+                    lines.push(`📍 現在のレシピレベル (Lv.${lv})`);
+                  } else if (lv === predLv) {
+                    lines.push(`🎉 ${rlCookTimes}回調理後の到達レベル (Lv.${lv})`);
+                  }
+
+                  lines.push(`累計EXP: ${item.raw.toLocaleString()}`);
+                  lines.push(`ボーナス: +${bonus}% (${(1 + bonus / 100).toFixed(2)}x)`);
+                  if (expNext > 0) lines.push(`次レベルまで: ${expNext.toLocaleString()}`);
+                  else lines.push('🏆 MAX LEVEL');
+                  return lines;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: textColor,
+                font: { weight: '700', size: 10 },
+                maxRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: 12
+              },
+              grid: { color: gridColor }
+            },
+            y: {
+              ticks: {
+                color: textColor,
+                font: { weight: '700', size: 10 },
+                callback: (val) => {
+                  if (val >= 1000000) return (val / 1000000).toFixed(1) + 'M';
+                  if (val >= 1000) return (val / 1000).toFixed(0) + 'K';
+                  return val;
+                }
+              },
+              grid: { color: gridColor }
+            }
+          }
+        }
+      };
+
+      rlChart = new Chart(canvas, chartConfig);
+    }
+
+    function initRecipeLevelTab() {
+      // Restore RL category buttons
+      document.querySelectorAll('.rl-cat-btn').forEach(btn => btn.classList.remove('active'));
+      const catBtn = document.querySelector(`.rl-cat-btn.${rlCategory}`);
+      if (catBtn) catBtn.classList.add('active');
+
+      // Restore level slider and input
+      const levelSlider = document.getElementById('rl-level-slider');
+      if (levelSlider) levelSlider.value = rlCurrentLevel;
+      const levelInput = document.getElementById('rl-level-input');
+      if (levelInput) levelInput.value = rlCurrentLevel;
+      const levelBadge = document.getElementById('rl-level-badge');
+      if (levelBadge) levelBadge.textContent = `Lv.${rlCurrentLevel}`;
+
+      // Restore cook times slider and input
+      const timesSlider = document.getElementById('rl-times-slider');
+      if (timesSlider) timesSlider.value = rlCookTimes;
+      const customTimesInput = document.getElementById('rl-custom-times');
+      if (customTimesInput) customTimesInput.value = rlCookTimes;
+      const timesBadge = document.getElementById('rl-times-badge');
+      if (timesBadge) timesBadge.textContent = `${rlCookTimes}回`;
+
+      // Restore field bonus & extra energy
+      const fbInput = document.getElementById('rl-field-bonus-input');
+      if (fbInput) fbInput.value = rlFieldBonus;
+      const fbSlider = document.getElementById('rl-field-bonus-slider');
+      if (fbSlider) fbSlider.value = rlFieldBonus;
+
+      const extraInput = document.getElementById('rl-extra-energy-input');
+      if (extraInput) extraInput.value = rlExtraEnergy;
+
+      updateRecipeLevelCalculation();
+    }
+
+    // Service Worker (PWA) 登録
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            console.log('PWA Service Worker registered:', reg.scope);
+            reg.update();
+          })
+          .catch(err => console.log('PWA Service Worker registration failed:', err));
+      });
+    }
+  </script>
+
+    <!-- 📚 AdSense & SEO Optimization: Text Content & FAQ Guide -->
+    <section id="pokesleep-guide-section" style="margin-top: 40px; margin-bottom: 40px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px 24px; box-shadow: var(--shadow-glass);">
+      <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+        <span>📚</span> ポケスリ 料理＆備蓄・レシピレベル完全攻略ガイド
+      </h2>
+      <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.8; margin-bottom: 20px;">
+        『Pokémon Sleep（ポケモンスリープ）』において、カビゴンの評価エナジーを最も効率よく伸ばす鍵は<strong>「1日3回の料理」</strong>です。本ツールは、全77種類の公式レシピデータと経験値計算ロジックに基づき、日々の単体調理計算・週末からの3ジャンル最適備蓄シナジー・レシピレベル育成シミュレーションを完全サポートします。
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">🍳 1. 料理の基礎知識と獲得エナジー計算</h3>
+          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+            料理で得られる最終エナジーは、「レシピ基本エナジー × レシピレベルボーナス」に「追加食材エナジー」を加算し、さらに「フィールドボーナス（最大85%）」および「大成功（2倍〜4.5倍）」を掛け合わせて算出されます。高レベルなレシピほど成長倍率が高くなり、後半のエナジー伸び幅が飛躍的に増大します。
+          </p>
+        </div>
+
+        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 8px;">🍲 2. 鍋容量を拡張して最高級レシピを作る</h3>
+          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+            鍋の基本容量（21〜81個）に加えて「いいキャンプチケット（1.5倍）」やポケモンたちの「鍋容量拡張スキル（ジバコイル・ブースター・サンダース等）」を活用することで、「しんりょくアボカドグラタン（64個）」「みつあつめチョコワッフル（67個）」などの超高エナジーレシピが調理可能になります。
+          </p>
+        </div>
+
+        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 8px;">📦 3. 日曜日からの「3ジャンル最適備蓄」戦略</h3>
+          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+            月曜日の朝5時に発表される「今週のリクエスト料理（カレー・サラダ・デザート）」に即座に対応できるよう、日曜日のうちに最適な食材をバックパックに揃えておく戦略です。本シミュレーターは、食材の重なり（シナジー）を自動計算し、バッグ枠を圧迫しない最強のトリオレシピを算出します。
+          </p>
+        </div>
+
+        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-yellow); margin-bottom: 8px;">📊 4. レシピレベル（Lv.1〜70）成長の仕組み</h3>
+          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+            調理時に獲得した実効エナジー（フィールドボーナス等を含む）が、そのままそのレシピの獲得経験値（EXP）となります。レベルが上がると「レシピボーナス倍率」が増加し、次回以降の調理エナジーが自己加速的に成長していく仕組みになっています。
+          </p>
+        </div>
+      </div>
+
+      <!-- ❓ FAQ Section -->
+      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-top: 24px; margin-bottom: 14px;">
+        ❓ よくある質問 (FAQ)
+      </h3>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+          <summary style="font-weight: 800; color: var(--text-main);">Q. 大成功の倍率は平日と日曜日でどのように違いますか？</summary>
+          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+            通常時（月曜〜土曜）の大成功倍率は<strong>2.0倍</strong>（発生確率10%）、日曜日は<strong>3.0倍</strong>（発生確率30%）です。さらに1.5倍料理イベント開催中の日曜日に大成功が発生すると、<strong>4.5倍（3.0 × 1.5）</strong>という特大エナジーを獲得できます。
+          </p>
+        </details>
+
+        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+          <summary style="font-weight: 800; color: var(--text-main);">Q. フィールドボーナスはレシピの経験値（EXP）に反映されますか？</summary>
+          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+            はい、反映されます！『Pokémon Sleep』の仕様として、最終的に画面に表示される調理エナジー（フィールドボーナスや追加食材込み）がそのままレシピ経験値として加算されるため、フィールドボーナスが高い島ほどレシピレベルが早く上がります。
+          </p>
+        </details>
+
+        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+          <summary style="font-weight: 800; color: var(--text-main);">Q. 除外食材フィルター機能はどう使いますか？</summary>
+          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+            手持ちのポケモンから供給できない食材や不足している食材のアイコンをタップして赤色の「✕」印をつけることで、その食材を必要とするレシピをランキングから自動的に除外できます。手元にある食材だけで作れる最適なレシピセットを簡単に発見できます。
+          </p>
+        </details>
+      </div>
+
+      <div style="margin-top: 24px; text-align: center; font-size: 0.85rem; color: var(--text-sub);">
+        <p>※当ツールは『Pokémon Sleep（ポケモンスリープ）』の非公式ファン制作シミュレーターです。<a href="/privacy.html" style="color: var(--accent-blue); text-decoration: underline;">プライバシーポリシー・免責事項</a></p>
+      </div>
+    </section>
+
 </body>
+
 </html>
