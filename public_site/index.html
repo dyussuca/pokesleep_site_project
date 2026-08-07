@@ -1796,8 +1796,74 @@
           </div>
         </div>
       </div>
-    </div>
+    
+      <div style="margin-top: 28px; border-top: 2px dashed var(--border-color-soft); padding-top: 24px;">
+        <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--accent-blue); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+          <span>📚</span> ポケスリ 料理＆備蓄・レシピレベル完全攻略ガイド
+        </h2>
+        <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.8; margin-bottom: 20px;">
+          『Pokémon Sleep（ポケモンスリープ）』において、カビゴンの評価エナジーを最も効率よく伸ばす鍵は<strong>「1日3回の料理」</strong>です。本ツールは、全77種類の公式レシピデータと経験値計算ロジックに基づき、日々の単体調理計算・週末からの3ジャンル最適備蓄シナジー・レシピレベル育成シミュレーションを完全サポートします。
+        </p>
 
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">🍳 1. 料理の基礎知識と獲得エナジー計算</h3>
+            <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+              料理で得られる最終エナジーは、「レシピ基本エナジー × レシピレベルボーナス」に「追加食材エナジー」を加算し、さらに「フィールドボーナス（最大85%）」および「大成功（2倍〜4.5倍）」を掛け合わせて算出されます。高レベルなレシピほど成長倍率が高くなり、後半のエナジー伸び幅が飛躍的に増大します。
+            </p>
+          </div>
+
+          <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 8px;">🍲 2. 鍋容量を拡張して最高級レシピを作る</h3>
+            <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+              鍋の基本容量（21〜81個）に加えて「いいキャンプチケット（1.5倍）」やポケモンたちの「鍋容量拡張スキル（ジバコイル・ブースター・サンダース等）」を活用することで、「しんりょくアボカドグラタン（64個）」「みつあつめチョコワッフル（67個）」などの超高エナジーレシピが調理可能になります。
+            </p>
+          </div>
+
+          <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 8px;">📦 3. 日曜日からの「3ジャンル最適備蓄」戦略</h3>
+            <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+              月曜日の朝5時に発表される「今週のリクエスト料理（カレー・サラダ・デザート）」に即座に対応できるよう、日曜日のうちに最適な食材をバックパックに揃えておく戦略です。本シミュレーターは、食材の重なり（シナジー）を自動計算し、バッグ枠を圧迫しない最強のトリオレシピを算出します。
+            </p>
+          </div>
+
+          <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--accent-yellow); margin-bottom: 8px;">📊 4. レシピレベル（Lv.1〜70）成長の仕組み</h3>
+            <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
+              調理時に獲得した実効エナジー（フィールドボーナス等を含む）が、そのままそのレシピの獲得経験値（EXP）となります。レベルが上がると「レシピボーナス倍率」が増加し、次回以降の調理エナジーが自己加速的に成長していく仕組みになっています。
+            </p>
+          </div>
+        </div>
+
+        <!-- ❓ FAQ Section -->
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-top: 24px; margin-bottom: 14px;">
+          ❓ よくある質問 (FAQ)
+        </h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <details style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: var(--text-main);">Q. 大成功の倍率は平日と日曜日でどのように違いますか？</summary>
+            <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+              通常時（月曜〜土曜）の大成功倍率は<strong>2.0倍</strong>（発生確率10%）、日曜日は<strong>3.0倍</strong>（発生確率30%）です。さらに1.5倍料理イベント開催中の日曜日に大成功が発生すると、<strong>4.5倍（3.0 × 1.5）</strong>という特大エナジーを獲得できます。
+            </p>
+          </details>
+
+          <details style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: var(--text-main);">Q. フィールドボーナスはレシピの経験値（EXP）に反映されますか？</summary>
+            <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+              はい、反映されます！『Pokémon Sleep』の仕様として、最終的に画面に表示される調理エナジー（フィールドボーナスや追加食材込み）がそのままレシピ経験値として加算されるため、フィールドボーナスが高い島ほどレシピレベルが早く上がります。
+            </p>
+          </details>
+
+          <details style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
+            <summary style="font-weight: 800; color: var(--text-main);">Q. 除外食材フィルター機能はどう使いますか？</summary>
+            <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
+              手持ちのポケモンから供給できない食材や不足している食材のアイコンをタップして赤色の「✕」印をつけることで、その食材を必要とするレシピをランキングから自動的に除外できます。手元にある食材だけで作れる最適なレシピセットを簡単に発見できます。
+            </p>
+          </details>
+        </div>
+      </div>
+
+    </div>
 
     <div class="nav-tabs">
       <button class="tab-btn active" onclick="switchTab('calculator')">
@@ -4266,76 +4332,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
   </script>
 
-    <!-- 📚 AdSense & SEO Optimization: Text Content & FAQ Guide -->
-    <section id="pokesleep-guide-section" style="margin-top: 40px; margin-bottom: 40px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px 24px; box-shadow: var(--shadow-glass);">
-      <h2 style="font-size: 1.4rem; font-weight: 900; color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
-        <span>📚</span> ポケスリ 料理＆備蓄・レシピレベル完全攻略ガイド
-      </h2>
-      <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.8; margin-bottom: 20px;">
-        『Pokémon Sleep（ポケモンスリープ）』において、カビゴンの評価エナジーを最も効率よく伸ばす鍵は<strong>「1日3回の料理」</strong>です。本ツールは、全77種類の公式レシピデータと経験値計算ロジックに基づき、日々の単体調理計算・週末からの3ジャンル最適備蓄シナジー・レシピレベル育成シミュレーションを完全サポートします。
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
-        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">🍳 1. 料理の基礎知識と獲得エナジー計算</h3>
-          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
-            料理で得られる最終エナジーは、「レシピ基本エナジー × レシピレベルボーナス」に「追加食材エナジー」を加算し、さらに「フィールドボーナス（最大85%）」および「大成功（2倍〜4.5倍）」を掛け合わせて算出されます。高レベルなレシピほど成長倍率が高くなり、後半のエナジー伸び幅が飛躍的に増大します。
-          </p>
-        </div>
-
-        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 8px;">🍲 2. 鍋容量を拡張して最高級レシピを作る</h3>
-          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
-            鍋の基本容量（21〜81個）に加えて「いいキャンプチケット（1.5倍）」やポケモンたちの「鍋容量拡張スキル（ジバコイル・ブースター・サンダース等）」を活用することで、「しんりょくアボカドグラタン（64個）」「みつあつめチョコワッフル（67個）」などの超高エナジーレシピが調理可能になります。
-          </p>
-        </div>
-
-        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 8px;">📦 3. 日曜日からの「3ジャンル最適備蓄」戦略</h3>
-          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
-            月曜日の朝5時に発表される「今週のリクエスト料理（カレー・サラダ・デザート）」に即座に対応できるよう、日曜日のうちに最適な食材をバックパックに揃えておく戦略です。本シミュレーターは、食材の重なり（シナジー）を自動計算し、バッグ枠を圧迫しない最強のトリオレシピを算出します。
-          </p>
-        </div>
-
-        <div style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-yellow); margin-bottom: 8px;">📊 4. レシピレベル（Lv.1〜70）成長の仕組み</h3>
-          <p style="font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;">
-            調理時に獲得した実効エナジー（フィールドボーナス等を含む）が、そのままそのレシピの獲得経験値（EXP）となります。レベルが上がると「レシピボーナス倍率」が増加し、次回以降の調理エナジーが自己加速的に成長していく仕組みになっています。
-          </p>
-        </div>
-      </div>
-
-      <!-- ❓ FAQ Section -->
-      <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-top: 24px; margin-bottom: 14px;">
-        ❓ よくある質問 (FAQ)
-      </h3>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
-          <summary style="font-weight: 800; color: var(--text-main);">Q. 大成功の倍率は平日と日曜日でどのように違いますか？</summary>
-          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
-            通常時（月曜〜土曜）の大成功倍率は<strong>2.0倍</strong>（発生確率10%）、日曜日は<strong>3.0倍</strong>（発生確率30%）です。さらに1.5倍料理イベント開催中の日曜日に大成功が発生すると、<strong>4.5倍（3.0 × 1.5）</strong>という特大エナジーを獲得できます。
-          </p>
-        </details>
-
-        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
-          <summary style="font-weight: 800; color: var(--text-main);">Q. フィールドボーナスはレシピの経験値（EXP）に反映されますか？</summary>
-          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
-            はい、反映されます！『Pokémon Sleep』の仕様として、最終的に画面に表示される調理エナジー（フィールドボーナスや追加食材込み）がそのままレシピ経験値として加算されるため、フィールドボーナスが高い島ほどレシピレベルが早く上がります。
-          </p>
-        </details>
-
-        <details style="background: var(--bg-main); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 12px 16px; cursor: pointer;">
-          <summary style="font-weight: 800; color: var(--text-main);">Q. 除外食材フィルター機能はどう使いますか？</summary>
-          <p style="font-size: 0.9rem; color: var(--text-sub); margin-top: 8px; line-height: 1.6;">
-            手持ちのポケモンから供給できない食材や不足している食材のアイコンをタップして赤色の「✕」印をつけることで、その食材を必要とするレシピをランキングから自動的に除外できます。手元にある食材だけで作れる最適なレシピセットを簡単に発見できます。
-          </p>
-        </details>
-      </div>
-
-      <div style="margin-top: 24px; text-align: center; font-size: 0.85rem; color: var(--text-sub);">
-        <p>※当ツールは『Pokémon Sleep（ポケモンスリープ）』の非公式ファン制作シミュレーターです。<a href="/privacy.html" style="color: var(--accent-blue); text-decoration: underline;">プライバシーポリシー・免責事項</a></p>
-      </div>
-    </section>
+    
 
 </body>
 
