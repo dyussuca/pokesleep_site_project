@@ -1,1 +1,3 @@
-# Cloudflare Pages Redirects Rule - Clean Root Access
+# Redirect all legacy /pokesleep/ traffic to root domain https://dyussuca.com/
+/pokesleep/*  /  301
+/pokesleep    /  301
