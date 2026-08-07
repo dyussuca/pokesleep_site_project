@@ -11,14 +11,16 @@
   <meta name="keywords" content="ポケスリ,ポケモンスリープ,料理,計算機,鍋容量,食材備蓄,しんりょくアボカドグラタン,みつあつめチョコワッフル,ごろごろねっとうサラダ">
   <link rel="canonical" href="https://dyussuca.com/">
   <!-- PWA (アプリ化) 設定 -->
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#4f46e5">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="料理シミュ">
-  <link rel="apple-touch-icon" href="https://dyussuca.com/assets/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="https://dyussuca.com/assets/favicon.png">
-  <link rel="shortcut icon" href="https://dyussuca.com/favicon.ico">
+  <meta name="application-name" content="料理シミュ">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
   <meta property="og:type" content="website">
   <meta property="og:title" content="ポケスリ 料理計算機＆食材備蓄シミュレーター | dyussuca.com">
   <meta property="og:description" content="全77種レシピ完全対応！鍋拡張・3ジャンル最適備蓄シナジー計算ツール。">
@@ -4322,7 +4324,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     // Service Worker (PWA) 登録
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('/sw.js')
           .then(reg => {
             console.log('PWA Service Worker registered:', reg.scope);
             reg.update();
