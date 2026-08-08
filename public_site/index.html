@@ -2845,12 +2845,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (RECIPE_IMAGE_MAP[name]) return RECIPE_IMAGE_MAP[name];
       const cleanName = name ? name.replace(/\s/g, '') : '';
       if (RECIPE_IMAGE_MAP[cleanName]) return RECIPE_IMAGE_MAP[cleanName];
-      const catIconMap = {
-        curry: './assets/curry_icon_1785393806184.jpg',
-        salad: './assets/salad_icon_1785393816107.jpg',
-        dessert: './assets/dessert_icon_1785393825865.jpg'
-      };
-      return catIconMap[category] || './assets/ingredients_icon_1785393835027.jpg';
+      return `./assets/recipes/${name}.png`;
     }
 
     let RECIPES = [];
@@ -3237,7 +3232,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
         let totalIngChipsHtml = '';
         Object.keys(combo.ingTotals).forEach(k => {
-          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: `./assets/ingredients/${k}.png` };
           const cnt = combo.ingCounts[k];
           let badgeClass = '';
           if (cnt === 3) badgeClass = 'overlap-3-chip';
@@ -3332,7 +3327,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       Object.keys(recipe.items).forEach(k => {
         const qty = recipe.items[k] * currentTimes;
         totalCount += qty;
-        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: `./assets/ingredients/${k}.png` };
 
         const card = document.createElement('div');
         card.className = 'planner-ing-card';
@@ -3423,7 +3418,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       Object.keys(totals).forEach(k => {
         const qty = totals[k];
         grandTotal += qty;
-        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: './assets/ingredients_icon_1785393835027.jpg' };
+        const ing = INGREDIENTS[k] || { name: k, emoji: '🍱', img: `./assets/ingredients/${k}.png` };
         const overlapCount = usageCounts[k] || 1;
 
         let badgeClass = '';
@@ -3480,7 +3475,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         let ingChipsHtml = '';
         Object.keys(r.items).forEach(k => {
           const ing = INGREDIENTS[k] || { name: k, emoji: '🍱' };
-          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || './assets/ingredients_icon_1785393835027.jpg'}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
+          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || `./assets/ingredients/${k}.png`}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
         });
 
         const card = document.createElement('div');
@@ -3738,7 +3733,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         let ingChipsHtml = '';
         Object.keys(r.items).forEach(k => {
           const ing = INGREDIENTS[k] || { name: k, emoji: '🍱' };
-          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || './assets/ingredients_icon_1785393835027.jpg'}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
+          ingChipsHtml += `<span class="modal-ing-chip"><img src="${ing.img || `./assets/ingredients/${k}.png`}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${r.items[k]}</b></span>`;
         });
 
         const card = document.createElement('div');
