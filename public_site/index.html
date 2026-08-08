@@ -2341,15 +2341,15 @@
         </div>
       </div>
 
-      <!-- イベントボーナス倍率選択 -->
+      <!-- イベントボーナス倍率選択 (シングル・トグル化) -->
       <div class="control-group"
         style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
-        <label class="control-label">🎉 イベントボーナス倍率</label>
-        <div class="times-buttons">
-          <button type="button" class="time-btn rl-event-btn active" onclick="setRLEventBonus(1.0, this)">1.0x
-            (通常)</button>
-          <button type="button" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)">1.5x
-            (イベント1.5倍)</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <label class="control-label" style="margin: 0;">🎉 イベントボーナス (料理エナジー 1.5倍)</label>
+          <button type="button" id="rl-event-toggle-btn" class="quick-preset-btn" onclick="toggleRLEventBonus()"
+            style="padding: 6px 16px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            <span>🎪</span> イベント 1.5倍: <strong id="rl-event-status">OFF</strong>
+          </button>
         </div>
       </div>
 
@@ -3536,7 +3536,11 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           rlCookTimes: rlCookTimes,
           rlCategory: rlCategory,
           rlFieldBonus: rlFieldBonus,
-          rlExtraEnergy: rlExtraEnergy
+          rlExtraEnergy: rlExtraEnergy,
+          rlEventBonus: rlEventBonus,
+          rlCritEnabled: rlCritEnabled,
+          rlCritDay: rlCritDay,
+          rlSkillChance: rlSkillChance
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
       } catch (e) {
@@ -3617,8 +3621,58 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         if (s.rlCurrentLevel) rlCurrentLevel = s.rlCurrentLevel;
         if (s.rlCookTimes) rlCookTimes = s.rlCookTimes;
         if (s.rlCategory) rlCategory = s.rlCategory;
-        if (typeof s.rlFieldBonus === 'number') rlFieldBonus = s.rlFieldBonus;
-        if (typeof s.rlExtraEnergy === 'number') rlExtraEnergy = s.rlExtraEnergy;
+        if (typeof s.rlFieldBonus === 'number') {
+          rlFieldBonus = s.rlFieldBonus;
+          const fInput = document.getElementById('rl-field-bonus-input');
+          const fSlider = document.getElementById('rl-field-bonus-slider');
+          if (fInput) fInput.value = rlFieldBonus;
+          if (fSlider) fSlider.value = rlFieldBonus;
+        }
+        if (typeof s.rlExtraEnergy === 'number') {
+          rlExtraEnergy = s.rlExtraEnergy;
+          const eInput = document.getElementById('rl-extra-energy-input');
+          if (eInput) eInput.value = rlExtraEnergy;
+        }
+        if (typeof s.rlEventBonus === 'number') {
+          rlEventBonus = s.rlEventBonus;
+          updateRLEventBonusUI();
+        }
+        if (typeof s.rlCritEnabled === 'boolean') {
+          rlCritEnabled = s.rlCritEnabled;
+          const btn = document.getElementById('rl-crit-toggle-btn');
+          const container = document.getElementById('rl-crit-options-container');
+          if (btn && container) {
+            if (rlCritEnabled) {
+              btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
+              btn.style.borderColor = '#10b981';
+              container.style.display = 'flex';
+            } else {
+              btn.innerHTML = '補正: <b>OFF</b>';
+              btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+              container.style.display = 'none';
+            }
+          }
+        }
+        if (s.rlCritDay) {
+          rlCritDay = s.rlCritDay;
+          document.querySelectorAll('.rl-day-btn').forEach(btn => {
+            if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${rlCritDay}'`)) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+        if (typeof s.rlSkillChance === 'number') {
+          rlSkillChance = s.rlSkillChance;
+          const inputElem = document.getElementById('rl-skill-chance-input');
+          if (inputElem) inputElem.value = rlSkillChance;
+          document.querySelectorAll('.rl-skill-btn').forEach(b => {
+            const btnVal = parseInt(b.textContent.replace('+', '').replace('%', '').replace(' (MAX)', '')) || 0;
+            if (btnVal === rlSkillChance) b.classList.add('active');
+            else b.classList.remove('active');
+          });
+        }
 
       } catch (e) {
         console.warn('Could not load settings from localStorage:', e);
@@ -3914,11 +3968,34 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecipeLevelCalculation();
     }
 
-    function setRLEventBonus(val, btnElem) {
-      rlEventBonus = parseFloat(val) || 1.0;
-      document.querySelectorAll('.rl-event-btn').forEach(btn => btn.classList.remove('active'));
-      if (btnElem) btnElem.classList.add('active');
+    function toggleRLEventBonus() {
+      if (rlEventBonus === 1.5) {
+        rlEventBonus = 1.0;
+      } else {
+        rlEventBonus = 1.5;
+      }
+      updateRLEventBonusUI();
       updateRecipeLevelCalculation();
+    }
+
+    function updateRLEventBonusUI() {
+      const btn = document.getElementById('rl-event-toggle-btn');
+      const statusLabel = document.getElementById('rl-event-status');
+      if (btn && statusLabel) {
+        if (rlEventBonus === 1.5) {
+          btn.classList.add('active');
+          btn.style.background = 'linear-gradient(135deg, #d97706, #ea580c)';
+          btn.style.color = '#ffffff';
+          btn.style.borderColor = '#d97706';
+          statusLabel.textContent = 'ON (1.5倍)';
+        } else {
+          btn.classList.remove('active');
+          btn.style.background = 'var(--bg-card)';
+          btn.style.color = 'var(--text-sub)';
+          btn.style.borderColor = 'var(--border-color)';
+          statusLabel.textContent = 'OFF';
+        }
+      }
     }
 
     function toggleRLCritCalc() {
@@ -4081,6 +4158,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
 
     function updateRecipeLevelCalculation() {
+      saveAllSettingsToStorage();
       const recipe = RECIPES.find(r => r.id === rlRecipeId);
       if (!recipe) return;
 
