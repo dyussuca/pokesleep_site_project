@@ -2341,14 +2341,19 @@
         </div>
       </div>
 
-      <!-- イベントボーナス倍率選択 (シングル・トグル化) -->
+      <!-- イベントボーナス倍率選択 (1.25倍 & 1.5倍 2ボタン選択) -->
       <div class="control-group"
         style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-          <label class="control-label" style="margin: 0;">🎉 イベントボーナス (料理エナジー 1.5倍)</label>
-          <button type="button" id="rl-event-toggle-btn" class="quick-preset-btn" onclick="toggleRLEventBonus()"
-            style="padding: 6px 16px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
-            <span>🎪</span> イベント 1.5倍: <strong id="rl-event-status">OFF</strong>
+        <label class="control-label">🎉 イベントボーナス (料理エナジー倍率)</label>
+        <div class="times-buttons" style="display: flex; gap: 10px; margin-top: 6px;">
+          <button type="button" id="rl-event-125-btn" class="time-btn rl-event-btn"
+            onclick="setRLEventBonus(1.25, this)"
+            style="flex: 1; padding: 10px 14px; font-size: 0.98rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            1.25倍
+          </button>
+          <button type="button" id="rl-event-150-btn" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)"
+            style="flex: 1; padding: 10px 14px; font-size: 0.98rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            1.5倍
           </button>
         </div>
       </div>
@@ -3968,32 +3973,46 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecipeLevelCalculation();
     }
 
-    function toggleRLEventBonus() {
-      if (rlEventBonus === 1.5) {
+    function setRLEventBonus(val, btnElem) {
+      const targetVal = parseFloat(val) || 1.0;
+      if (rlEventBonus === targetVal) {
         rlEventBonus = 1.0;
       } else {
-        rlEventBonus = 1.5;
+        rlEventBonus = targetVal;
       }
       updateRLEventBonusUI();
       updateRecipeLevelCalculation();
     }
 
     function updateRLEventBonusUI() {
-      const btn = document.getElementById('rl-event-toggle-btn');
-      const statusLabel = document.getElementById('rl-event-status');
-      if (btn && statusLabel) {
-        if (rlEventBonus === 1.5) {
-          btn.classList.add('active');
-          btn.style.background = 'linear-gradient(135deg, #d97706, #ea580c)';
-          btn.style.color = '#ffffff';
-          btn.style.borderColor = '#d97706';
-          statusLabel.textContent = 'ON (1.5倍)';
+      const btn125 = document.getElementById('rl-event-125-btn');
+      const btn150 = document.getElementById('rl-event-150-btn');
+
+      if (btn125) {
+        if (rlEventBonus === 1.25) {
+          btn125.classList.add('active');
+          btn125.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+          btn125.style.color = '#ffffff';
+          btn125.style.borderColor = '#2563eb';
         } else {
-          btn.classList.remove('active');
-          btn.style.background = 'var(--bg-card)';
-          btn.style.color = 'var(--text-sub)';
-          btn.style.borderColor = 'var(--border-color)';
-          statusLabel.textContent = 'OFF';
+          btn125.classList.remove('active');
+          btn125.style.background = '';
+          btn125.style.color = '';
+          btn125.style.borderColor = '';
+        }
+      }
+
+      if (btn150) {
+        if (rlEventBonus === 1.5) {
+          btn150.classList.add('active');
+          btn150.style.background = 'linear-gradient(135deg, #d97706, #ea580c)';
+          btn150.style.color = '#ffffff';
+          btn150.style.borderColor = '#ea580c';
+        } else {
+          btn150.classList.remove('active');
+          btn150.style.background = '';
+          btn150.style.color = '';
+          btn150.style.borderColor = '';
         }
       }
     }
