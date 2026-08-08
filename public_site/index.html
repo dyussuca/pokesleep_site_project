@@ -2328,151 +2328,6 @@
       </div>
     </div>
 
-    <!-- カード②: 平日 ＆ 日曜日 分割調理シミュレーション設定 -->
-    <div class="card" style="background: var(--hero-bg); border: 1.5px solid var(--hero-border);">
-      <div class="card-title" style="color: var(--accent-yellow);">
-        <span>🗓️</span> 平日 ＆ 日曜日 分割調理シミュレーション
-      </div>
-
-      <!-- 📅 平日設定ブロック -->
-      <div
-        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
-        <div style="font-size: 1rem; font-weight: 900; color: var(--accent-blue); margin-bottom: 12px;">
-          <span id="rl-weekday-header-title">📅 平日調理 (月〜土 / 基礎大成功10%・大成功2.0倍)</span>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label">平日 調理回数 (0〜100回)</label>
-          <div class="rl-level-input-group">
-            <input type="range" class="rl-slider" id="rl-weekday-times-slider" min="0" max="100" value="18"
-              oninput="onRLWeekdayTimesChange(this.value)">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <input type="number" class="number-input" id="rl-weekday-times-input" min="0" max="100" value="18"
-                oninput="onRLWeekdayTimesInputChange(this.value)"
-                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
-              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group" style="margin-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 平日 追加食材エナジー</label>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <input type="number" id="rl-weekday-extra-energy" class="number-input" value="0" min="0" max="500000"
-                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
-                oninput="updateRecipeLevelCalculation()">
-              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group"
-          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 平日
-              大成功期待値補正</label>
-            <button type="button" id="rl-weekday-crit-toggle" class="quick-preset-btn" onclick="toggleRLWeekdayCrit()"
-              style="padding: 4px 12px; font-size: 0.82rem;">
-              補正: <b>OFF</b>
-            </button>
-          </div>
-
-          <div id="rl-weekday-crit-container" style="display: none; margin-top: 10px;">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-              <input type="number" id="rl-weekday-skill-input" class="number-input" value="0" min="0" max="90" step="5"
-                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
-                oninput="updateRecipeLevelCalculation()">
-              <span style="font-size: 0.95rem; font-weight: 900;">%</span>
-            </div>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(0)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(10)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(20)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(30)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(50)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(90)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+90% (MAX)</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 🔥 日曜日設定ブロック -->
-      <div
-        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md);">
-        <div style="font-size: 1rem; font-weight: 900; color: #ea580c; margin-bottom: 12px;">
-          <span id="rl-sunday-header-title">🔥 日曜日調理 (日曜祝日 / 基礎大成功30%・大成功3.0倍)</span>
-        </div>
-
-        <div class="control-group">
-          <label class="control-label">日曜日 調理回数 (0〜50回)</label>
-          <div class="rl-level-input-group">
-            <input type="range" class="rl-slider" id="rl-sunday-times-slider" min="0" max="50" value="3"
-              oninput="onRLSundayTimesChange(this.value)">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <input type="number" class="number-input" id="rl-sunday-times-input" min="0" max="50" value="3"
-                oninput="onRLSundayTimesInputChange(this.value)"
-                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
-              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group" style="margin-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 日曜日 追加食材エナジー</label>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <input type="number" id="rl-sunday-extra-energy" class="number-input" value="0" min="0" max="500000"
-                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
-                oninput="updateRecipeLevelCalculation()">
-              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group"
-          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 日曜日
-              大成功期待値補正</label>
-            <button type="button" id="rl-sunday-crit-toggle" class="quick-preset-btn" onclick="toggleRLSundayCrit()"
-              style="padding: 4px 12px; font-size: 0.82rem;">
-              補正: <b>OFF</b>
-            </button>
-          </div>
-
-          <div id="rl-sunday-crit-container" style="display: none; margin-top: 10px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <input type="number" id="rl-sunday-skill-input" class="number-input" value="0" min="0" max="70" step="5"
-                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
-                oninput="updateRecipeLevelCalculation()">
-              <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow);">% ＋ 20%</span>
-            </div>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(0)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(10)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(20)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(30)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(50)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
-              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(70)"
-                style="padding: 3px 8px; font-size: 0.78rem;">+70% (MAX)</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- 選択中の料理ヒーロー + 統計情報 + 予測結果 -->
     <div class="card">
       <div class="recipe-hero"
@@ -2520,8 +2375,156 @@
       </div>
     </div>
 
+    <!-- カード②: 平日 ＆ 日曜日 分割調理シミュレーション設定 -->
+    <div class="card" style="background: var(--hero-bg); border: 1.5px solid var(--hero-border);">
+      <div class="card-title" style="color: var(--accent-yellow);">
+        <span>🗓️</span>調理シミュレーション
+      </div>
+
+      <!-- 📅 平日設定ブロック -->
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
+        <div style="font-size: 1rem; font-weight: 900; color: var(--accent-blue); margin-bottom: 12px;">
+          <span id="rl-weekday-header-title">📅 平日調理 (月〜土 / 大成功2.0倍)</span>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">平日 調理回数 (0〜100回)</label>
+          <div class="rl-level-input-group">
+            <input type="range" class="rl-slider" id="rl-weekday-times-slider" min="0" max="100" value="18"
+              oninput="onRLWeekdayTimesChange(this.value)">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="number-input" id="rl-weekday-times-input" min="0" max="100" value="18"
+                oninput="onRLWeekdayTimesInputChange(this.value)"
+                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group" style="margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 平日 追加食材エナジー</label>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" id="rl-weekday-extra-energy" class="number-input" value="0" min="0" max="500000"
+                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group"
+          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 平日
+              大成功期待値補正</label>
+            <button type="button" id="rl-weekday-crit-toggle" class="quick-preset-btn" onclick="toggleRLWeekdayCrit()"
+              style="padding: 4px 12px; font-size: 0.82rem;">
+              補正: <b>OFF</b>
+            </button>
+          </div>
+
+          <div id="rl-weekday-crit-container" style="display: none; margin-top: 10px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <input type="number" id="rl-weekday-skill-input" class="number-input" value="0" min="0" max="90" step="5"
+                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow);">% ＋ 10%</span>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(0)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(10)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(20)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(30)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(50)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(90)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+90% (MAX)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🔥 日曜日設定ブロック -->
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md);">
+        <div style="font-size: 1rem; font-weight: 900; color: #ea580c; margin-bottom: 12px;">
+          <span id="rl-sunday-header-title">🔥 日曜日調理 (日曜祝日 / 大成功3.0倍)</span>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">日曜日 調理回数 (0〜50回)</label>
+          <div class="rl-level-input-group">
+            <input type="range" class="rl-slider" id="rl-sunday-times-slider" min="0" max="50" value="3"
+              oninput="onRLSundayTimesChange(this.value)">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="number-input" id="rl-sunday-times-input" min="0" max="50" value="3"
+                oninput="onRLSundayTimesInputChange(this.value)"
+                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group" style="margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 日曜日 追加食材エナジー</label>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" id="rl-sunday-extra-energy" class="number-input" value="0" min="0" max="500000"
+                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group"
+          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 日曜日
+              大成功期待値補正</label>
+            <button type="button" id="rl-sunday-crit-toggle" class="quick-preset-btn" onclick="toggleRLSundayCrit()"
+              style="padding: 4px 12px; font-size: 0.82rem;">
+              補正: <b>OFF</b>
+            </button>
+          </div>
+
+          <div id="rl-sunday-crit-container" style="display: none; margin-top: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <input type="number" id="rl-sunday-skill-input" class="number-input" value="0" min="0" max="70" step="5"
+                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow);">% ＋ 20% ＋ 10%</span>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(0)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(10)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(20)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(30)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(50)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(70)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+70% (MAX)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- 🍳 【独立カード】調理後の予想到達レベル ＆ レベル育成予測 -->
-    <div class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.08)); border: 2px solid rgba(16, 185, 129, 0.3);">
+    <div class="card"
+      style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(5, 150, 105, 0.08)); border: 2px solid rgba(16, 185, 129, 0.3);">
       <div class="card-title" style="color: #10b981; display: flex; align-items: center; gap: 8px;">
         <span>🍳</span> 調理後の予想到達レベル
       </div>
@@ -4186,8 +4189,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const wkStr = (wkCritMult % 1 === 0) ? wkCritMult.toFixed(0) : wkCritMult.toFixed(1);
       const sunStr = (sunCritMult % 1 === 0) ? sunCritMult.toFixed(0) : ((sunCritMult * 100) % 10 === 0 ? sunCritMult.toFixed(1) : sunCritMult.toFixed(2));
 
-      if (weekdayHeader) weekdayHeader.textContent = `📅 平日調理 (月〜土 / 基礎大成功10%・大成功${wkStr}倍)`;
-      if (sundayHeader) sundayHeader.textContent = `🔥 日曜日調理 (日曜祝日 / 基礎大成功30%・大成功${sunStr}倍)`;
+      if (weekdayHeader) weekdayHeader.textContent = `📅 平日調理 (月〜土 / 大成功${wkStr}倍)`;
+      if (sundayHeader) sundayHeader.textContent = `🔥 日曜日調理 (日曜祝日 / 大成功${sunStr}倍)`;
     }
 
     function onRLWeekdayTimesChange(val) {
@@ -4435,14 +4438,19 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const levelGain = prediction.finalLevel - rlCurrentLevel;
       const predBonusPct = RECIPE_LEVEL_DATA[prediction.finalLevel - 1][0];
 
+      const recipeImgUrl = getRecipeImg(recipe.name, recipe.cat);
+
       document.getElementById('rl-prediction-result').innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-          <div>
-            <div style="font-size:0.95rem; font-weight:800; color:var(--text-sub); margin-bottom:4px;">
-              🍳 <b style="color:var(--text-main); font-size:1.15rem;">平日${rlWeekdayTimes}回 ＋ 日曜${rlSundayTimes}回（計${prediction.totalCooks}回）</b> 調理後の予想到達レベル
+          <div style="display:flex; align-items:center; gap:14px; flex:1; min-width:240px;">
+            <div>
+              <div style="font-size:0.92rem; font-weight:800; color:var(--text-sub); margin-bottom:2px;">
+                🍳 <b style="color:var(--text-main); font-size:1.08rem;">平日${rlWeekdayTimes}回 ＋ 日曜${rlSundayTimes}回（計${prediction.totalCooks}回）</b> 調理後の到達予測
             </div>
-            <div style="font-size:2.2rem; font-weight:900; color:var(--accent-green); line-height:1.2;">
-              Lv.${prediction.finalLevel} <span style="font-size:1.35rem; font-weight:800; color:${levelGain > 0 ? 'var(--accent-green)' : 'var(--text-sub)'}; margin-left:6px;">(+${levelGain} レベル)</span>
+          <div style="display:flex; align-items:center; gap:8px; font-size:2.2rem; font-weight:900; color:var(--accent-green); line-height:1.2;">
+            <img src="${recipeImgUrl}" alt="${recipe.name}" style="width:80px; height:80px; object-fit:contain; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15)); flex-shrink:0;">
+            Lv.${prediction.finalLevel} <span style="font-size:1.3rem; font-weight:900; color:${levelGain > 0 ? 'var(--accent-green)' : 'var(--text-sub)'}; margin-left:6px;">(+${levelGain} レベル)</span>
+          </div>
             </div>
           </div>
           <div style="background:var(--bg-card); border:2px solid var(--accent-purple); padding:10px 20px; border-radius:14px; text-align:center; min-width:160px; box-shadow:0 4px 12px rgba(124,58,237,0.15);">
