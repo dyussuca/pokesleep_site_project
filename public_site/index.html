@@ -2434,7 +2434,7 @@
       </div>
     </div>
 
-    <!-- 選択中の料理ヒーロー + 予測結果 -->
+    <!-- 選択中の料理ヒーロー + 統計情報 + 予測結果 -->
     <div class="card">
       <div class="recipe-hero"
         style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
@@ -2454,43 +2454,43 @@
         </div>
       </div>
 
+      <!-- 統計情報 4カード (ヒーローの直下・到達レベル予測の上に配置) -->
+      <div class="rl-stats-grid" style="margin-top: 16px; margin-bottom: 16px;">
+        <div class="rl-stat-card">
+          <div class="rl-stat-label">⭐ 現在のボーナス倍率</div>
+          <div class="rl-stat-value" id="rl-stat-bonus">1.00x</div>
+          <div class="rl-stat-sub" id="rl-stat-bonus-pct">+0%</div>
+        </div>
+        <div class="rl-stat-card">
+          <div class="rl-stat-label">⏭️ 次レベルまで</div>
+          <div class="rl-stat-value" id="rl-stat-next-exp">1,080</div>
+          <div class="rl-stat-sub" id="rl-stat-next-cooks">約 ? 回調理</div>
+        </div>
+        <div class="rl-stat-card">
+          <div class="rl-stat-label">🏆 Lv.70 までの残り</div>
+          <div class="rl-stat-value" id="rl-stat-max-exp">13,355,125</div>
+          <div class="rl-stat-sub" id="rl-stat-max-cooks">約 ? 回調理</div>
+        </div>
+        <div class="rl-stat-card">
+          <div class="rl-stat-label">📊 全体進捗</div>
+          <div class="rl-stat-value" id="rl-stat-progress">0%</div>
+          <div class="rl-progress-bar-container">
+            <div class="rl-progress-bar" id="rl-progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- 予測結果 -->
-      <div id="rl-prediction-result" class="rl-prediction-arrow" style="margin-top: 16px;">
+      <div id="rl-prediction-result" class="rl-prediction-arrow">
         🍳 50回調理後 → <b>Lv.1</b>（+0 レベル）
       </div>
     </div>
 
-    <!-- グラフ -->
+    <!-- グラフ (調理後の到達予想レベルの次のブロック) -->
     <div class="card">
       <div class="card-title" style="color: var(--accent-purple);"><span>📈</span> レシピレベル進行グラフ</div>
       <div class="rl-chart-container">
         <canvas id="rl-chart-canvas"></canvas>
-      </div>
-    </div>
-
-    <!-- 統計情報 -->
-    <div class="rl-stats-grid">
-      <div class="rl-stat-card">
-        <div class="rl-stat-label">⭐ 現在のボーナス倍率</div>
-        <div class="rl-stat-value" id="rl-stat-bonus">1.00x</div>
-        <div class="rl-stat-sub" id="rl-stat-bonus-pct">+0%</div>
-      </div>
-      <div class="rl-stat-card">
-        <div class="rl-stat-label">⏭️ 次レベルまで</div>
-        <div class="rl-stat-value" id="rl-stat-next-exp">1,080</div>
-        <div class="rl-stat-sub" id="rl-stat-next-cooks">約 ? 回調理</div>
-      </div>
-      <div class="rl-stat-card">
-        <div class="rl-stat-label">🏆 Lv.70 までの残り</div>
-        <div class="rl-stat-value" id="rl-stat-max-exp">13,355,125</div>
-        <div class="rl-stat-sub" id="rl-stat-max-cooks">約 ? 回調理</div>
-      </div>
-      <div class="rl-stat-card">
-        <div class="rl-stat-label">📊 全体進捗</div>
-        <div class="rl-stat-value" id="rl-stat-progress">0%</div>
-        <div class="rl-progress-bar-container">
-          <div class="rl-progress-bar" id="rl-progress-bar" style="width: 0%;"></div>
-        </div>
       </div>
     </div>
 
@@ -4223,16 +4223,28 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         document.getElementById('rl-stat-next-cooks').textContent = `約 ${cooksTillNext.toLocaleString()} 回調理`;
       }
 
-      // Stats: max level
+      // Stats: max level (全レベル進行シミュレーションによる正確な到達回数)
       const remainingExp = MAX_CUMULATIVE_EXP - cumulativeExp;
       if (rlCurrentLevel >= 70) {
         document.getElementById('rl-stat-max-exp').textContent = '到達済み!';
         document.getElementById('rl-stat-max-cooks').textContent = '🎉 おめでとうございます！';
       } else {
         document.getElementById('rl-stat-max-exp').textContent = remainingExp.toLocaleString();
-        const avgExpPerCook = getExpPerCook(recipe.energy, Math.min(70, Math.floor((rlCurrentLevel + 70) / 2)));
-        const estimatedCooks = Math.ceil(remainingExp / avgExpPerCook);
-        document.getElementById('rl-stat-max-cooks').textContent = `推定 ${estimatedCooks.toLocaleString()} 回調理`;
+
+        let simLevel = rlCurrentLevel;
+        let simCumulativeExp = cumulativeExp;
+        let cooksToMax = 0;
+
+        while (simLevel < 70 && cooksToMax < 100000) {
+          cooksToMax++;
+          const expGain = getExpPerCook(recipe.energy, simLevel);
+          simCumulativeExp += expGain;
+          while (simLevel < 70 && simCumulativeExp >= RECIPE_LEVEL_DATA[simLevel][2]) {
+            simLevel++;
+          }
+        }
+
+        document.getElementById('rl-stat-max-cooks').textContent = `推定 ${cooksToMax.toLocaleString()} 回調理`;
       }
 
       // Stats: progress
