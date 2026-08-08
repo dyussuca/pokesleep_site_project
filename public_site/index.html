@@ -3623,6 +3623,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     function saveAllSettingsToStorage() {
       try {
         const settings = {
+          activeTabId: activeTabId,
           potBaseCap: document.getElementById('opt-pot-select') ? document.getElementById('opt-pot-select').value : '21',
           isCampTicketOn: isCampTicketOn,
           expandCap: document.getElementById('opt-expand-input') ? document.getElementById('opt-expand-input').value : '0',
@@ -3637,14 +3638,17 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           isGuideVisible: isGuideVisible,
           rlRecipeId: rlRecipeId,
           rlCurrentLevel: rlCurrentLevel,
-          rlCookTimes: rlCookTimes,
           rlCategory: rlCategory,
           rlFieldBonus: rlFieldBonus,
-          rlExtraEnergy: rlExtraEnergy,
           rlEventBonus: rlEventBonus,
-          rlCritEnabled: rlCritEnabled,
-          rlCritDay: rlCritDay,
-          rlSkillChance: rlSkillChance
+          rlWeekdayTimes: rlWeekdayTimes,
+          rlWeekdayExtraEnergy: document.getElementById('rl-weekday-extra-energy') ? parseInt(document.getElementById('rl-weekday-extra-energy').value) || 0 : rlWeekdayExtraEnergy,
+          rlWeekdayCritEnabled: rlWeekdayCritEnabled,
+          rlWeekdaySkillChance: document.getElementById('rl-weekday-skill-input') ? parseInt(document.getElementById('rl-weekday-skill-input').value) || 0 : rlWeekdaySkillChance,
+          rlSundayTimes: rlSundayTimes,
+          rlSundayExtraEnergy: document.getElementById('rl-sunday-extra-energy') ? parseInt(document.getElementById('rl-sunday-extra-energy').value) || 0 : rlSundayExtraEnergy,
+          rlSundayCritEnabled: rlSundayCritEnabled,
+          rlSundaySkillChance: document.getElementById('rl-sunday-skill-input') ? parseInt(document.getElementById('rl-sunday-skill-input').value) || 0 : rlSundaySkillChance
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
       } catch (e) {
@@ -3674,7 +3678,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         }
 
         if (s.potBaseCap && document.getElementById('opt-pot-select')) {
-
           document.getElementById('opt-pot-select').value = s.potBaseCap;
         }
         if (typeof s.isCampTicketOn === 'boolean') {
@@ -3723,7 +3726,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
         if (s.rlRecipeId) rlRecipeId = s.rlRecipeId;
         if (s.rlCurrentLevel) rlCurrentLevel = s.rlCurrentLevel;
-        if (s.rlCookTimes) rlCookTimes = s.rlCookTimes;
         if (s.rlCategory) rlCategory = s.rlCategory;
         if (typeof s.rlFieldBonus === 'number') {
           rlFieldBonus = s.rlFieldBonus;
@@ -3732,24 +3734,32 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           if (fInput) fInput.value = rlFieldBonus;
           if (fSlider) fSlider.value = rlFieldBonus;
         }
-        if (typeof s.rlExtraEnergy === 'number') {
-          rlExtraEnergy = s.rlExtraEnergy;
-          const eInput = document.getElementById('rl-extra-energy-input');
-          if (eInput) eInput.value = rlExtraEnergy;
-        }
         if (typeof s.rlEventBonus === 'number') {
           rlEventBonus = s.rlEventBonus;
           updateRLEventBonusUI();
         }
-        if (typeof s.rlCritEnabled === 'boolean') {
-          rlCritEnabled = s.rlCritEnabled;
-          const btn = document.getElementById('rl-crit-toggle-btn');
-          const container = document.getElementById('rl-crit-options-container');
+
+        // Restore Weekday Simulation Settings
+        if (typeof s.rlWeekdayTimes === 'number') {
+          rlWeekdayTimes = s.rlWeekdayTimes;
+          const wInput = document.getElementById('rl-weekday-times-input');
+          const wSlider = document.getElementById('rl-weekday-times-slider');
+          if (wInput) wInput.value = rlWeekdayTimes;
+          if (wSlider) wSlider.value = rlWeekdayTimes;
+        }
+        if (typeof s.rlWeekdayExtraEnergy === 'number') {
+          const wEx = document.getElementById('rl-weekday-extra-energy');
+          if (wEx) wEx.value = s.rlWeekdayExtraEnergy;
+        }
+        if (typeof s.rlWeekdayCritEnabled === 'boolean') {
+          rlWeekdayCritEnabled = s.rlWeekdayCritEnabled;
+          const btn = document.getElementById('rl-weekday-crit-toggle');
+          const container = document.getElementById('rl-weekday-crit-container');
           if (btn && container) {
-            if (rlCritEnabled) {
+            if (rlWeekdayCritEnabled) {
               btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
               btn.style.borderColor = '#10b981';
-              container.style.display = 'flex';
+              container.style.display = 'block';
             } else {
               btn.innerHTML = '補正: <b>OFF</b>';
               btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
@@ -3757,25 +3767,50 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
             }
           }
         }
-        if (s.rlCritDay) {
-          rlCritDay = s.rlCritDay;
-          document.querySelectorAll('.rl-day-btn').forEach(btn => {
-            if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${rlCritDay}'`)) {
-              btn.classList.add('active');
-            } else {
-              btn.classList.remove('active');
-            }
-          });
+        if (typeof s.rlWeekdaySkillChance === 'number') {
+          rlWeekdaySkillChance = s.rlWeekdaySkillChance;
+          const input = document.getElementById('rl-weekday-skill-input');
+          if (input) input.value = rlWeekdaySkillChance;
         }
-        if (typeof s.rlSkillChance === 'number') {
-          rlSkillChance = s.rlSkillChance;
-          const inputElem = document.getElementById('rl-skill-chance-input');
-          if (inputElem) inputElem.value = rlSkillChance;
-          document.querySelectorAll('.rl-skill-btn').forEach(b => {
-            const btnVal = parseInt(b.textContent.replace('+', '').replace('%', '').replace(' (MAX)', '')) || 0;
-            if (btnVal === rlSkillChance) b.classList.add('active');
-            else b.classList.remove('active');
-          });
+
+        // Restore Sunday Simulation Settings
+        if (typeof s.rlSundayTimes === 'number') {
+          rlSundayTimes = s.rlSundayTimes;
+          const sInput = document.getElementById('rl-sunday-times-input');
+          const sSlider = document.getElementById('rl-sunday-times-slider');
+          if (sInput) sInput.value = rlSundayTimes;
+          if (sSlider) sSlider.value = rlSundayTimes;
+        }
+        if (typeof s.rlSundayExtraEnergy === 'number') {
+          const sEx = document.getElementById('rl-sunday-extra-energy');
+          if (sEx) sEx.value = s.rlSundayExtraEnergy;
+        }
+        if (typeof s.rlSundayCritEnabled === 'boolean') {
+          rlSundayCritEnabled = s.rlSundayCritEnabled;
+          const btn = document.getElementById('rl-sunday-crit-toggle');
+          const container = document.getElementById('rl-sunday-crit-container');
+          if (btn && container) {
+            if (rlSundayCritEnabled) {
+              btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
+              btn.style.borderColor = '#10b981';
+              container.style.display = 'block';
+            } else {
+              btn.innerHTML = '補正: <b>OFF</b>';
+              btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+              container.style.display = 'none';
+            }
+          }
+        }
+        if (typeof s.rlSundaySkillChance === 'number') {
+          rlSundaySkillChance = s.rlSundaySkillChance;
+          const input = document.getElementById('rl-sunday-skill-input');
+          if (input) input.value = rlSundaySkillChance;
+        }
+
+        // Restore Active Tab
+        if (s.activeTabId) {
+          activeTabId = s.activeTabId;
+          switchTab(activeTabId, true);
         }
 
       } catch (e) {
@@ -3808,12 +3843,18 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       loadRecipesCSV();
     });
 
-    function switchTab(tabId) {
+    let activeTabId = 'single';
+
+    function switchTab(tabId, skipSave = false) {
+      activeTabId = tabId;
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-      document.getElementById(`tab-${tabId}`).classList.add('active');
-      event.currentTarget.classList.add('active');
+      const targetContent = document.getElementById(`tab-${tabId}`);
+      if (targetContent) targetContent.classList.add('active');
+
+      const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${tabId}'`));
+      if (targetBtn) targetBtn.classList.add('active');
 
       if (tabId === 'recipe-level') {
         setTimeout(() => {
@@ -3824,6 +3865,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           }
         }, 50);
       }
+      if (!skipSave) saveAllSettingsToStorage();
     }
 
     function setCategory(cat) {
