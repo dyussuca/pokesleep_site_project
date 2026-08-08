@@ -4007,7 +4007,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     // ===== RECIPE LEVEL TAB =====
     let rlRecipeId = 'c1';
     let rlCurrentLevel = 1;
-    let rlCookTimes = 50;
     let rlCategory = 'curry';
     let rlChart = null;
 
@@ -4697,22 +4696,11 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const levelBadge = document.getElementById('rl-level-badge');
       if (levelBadge) levelBadge.textContent = `Lv.${rlCurrentLevel}`;
 
-      // Restore cook times slider and input
-      const timesSlider = document.getElementById('rl-times-slider');
-      if (timesSlider) timesSlider.value = rlCookTimes;
-      const customTimesInput = document.getElementById('rl-custom-times');
-      if (customTimesInput) customTimesInput.value = rlCookTimes;
-      const timesBadge = document.getElementById('rl-times-badge');
-      if (timesBadge) timesBadge.textContent = `${rlCookTimes}回`;
-
-      // Restore field bonus & extra energy
+      // Restore field bonus
       const fbInput = document.getElementById('rl-field-bonus-input');
       if (fbInput) fbInput.value = rlFieldBonus;
       const fbSlider = document.getElementById('rl-field-bonus-slider');
       if (fbSlider) fbSlider.value = rlFieldBonus;
-
-      const extraInput = document.getElementById('rl-extra-energy-input');
-      if (extraInput) extraInput.value = rlExtraEnergy;
 
       updateRecipeLevelCalculation();
     }
