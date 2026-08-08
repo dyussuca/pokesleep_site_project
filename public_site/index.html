@@ -2486,6 +2486,59 @@
       </div>
     </div>
 
+    <!-- 新機能: 期間累積獲得エナジー ＆ 料理パワー成長比較カード -->
+    <div class="card"
+      style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), rgba(245, 158, 11, 0.08)); border: 2px solid rgba(245, 158, 11, 0.3);">
+      <div class="card-title" style="color: #ea580c; display: flex; align-items: center; gap: 8px;">
+        <span>🔥</span> 料理エナジー獲得予測
+      </div>
+
+      <!-- 総エナジー (大強調) -->
+      <div
+        style="background: var(--bg-card); border: 2px solid #f97316; border-radius: var(--radius-md); padding: 18px 20px; text-align: center; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); margin-bottom: 16px;">
+        <div
+          style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub); display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <span>🔥</span> <b id="rl-summary-times-count" style="color: var(--text-main);">50回</b>で得られる総エナジー
+        </div>
+        <div id="rl-total-period-energy"
+          style="font-size: 2.6rem; font-weight: 900; color: #ea580c; line-height: 1.25; margin: 8px 0;">
+          0 <span style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);">エナジー</span>
+        </div>
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub);">
+          ※補正をすべて含む獲得予測値
+        </div>
+      </div>
+
+      <!-- 1回あたりエナジーの成長比較 (ビフォーアフター) -->
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 16px;">
+        <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-sub); margin-bottom: 10px;">
+          🚀 １回あたり料理パワーの変化:
+        </div>
+        <div
+          style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap; gap: 12px; text-align: center;">
+          <div
+            style="flex: 1; min-width: 130px; background: var(--hero-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color-soft);">
+            <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-sub);" id="rl-compare-start-label">調理開始時
+              (Lv.1)</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: var(--text-main); margin-top: 4px;"
+              id="rl-compare-start-val">0</div>
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-sub);">エナジー / 回</div>
+          </div>
+
+          <div style="font-size: 1.5rem; font-weight: 900; color: #f97316;">➔</div>
+
+          <div
+            style="flex: 1; min-width: 130px; background: rgba(16, 185, 129, 0.08); padding: 10px; border-radius: 10px; border: 1.5px solid #10b981;">
+            <div style="font-size: 0.8rem; font-weight: 800; color: #047857;" id="rl-compare-end-label">到達時 (Lv.1)</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #10b981; margin-top: 4px;" id="rl-compare-end-val">
+              0</div>
+            <div style="font-size: 0.75rem; font-weight: 800; color: #047857;" id="rl-compare-diff-val">+0 (+0%)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- グラフ (調理後の到達予想レベルの次のブロック) -->
     <div class="card">
       <div class="card-title" style="color: var(--accent-purple);"><span>📈</span> レシピレベル進行グラフ</div>
@@ -4163,17 +4216,20 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     function simulateCooking(baseEnergy, startLevel, numCooks) {
       let currentLv = startLevel;
       let currentCumulativeExp = RECIPE_LEVEL_DATA[currentLv - 1][2];
+      let totalPeriodEnergy = 0;
 
       for (let i = 0; i < numCooks; i++) {
-        if (currentLv >= 70) break;
         const expGain = getExpPerCook(baseEnergy, currentLv);
-        currentCumulativeExp += expGain;
+        totalPeriodEnergy += expGain;
 
-        while (currentLv < 70 && currentCumulativeExp >= RECIPE_LEVEL_DATA[currentLv][2]) {
-          currentLv++;
+        if (currentLv < 70) {
+          currentCumulativeExp += expGain;
+          while (currentLv < 70 && currentCumulativeExp >= RECIPE_LEVEL_DATA[currentLv][2]) {
+            currentLv++;
+          }
         }
       }
-      return { finalLevel: currentLv, finalExp: currentCumulativeExp };
+      return { finalLevel: currentLv, finalExp: currentCumulativeExp, totalPeriodEnergy: totalPeriodEnergy };
     }
 
     function updateRecipeLevelCalculation() {
@@ -4200,7 +4256,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const currentExpPerCook = getExpPerCook(recipe.energy, rlCurrentLevel);
       const currentDisplayEnergy = recipe.energy + Math.round(recipe.energy * bonusPct / 100);
 
-      document.getElementById('rl-current-energy').innerHTML = `現Lvレシピ表示: <b>${currentDisplayEnergy.toLocaleString()}</b> <span style="color:var(--text-sub); font-size:0.85rem;">(1回実効獲得EXP: <b style="color:var(--accent-green); font-size:0.95rem;">${currentExpPerCook.toLocaleString()}</b>)</span>`;
+      document.getElementById('rl-current-energy').innerHTML = `現Lvレシピ表示: <b>${currentDisplayEnergy.toLocaleString()}</b> <span style="color:var(--text-sub); font-size:0.85rem;">(補正後の獲得EXP: <b style="color:var(--accent-green); font-size:0.95rem;">${currentExpPerCook.toLocaleString()}</b>)</span>`;
 
       // Sync level inputs
       document.getElementById('rl-level-slider').value = rlCurrentLevel;
@@ -4273,6 +4329,35 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           </div>
         </div>
       `;
+
+      // Update Total Energy Impact Card & Comparison
+      const startSingleExp = getExpPerCook(recipe.energy, rlCurrentLevel);
+      const endSingleExp = getExpPerCook(recipe.energy, prediction.finalLevel);
+      const diffExp = endSingleExp - startSingleExp;
+      const pctExp = startSingleExp > 0 ? ((diffExp / startSingleExp) * 100).toFixed(1) : '0.0';
+
+      const timesCountElem = document.getElementById('rl-summary-times-count');
+      if (timesCountElem) timesCountElem.textContent = `${rlCookTimes.toLocaleString()}回`;
+
+      const totalEnergyElem = document.getElementById('rl-total-period-energy');
+      if (totalEnergyElem) {
+        totalEnergyElem.innerHTML = `${prediction.totalPeriodEnergy.toLocaleString()} <span style="font-size:1.3rem; font-weight:800; color:var(--text-main);">エナジー</span>`;
+      }
+
+      const startLabelElem = document.getElementById('rl-compare-start-label');
+      if (startLabelElem) startLabelElem.textContent = `調理開始時 (Lv.${rlCurrentLevel})`;
+      const startValElem = document.getElementById('rl-compare-start-val');
+      if (startValElem) startValElem.textContent = startSingleExp.toLocaleString();
+
+      const endLabelElem = document.getElementById('rl-compare-end-label');
+      if (endLabelElem) endLabelElem.textContent = `到達時 (Lv.${prediction.finalLevel})`;
+      const endValElem = document.getElementById('rl-compare-end-val');
+      if (endValElem) endValElem.textContent = endSingleExp.toLocaleString();
+
+      const diffValElem = document.getElementById('rl-compare-diff-val');
+      if (diffValElem) {
+        diffValElem.textContent = `+${diffExp.toLocaleString()} (+${pctExp}%)`;
+      }
 
       // Update chart
       updateRecipeLevelChart(recipe);
