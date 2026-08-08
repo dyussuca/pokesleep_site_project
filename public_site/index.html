@@ -2277,9 +2277,9 @@
       </div>
     </div>
 
-    <!-- レベル入力カード -->
+    <!-- カード①: レシピレベル ＆ 共通環境設定 -->
     <div class="card">
-      <div class="card-title" style="color: var(--accent-blue);"><span>🎚️</span> 現在のレシピレベル & 調理条件設定</div>
+      <div class="card-title" style="color: var(--accent-blue);"><span>🎚️</span> レシピレベル & 共通環境設定</div>
 
       <div class="control-group">
         <label class="control-label">現在のレシピレベル (Lv.1〜70)</label>
@@ -2291,20 +2291,6 @@
               oninput="onRLLevelInputChange(this.value)"
               style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
             <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">Lv</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label">これから調理する予定回数 (1〜100回)</label>
-        <div class="rl-level-input-group">
-          <input type="range" class="rl-slider" id="rl-times-slider" min="1" max="100" value="50"
-            oninput="onRLTimesSliderChange(this.value)">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <input type="number" class="number-input" id="rl-custom-times" min="1" max="100" value="50"
-              oninput="onRLCustomTimesChange(this.value)"
-              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
-            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
           </div>
         </div>
       </div>
@@ -2324,111 +2310,164 @@
         </div>
       </div>
 
-      <!-- 追加食材エナジー設定 -->
+      <!-- イベントボーナス倍率選択 (1.25倍 & 1.5倍) -->
       <div class="control-group"
         style="margin-top: 14px; border-top: 1px dashed var(--border-color-soft); padding-top: 12px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <label class="control-label" style="margin: 0; font-size: 0.95rem;">🥦 追加食材によるエナジー加算</label>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <input type="number" id="rl-extra-energy-input" class="number-input" value="0" min="0" max="500000"
-              step="100" style="width: 110px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 6px;"
-              oninput="onRLExtraEnergyChange(this.value)">
-            <span style="font-size: 0.9rem; font-weight: 800; color: var(--text-sub);">Pt</span>
-          </div>
-        </div>
-        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 4px;">
-          ※レシピ食材以外に鍋に入れた追加食材の基本エナジー合計を入力（オプション）
-        </div>
-      </div>
-
-      <!-- イベントボーナス倍率選択 (1.25倍 & 1.5倍 2ボタン選択) -->
-      <div class="control-group"
-        style="margin-top: 18px; border-top: 1px solid var(--border-color-soft); padding-top: 14px;">
         <label class="control-label">🎉 イベントボーナス (料理エナジー倍率)</label>
         <div class="times-buttons" style="display: flex; gap: 10px; margin-top: 6px;">
           <button type="button" id="rl-event-125-btn" class="time-btn rl-event-btn"
             onclick="setRLEventBonus(1.25, this)"
-            style="flex: 1; padding: 10px 14px; font-size: 0.98rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
-            1.25倍
+            style="flex: 1; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            🎪 1.25倍 イベント
           </button>
           <button type="button" id="rl-event-150-btn" class="time-btn rl-event-btn" onclick="setRLEventBonus(1.5, this)"
-            style="flex: 1; padding: 10px 14px; font-size: 0.98rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
-            1.5倍
+            style="flex: 1; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            🔥 1.5倍 イベント
           </button>
         </div>
       </div>
+    </div>
 
-      <!-- 大成功（料理チャンス）補正設定 -->
-      <div class="control-group"
-        style="margin-top: 14px; background: var(--hero-bg); border: 1px solid var(--hero-border); padding: 14px 16px; border-radius: var(--radius-md);">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-          <label class="control-label"
-            style="margin: 0; color: var(--accent-yellow); font-size: 1rem; font-weight: 900;">
-            🎲 大成功 期待値補正
-          </label>
-          <button type="button" id="rl-crit-toggle-btn" class="quick-preset-btn" onclick="toggleRLCritCalc()"
-            style="padding: 6px 14px; font-size: 0.88rem;">
-            補正: <b>OFF</b>
-          </button>
+    <!-- カード②: 平日 ＆ 日曜日 分割調理シミュレーション設定 -->
+    <div class="card" style="background: var(--hero-bg); border: 1.5px solid var(--hero-border);">
+      <div class="card-title" style="color: var(--accent-yellow);">
+        <span>🗓️</span> 平日 ＆ 日曜日 分割調理シミュレーション
+      </div>
+
+      <!-- 📅 平日設定ブロック -->
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
+        <div style="font-size: 1rem; font-weight: 900; color: var(--accent-blue); margin-bottom: 12px;">
+          <span id="rl-weekday-header-title">📅 平日調理 (月〜土 / 基礎大成功10%・大成功2.0倍)</span>
         </div>
 
-        <div id="rl-crit-options-container"
-          style="display: none; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border-color-soft);">
-          <div style="width: 100%;">
-            <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">調理条件・曜日モデル:</span>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
-              <button type="button" class="quick-preset-btn rl-day-btn active" onclick="setRLCritDay('weekly', this)">
-                🌈 1週間平均 (21回スパン: 平日18回＋日曜3回)
-              </button>
-              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('weekday', this)">
-                📅 平日のみ (2倍 / 10%)
-              </button>
-              <button type="button" class="quick-preset-btn rl-day-btn" onclick="setRLCritDay('sunday', this)">
-                🔥 日曜日のみ (3倍 / 30% / イベント時4.5倍)
-              </button>
+        <div class="control-group">
+          <label class="control-label">平日 調理回数 (0〜100回)</label>
+          <div class="rl-level-input-group">
+            <input type="range" class="rl-slider" id="rl-weekday-times-slider" min="0" max="100" value="18"
+              oninput="onRLWeekdayTimesChange(this.value)">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="number-input" id="rl-weekday-times-input" min="0" max="100" value="18"
+                oninput="onRLWeekdayTimesInputChange(this.value)"
+                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
             </div>
           </div>
+        </div>
 
-          <!-- 料理チャンスS スキル入力エリア（強調カード化） -->
-          <div
-            style="width: 100%; background: var(--bg-card); border: 2px solid var(--accent-yellow); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12); margin-top: 4px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-              <span
-                style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 4px;">
-                ⚡ 料理チャンスS (大成功確率スキル加算)
-              </span>
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <input type="number" id="rl-skill-chance-input" class="number-input" value="0" min="0" max="70" step="5"
-                  style="width: 85px; text-align: center; font-size: 1.2rem; font-weight: 900; padding: 6px; border: 2px solid var(--accent-yellow);"
-                  oninput="onRLSkillChanceChange(this.value)">
-                <span style="font-size: 1rem; font-weight: 900; color: var(--text-main);">%</span>
-              </div>
-            </div>
-
-            <!-- クイックタップボタン -->
-            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;">
-              <button type="button" class="quick-preset-btn rl-skill-btn active" onclick="setRLSkillChance(0, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+0%</button>
-              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(10, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+10%</button>
-              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(20, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+20%</button>
-              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(30, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+30%</button>
-              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(50, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+50%</button>
-              <button type="button" class="quick-preset-btn rl-skill-btn" onclick="setRLSkillChance(70, this)"
-                style="padding: 4px 10px; font-size: 0.8rem;">+70% (MAX)</button>
-            </div>
-
-            <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub); margin-top: 6px;">
-              ※設定したスキル確率は、指定した調理予定回数の全回数に一律で加算補正されます。
+        <div class="control-group" style="margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 平日 追加食材エナジー</label>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" id="rl-weekday-extra-energy" class="number-input" value="0" min="0" max="500000"
+                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
             </div>
           </div>
+        </div>
 
-          <div style="font-size: 0.88rem; font-weight: 900; color: var(--accent-green); width: 100%;"
-            id="rl-crit-summary-text">
-            1週間平均 (平日18回+日曜3回) / 総合期待倍率: 1.17x
+        <div class="control-group"
+          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 平日
+              大成功期待値補正</label>
+            <button type="button" id="rl-weekday-crit-toggle" class="quick-preset-btn" onclick="toggleRLWeekdayCrit()"
+              style="padding: 4px 12px; font-size: 0.82rem;">
+              補正: <b>OFF</b>
+            </button>
+          </div>
+
+          <div id="rl-weekday-crit-container" style="display: none; margin-top: 10px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <input type="number" id="rl-weekday-skill-input" class="number-input" value="0" min="0" max="90" step="5"
+                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.95rem; font-weight: 900;">%</span>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(0)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(10)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(20)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(30)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(50)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLWeekdaySkill(90)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+90% (MAX)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🔥 日曜日設定ブロック -->
+      <div
+        style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: var(--radius-md);">
+        <div style="font-size: 1rem; font-weight: 900; color: #ea580c; margin-bottom: 12px;">
+          <span id="rl-sunday-header-title">🔥 日曜日調理 (日曜祝日 / 基礎大成功30%・大成功3.0倍)</span>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">日曜日 調理回数 (0〜50回)</label>
+          <div class="rl-level-input-group">
+            <input type="range" class="rl-slider" id="rl-sunday-times-slider" min="0" max="50" value="3"
+              oninput="onRLSundayTimesChange(this.value)">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="number-input" id="rl-sunday-times-input" min="0" max="50" value="3"
+                oninput="onRLSundayTimesInputChange(this.value)"
+                style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+              <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">回</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group" style="margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem;">🥦 日曜日 追加食材エナジー</label>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" id="rl-sunday-extra-energy" class="number-input" value="0" min="0" max="500000"
+                step="100" style="width: 110px; text-align: center; font-size: 1.05rem; font-weight: 900; padding: 5px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">Pt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-group"
+          style="margin-top: 12px; border-top: 1px dashed var(--border-color-soft); padding-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <label class="control-label" style="margin: 0; font-size: 0.9rem; color: var(--accent-yellow);">🎲 日曜日
+              大成功期待値補正</label>
+            <button type="button" id="rl-sunday-crit-toggle" class="quick-preset-btn" onclick="toggleRLSundayCrit()"
+              style="padding: 4px 12px; font-size: 0.82rem;">
+              補正: <b>OFF</b>
+            </button>
+          </div>
+
+          <div id="rl-sunday-crit-container" style="display: none; margin-top: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <input type="number" id="rl-sunday-skill-input" class="number-input" value="0" min="0" max="70" step="5"
+                style="width: 80px; text-align: center; font-size: 1.1rem; font-weight: 900; padding: 4px;"
+                oninput="updateRecipeLevelCalculation()">
+              <span style="font-size: 0.95rem; font-weight: 900; color: var(--accent-yellow);">% ＋ 20%</span>
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(0)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+0%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(10)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+10%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(20)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+20%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(30)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+30%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(50)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+50%</button>
+              <button type="button" class="quick-preset-btn" onclick="setRLSundaySkill(70)"
+                style="padding: 3px 8px; font-size: 0.78rem;">+70% (MAX)</button>
+            </div>
           </div>
         </div>
       </div>
@@ -2495,17 +2534,35 @@
 
       <!-- 総エナジー (大強調) -->
       <div
-        style="background: var(--bg-card); border: 2px solid #f97316; border-radius: var(--radius-md); padding: 18px 20px; text-align: center; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); margin-bottom: 16px;">
+        style="background: var(--bg-card); border: 2px solid #f97316; border-radius: var(--radius-md); padding: 18px 20px; text-align: center; box-shadow: 0 4px 16px rgba(249, 115, 22, 0.15); margin-bottom: 14px;">
         <div
           style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub); display: flex; align-items: center; justify-content: center; gap: 6px;">
-          <span>🔥</span> <b id="rl-summary-times-count" style="color: var(--text-main);">50回</b>で得られる総エナジー
+          <span>🔥</span> 設定期間（合計 <b id="rl-summary-times-count" style="color: var(--text-main);">21回</b>）で得られる総エナジー
         </div>
         <div id="rl-total-period-energy"
           style="font-size: 2.6rem; font-weight: 900; color: #ea580c; line-height: 1.25; margin: 8px 0;">
           0 <span style="font-size: 1.3rem; font-weight: 800; color: var(--text-main);">エナジー</span>
         </div>
         <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-sub);">
-          ※補正をすべて含む獲得予測値
+          ※補正を含む獲得予測値
+        </div>
+      </div>
+
+      <!-- 平日 ＆ 日曜日 エナジー内訳 -->
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+        <div
+          style="flex: 1; min-width: 140px; background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #2563eb;">📅 平日 (<span
+              id="rl-breakdown-weekday-count">18</span>回) 獲得</div>
+          <div style="font-size: 1.2rem; font-weight: 900; color: var(--text-main); margin-top: 2px;"
+            id="rl-breakdown-weekday-energy">0 Pt</div>
+        </div>
+        <div
+          style="flex: 1; min-width: 140px; background: var(--bg-card); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 12px; text-align: center;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #ea580c;">🔥 日曜日 (<span
+              id="rl-breakdown-sunday-count">3</span>回) 獲得</div>
+          <div style="font-size: 1.2rem; font-weight: 900; color: #ea580c; margin-top: 2px;"
+            id="rl-breakdown-sunday-energy">0 Pt</div>
         </div>
       </div>
 
@@ -3997,13 +4054,17 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     const MAX_CUMULATIVE_EXP = 13355125;
 
     let rlEventBonus = 1.0;
-    let rlCritEnabled = false;
-    let rlCritDay = 'weekly'; // 'weekly' (18 weekday + 3 sunday), 'weekday', or 'sunday'
-    let rlSkillChance = 0;
     let rlFieldBonus = 0;
-    let rlExtraEnergy = 0;
 
+    let rlWeekdayTimes = 18;
+    let rlWeekdayExtraEnergy = 0;
+    let rlWeekdayCritEnabled = false;
+    let rlWeekdaySkillChance = 0;
 
+    let rlSundayTimes = 3;
+    let rlSundayExtraEnergy = 0;
+    let rlSundayCritEnabled = false;
+    let rlSundaySkillChance = 0;
 
     function onRLFieldBonusChange(val) {
       const v = Math.min(85, Math.max(0, parseInt(val) || 0));
@@ -4018,11 +4079,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       rlFieldBonus = v;
       const sliderElem = document.getElementById('rl-field-bonus-slider');
       if (sliderElem) sliderElem.value = v;
-      updateRecipeLevelCalculation();
-    }
-
-    function onRLExtraEnergyChange(val) {
-      rlExtraEnergy = Math.max(0, parseInt(val) || 0);
       updateRecipeLevelCalculation();
     }
 
@@ -4068,17 +4124,61 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           btn150.style.borderColor = '';
         }
       }
+
+      // Update Header Titles with Dynamic Event Multiplier
+      const weekdayHeader = document.getElementById('rl-weekday-header-title');
+      const sundayHeader = document.getElementById('rl-sunday-header-title');
+
+      const wkCritMult = (2.0 * rlEventBonus);
+      const sunCritMult = (3.0 * rlEventBonus);
+
+      const wkStr = (wkCritMult % 1 === 0) ? wkCritMult.toFixed(0) : wkCritMult.toFixed(1);
+      const sunStr = (sunCritMult % 1 === 0) ? sunCritMult.toFixed(0) : ((sunCritMult * 100) % 10 === 0 ? sunCritMult.toFixed(1) : sunCritMult.toFixed(2));
+
+      if (weekdayHeader) weekdayHeader.textContent = `📅 平日調理 (月〜土 / 基礎大成功10%・大成功${wkStr}倍)`;
+      if (sundayHeader) sundayHeader.textContent = `🔥 日曜日調理 (日曜祝日 / 基礎大成功30%・大成功${sunStr}倍)`;
     }
 
-    function toggleRLCritCalc() {
-      rlCritEnabled = !rlCritEnabled;
-      const btn = document.getElementById('rl-crit-toggle-btn');
-      const container = document.getElementById('rl-crit-options-container');
+    function onRLWeekdayTimesChange(val) {
+      rlWeekdayTimes = Math.min(100, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-weekday-times-input');
+      const sliderElem = document.getElementById('rl-weekday-times-slider');
+      if (inputElem) inputElem.value = rlWeekdayTimes;
+      if (sliderElem) sliderElem.value = rlWeekdayTimes;
+      updateRecipeLevelCalculation();
+    }
 
-      if (rlCritEnabled) {
+    function onRLWeekdayTimesInputChange(val) {
+      rlWeekdayTimes = Math.min(100, Math.max(0, parseInt(val) || 0));
+      const sliderElem = document.getElementById('rl-weekday-times-slider');
+      if (sliderElem) sliderElem.value = rlWeekdayTimes;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLSundayTimesChange(val) {
+      rlSundayTimes = Math.min(50, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-sunday-times-input');
+      const sliderElem = document.getElementById('rl-sunday-times-slider');
+      if (inputElem) inputElem.value = rlSundayTimes;
+      if (sliderElem) sliderElem.value = rlSundayTimes;
+      updateRecipeLevelCalculation();
+    }
+
+    function onRLSundayTimesInputChange(val) {
+      rlSundayTimes = Math.min(50, Math.max(0, parseInt(val) || 0));
+      const sliderElem = document.getElementById('rl-sunday-times-slider');
+      if (sliderElem) sliderElem.value = rlSundayTimes;
+      updateRecipeLevelCalculation();
+    }
+
+    function toggleRLWeekdayCrit() {
+      rlWeekdayCritEnabled = !rlWeekdayCritEnabled;
+      const btn = document.getElementById('rl-weekday-crit-toggle');
+      const container = document.getElementById('rl-weekday-crit-container');
+      if (rlWeekdayCritEnabled) {
         btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
         btn.style.borderColor = '#10b981';
-        container.style.display = 'flex';
+        container.style.display = 'block';
       } else {
         btn.innerHTML = '補正: <b>OFF</b>';
         btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
@@ -4087,141 +4187,81 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecipeLevelCalculation();
     }
 
-    function setRLCritDay(day, btnElem) {
-      rlCritDay = day;
-      document.querySelectorAll('.rl-day-btn').forEach(btn => btn.classList.remove('active'));
-      if (btnElem) btnElem.classList.add('active');
+    function toggleRLSundayCrit() {
+      rlSundayCritEnabled = !rlSundayCritEnabled;
+      const btn = document.getElementById('rl-sunday-crit-toggle');
+      const container = document.getElementById('rl-sunday-crit-container');
+      if (rlSundayCritEnabled) {
+        btn.innerHTML = '補正: <b style="color:#10b981;">ON</b>';
+        btn.style.borderColor = '#10b981';
+        container.style.display = 'block';
+      } else {
+        btn.innerHTML = '補正: <b>OFF</b>';
+        btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        container.style.display = 'none';
+      }
       updateRecipeLevelCalculation();
     }
 
-    function setRLSkillChance(val, btnElem) {
-      rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
-      const inputElem = document.getElementById('rl-skill-chance-input');
-      if (inputElem) inputElem.value = rlSkillChance;
-      document.querySelectorAll('.rl-skill-btn').forEach(b => b.classList.remove('active'));
-      if (btnElem) btnElem.classList.add('active');
+    function setRLWeekdaySkill(val) {
+      rlWeekdaySkillChance = Math.min(90, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-weekday-skill-input');
+      if (inputElem) inputElem.value = rlWeekdaySkillChance;
       updateRecipeLevelCalculation();
     }
 
-    function onRLSkillChanceChange(val) {
-      rlSkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
-      document.querySelectorAll('.rl-skill-btn').forEach(b => {
-        const btnVal = parseInt(b.textContent.replace('+', '').replace('%', '').replace(' (MAX)', '')) || 0;
-        if (btnVal === rlSkillChance) b.classList.add('active');
-        else b.classList.remove('active');
-      });
+    function setRLSundaySkill(val) {
+      rlSundaySkillChance = Math.min(70, Math.max(0, parseInt(val) || 0));
+      const inputElem = document.getElementById('rl-sunday-skill-input');
+      if (inputElem) inputElem.value = rlSundaySkillChance;
       updateRecipeLevelCalculation();
     }
 
-    function getRLMultiplier() {
-      let multiplier = rlEventBonus;
+    function getExpPerCook(baseEnergy, level, dayType = 'weekday') {
+      const bonusPct = RECIPE_LEVEL_DATA[level - 1][0];
+      const baseDisplayEnergy = baseEnergy + Math.round(baseEnergy * bonusPct / 100);
 
-      if (rlCritEnabled) {
-        let expectedCritMult = 1.0;
-        let summaryDetailText = '';
+      const extraEnergyElem = (dayType === 'sunday')
+        ? document.getElementById('rl-sunday-extra-energy')
+        : document.getElementById('rl-weekday-extra-energy');
+      const extraEnergy = extraEnergyElem ? (parseInt(extraEnergyElem.value) || 0) : 0;
 
-        const skillAddProb = rlSkillChance / 100;
-        const probWeekday = Math.min(1.0, 0.10 + skillAddProb);
-        const probSunday = Math.min(1.0, 0.30 + skillAddProb);
+      const totalBeforeBonus = baseDisplayEnergy + extraEnergy;
+      const fieldMult = 1 + (rlFieldBonus / 100);
 
-        const weekdayCritMult = 2.0;
-        const sundayCritMult = 3.0;
-
-        const weekdayAvgMult = (1 - probWeekday) * 1.0 + probWeekday * weekdayCritMult;
-        const sundayAvgMult = (1 - probSunday) * 1.0 + probSunday * sundayCritMult;
-
-        if (rlCritDay === 'weekly') {
-          // 21-cook weekly distribution model: 18 weekday cooks + 3 sunday cooks
-          expectedCritMult = (weekdayAvgMult * 18 + sundayAvgMult * 3) / 21;
-          summaryDetailText = `1週間平均 (平日18回+日曜3回) / 大成功時: 平日${(2.0 * rlEventBonus).toFixed(1)}倍, 日曜${(3.0 * rlEventBonus).toFixed(1)}倍`;
-        } else if (rlCritDay === 'sunday') {
-          expectedCritMult = sundayAvgMult;
-          summaryDetailText = `日曜日のみ (大成功率 ${(probSunday * 100).toFixed(0)}% / 大成功時 ${(3.0 * rlEventBonus).toFixed(1)}倍)`;
-        } else {
-          // weekday
-          expectedCritMult = weekdayAvgMult;
-          summaryDetailText = `平日のみ (大成功率 ${(probWeekday * 100).toFixed(0)}% / 大成功時 ${(2.0 * rlEventBonus).toFixed(1)}倍)`;
+      let expectedMult = 1.0;
+      if (dayType === 'sunday') {
+        if (rlSundayCritEnabled) {
+          const sundaySkillInput = document.getElementById('rl-sunday-skill-input');
+          const sundaySkillVal = sundaySkillInput ? (parseInt(sundaySkillInput.value) || 0) : rlSundaySkillChance;
+          const skillAddProb = Math.min(0.70, Math.max(0, sundaySkillVal) / 100);
+          const probSunday = Math.min(1.0, 0.30 + skillAddProb);
+          const sundayCritMult = 3.0 * rlEventBonus;
+          expectedMult = (1 - probSunday) * 1.0 + probSunday * sundayCritMult;
         }
-
-        multiplier *= expectedCritMult;
-
-        const summaryElem = document.getElementById('rl-crit-summary-text');
-        if (summaryElem) {
-          summaryElem.textContent = `${summaryDetailText} → 総合期待倍率: ${multiplier.toFixed(2)}x`;
+      } else {
+        // weekday
+        if (rlWeekdayCritEnabled) {
+          const weekdaySkillInput = document.getElementById('rl-weekday-skill-input');
+          const weekdaySkillVal = weekdaySkillInput ? (parseInt(weekdaySkillInput.value) || 0) : rlWeekdaySkillChance;
+          const skillAddProb = Math.min(0.90, Math.max(0, weekdaySkillVal) / 100);
+          const probWeekday = Math.min(1.0, 0.10 + skillAddProb);
+          const weekdayCritMult = 2.0 * rlEventBonus;
+          expectedMult = (1 - probWeekday) * 1.0 + probWeekday * weekdayCritMult;
         }
       }
 
-      return multiplier;
+      return Math.floor(totalBeforeBonus * fieldMult * rlEventBonus * expectedMult);
     }
 
-    function getExpPerCook(baseEnergy, level) {
-      const bonusPct = RECIPE_LEVEL_DATA[level - 1][0];
-      const baseDisplayEnergy = baseEnergy + Math.round(baseEnergy * bonusPct / 100);
-      const totalBeforeBonus = baseDisplayEnergy + rlExtraEnergy;
-      const fieldMult = 1 + (rlFieldBonus / 100);
-      const mult = getRLMultiplier();
-      return Math.floor(totalBeforeBonus * fieldMult * mult);
-    }
-
-    function setRLCategory(cat) {
-      rlCategory = cat;
-      document.querySelectorAll('.rl-cat-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelector(`.rl-cat-btn.${cat}`).classList.add('active');
-
-      const firstRecipe = RECIPES.find(r => r.cat === cat);
-      if (firstRecipe) { rlRecipeId = firstRecipe.id; }
-      updateRecipeLevelCalculation();
-    }
-
-    function onRLLevelChange(val) {
-      const v = Math.min(70, Math.max(1, parseInt(val) || 1));
-      rlCurrentLevel = v;
-      const inputElem = document.getElementById('rl-level-input');
-      if (inputElem) inputElem.value = v;
-      const badgeElem = document.getElementById('rl-level-badge');
-      if (badgeElem) badgeElem.textContent = `Lv.${v}`;
-      updateRecipeLevelCalculation();
-    }
-
-    function onRLLevelInputChange(val) {
-      const v = Math.min(70, Math.max(1, parseInt(val) || 1));
-      rlCurrentLevel = v;
-      const sliderElem = document.getElementById('rl-level-slider');
-      if (sliderElem) sliderElem.value = v;
-      const badgeElem = document.getElementById('rl-level-badge');
-      if (badgeElem) badgeElem.textContent = `Lv.${v}`;
-      updateRecipeLevelCalculation();
-    }
-
-    function onRLTimesSliderChange(val) {
-      const v = Math.min(100, Math.max(1, parseInt(val) || 1));
-      rlCookTimes = v;
-      const inputElem = document.getElementById('rl-custom-times');
-      if (inputElem) inputElem.value = v;
-      const badgeElem = document.getElementById('rl-times-badge');
-      if (badgeElem) badgeElem.textContent = `${v}回`;
-      updateRecipeLevelCalculation();
-    }
-
-    function onRLCustomTimesChange(val) {
-      const v = Math.min(100, Math.max(1, parseInt(val) || 1));
-      rlCookTimes = v;
-      const sliderElem = document.getElementById('rl-times-slider');
-      if (sliderElem) sliderElem.value = v;
-      const badgeElem = document.getElementById('rl-times-badge');
-      if (badgeElem) badgeElem.textContent = `${v}回`;
-      updateRecipeLevelCalculation();
-    }
-
-    function simulateCooking(baseEnergy, startLevel, numCooks) {
+    function simulateCooking(baseEnergy, startLevel) {
       let currentLv = startLevel;
       let currentCumulativeExp = RECIPE_LEVEL_DATA[currentLv - 1][2];
-      let totalPeriodEnergy = 0;
 
-      for (let i = 0; i < numCooks; i++) {
-        const expGain = getExpPerCook(baseEnergy, currentLv);
-        totalPeriodEnergy += expGain;
-
+      let weekdayTotalEnergy = 0;
+      for (let i = 0; i < rlWeekdayTimes; i++) {
+        const expGain = getExpPerCook(baseEnergy, currentLv, 'weekday');
+        weekdayTotalEnergy += expGain;
         if (currentLv < 70) {
           currentCumulativeExp += expGain;
           while (currentLv < 70 && currentCumulativeExp >= RECIPE_LEVEL_DATA[currentLv][2]) {
@@ -4229,7 +4269,28 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           }
         }
       }
-      return { finalLevel: currentLv, finalExp: currentCumulativeExp, totalPeriodEnergy: totalPeriodEnergy };
+      const weekdayEndLevel = currentLv;
+
+      let sundayTotalEnergy = 0;
+      for (let i = 0; i < rlSundayTimes; i++) {
+        const expGain = getExpPerCook(baseEnergy, currentLv, 'sunday');
+        sundayTotalEnergy += expGain;
+        if (currentLv < 70) {
+          currentCumulativeExp += expGain;
+          while (currentLv < 70 && currentCumulativeExp >= RECIPE_LEVEL_DATA[currentLv][2]) {
+            currentLv++;
+          }
+        }
+      }
+
+      return {
+        finalLevel: currentLv,
+        weekdayEndLevel: weekdayEndLevel,
+        weekdayTotalEnergy: weekdayTotalEnergy,
+        sundayTotalEnergy: sundayTotalEnergy,
+        totalPeriodEnergy: weekdayTotalEnergy + sundayTotalEnergy,
+        totalCooks: rlWeekdayTimes + rlSundayTimes
+      };
     }
 
     function updateRecipeLevelCalculation() {
@@ -4309,7 +4370,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       document.getElementById('rl-progress-bar').style.width = `${progressPct}%`;
 
       // Prediction
-      const prediction = simulateCooking(recipe.energy, rlCurrentLevel, rlCookTimes);
+      const prediction = simulateCooking(recipe.energy, rlCurrentLevel);
       const levelGain = prediction.finalLevel - rlCurrentLevel;
       const predBonusPct = RECIPE_LEVEL_DATA[prediction.finalLevel - 1][0];
 
@@ -4317,7 +4378,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
           <div>
             <div style="font-size:0.95rem; font-weight:800; color:var(--text-sub); margin-bottom:4px;">
-              🍳 <b style="color:var(--text-main); font-size:1.15rem;">${rlCookTimes.toLocaleString()}回</b> 調理後の予想到達レベル
+              🍳 <b style="color:var(--text-main); font-size:1.15rem;">平日${rlWeekdayTimes}回 ＋ 日曜${rlSundayTimes}回（計${prediction.totalCooks}回）</b> 調理後の予想到達レベル
             </div>
             <div style="font-size:2.2rem; font-weight:900; color:var(--accent-green); line-height:1.2;">
               Lv.${prediction.finalLevel} <span style="font-size:1.35rem; font-weight:800; color:${levelGain > 0 ? 'var(--accent-green)' : 'var(--text-sub)'}; margin-left:6px;">(+${levelGain} レベル)</span>
@@ -4331,26 +4392,36 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       `;
 
       // Update Total Energy Impact Card & Comparison
-      const startSingleExp = getExpPerCook(recipe.energy, rlCurrentLevel);
-      const endSingleExp = getExpPerCook(recipe.energy, prediction.finalLevel);
+      const startSingleExp = getExpPerCook(recipe.energy, rlCurrentLevel, 'weekday');
+      const endSingleExp = getExpPerCook(recipe.energy, prediction.finalLevel, 'sunday');
       const diffExp = endSingleExp - startSingleExp;
       const pctExp = startSingleExp > 0 ? ((diffExp / startSingleExp) * 100).toFixed(1) : '0.0';
 
       const timesCountElem = document.getElementById('rl-summary-times-count');
-      if (timesCountElem) timesCountElem.textContent = `${rlCookTimes.toLocaleString()}回`;
+      if (timesCountElem) timesCountElem.textContent = `${prediction.totalCooks}回`;
 
       const totalEnergyElem = document.getElementById('rl-total-period-energy');
       if (totalEnergyElem) {
         totalEnergyElem.innerHTML = `${prediction.totalPeriodEnergy.toLocaleString()} <span style="font-size:1.3rem; font-weight:800; color:var(--text-main);">エナジー</span>`;
       }
 
+      const wkCountElem = document.getElementById('rl-breakdown-weekday-count');
+      if (wkCountElem) wkCountElem.textContent = rlWeekdayTimes;
+      const wkEnergyElem = document.getElementById('rl-breakdown-weekday-energy');
+      if (wkEnergyElem) wkEnergyElem.textContent = `${prediction.weekdayTotalEnergy.toLocaleString()} Pt`;
+
+      const sunCountElem = document.getElementById('rl-breakdown-sunday-count');
+      if (sunCountElem) sunCountElem.textContent = rlSundayTimes;
+      const sunEnergyElem = document.getElementById('rl-breakdown-sunday-energy');
+      if (sunEnergyElem) sunEnergyElem.textContent = `${prediction.sundayTotalEnergy.toLocaleString()} Pt`;
+
       const startLabelElem = document.getElementById('rl-compare-start-label');
-      if (startLabelElem) startLabelElem.textContent = `調理開始時 (Lv.${rlCurrentLevel})`;
+      if (startLabelElem) startLabelElem.textContent = `平日開始時 (Lv.${rlCurrentLevel})`;
       const startValElem = document.getElementById('rl-compare-start-val');
       if (startValElem) startValElem.textContent = startSingleExp.toLocaleString();
 
       const endLabelElem = document.getElementById('rl-compare-end-label');
-      if (endLabelElem) endLabelElem.textContent = `到達時 (Lv.${prediction.finalLevel})`;
+      if (endLabelElem) endLabelElem.textContent = `日曜到達時 (Lv.${prediction.finalLevel})`;
       const endValElem = document.getElementById('rl-compare-end-val');
       if (endValElem) endValElem.textContent = endSingleExp.toLocaleString();
 
@@ -4386,8 +4457,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       }
 
       const startLv = Math.min(70, Math.max(1, rlCurrentLevel));
-      const prediction = simulateCooking(recipe.energy, startLv, rlCookTimes);
+      const prediction = simulateCooking(recipe.energy, startLv);
       const predLv = prediction.finalLevel;
+      const totalCooks = prediction.totalCooks;
 
       // Labels from startLv to 70
       const labels = [];
@@ -4489,7 +4561,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
                   if (lv === startLv) {
                     lines.push(`📍 現在のレシピレベル (Lv.${lv})`);
                   } else if (lv === predLv) {
-                    lines.push(`🎉 ${rlCookTimes}回調理後の到達レベル (Lv.${lv})`);
+                    lines.push(`🎉 調理${totalCooks}回後の到達レベル (Lv.${lv})`);
                   }
 
                   lines.push(`累計EXP: ${item.raw.toLocaleString()}`);
