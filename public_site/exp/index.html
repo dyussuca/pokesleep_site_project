@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポケスリ ポケモンレベル育成＆EXP計算機 | Pokesleep EXP Simulator</title>
+  <!-- Google Fonts (Zen Maru Gothic & Outfit) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #cbd5e1;
+      --border-color-soft: #e2e8f0;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-purple: #7c3aed;
+      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.06));
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #a78bfa;
+      --hero-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(52, 211, 153, 0.1));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 50px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .site-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-blue);
+      letter-spacing: -0.02em;
+    }
+
+    .theme-toggle-btn {
+      background: var(--hero-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 18px auto 0;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 14px;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .pill-selector {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pill-btn {
+      flex: 1;
+      min-width: 90px;
+      padding: 7px 9px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      line-height: 1.3;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--accent-blue);
+    }
+
+    .pill-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+
+    .pill-btn.active.green {
+      background: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+
+    .pill-btn.active.yellow {
+      background: var(--accent-yellow);
+      border-color: var(--accent-yellow);
+    }
+
+    .pill-btn.active.purple {
+      background: var(--accent-purple);
+      border-color: var(--accent-purple);
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-input {
+      flex: 1;
+      accent-color: var(--accent-blue);
+      height: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .number-input {
+      width: 85px;
+      padding: 6px 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .number-input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .preset-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .chip-btn {
+      padding: 3px 9px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      background: var(--bg-main);
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    /* 3タブバー設計 */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      background: var(--bg-card);
+      padding: 5px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 0.88rem;
+      font-weight: 900;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .tab-btn.active.candy-tab {
+      background: var(--accent-purple);
+      color: #ffffff;
+    }
+
+    .tab-btn.active.sleep-tab {
+      background: var(--accent-green);
+      color: #ffffff;
+    }
+
+    .tab-btn.active.island-tab {
+      background: var(--accent-yellow);
+      color: #ffffff;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 結果表示カード (dyussuca.com互換スタイル) */
+    .hero-stat-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      margin-top: 12px;
+    }
+
+    .hero-stat-val {
+      font-size: 2.3rem;
+      font-weight: 900;
+      line-height: 1.15;
+      font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+    }
+
+    .target-date-tag {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      background: var(--hero-bg);
+      padding: 3px 9px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 6px;
+      border: 1px solid var(--border-color-soft);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border-color-soft);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 22px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--border-color);
+      transition: .25s;
+      border-radius: 22px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .25s;
+      border-radius: 50%;
+    }
+
+    input:checked+.toggle-slider {
+      background-color: var(--accent-green);
+    }
+
+    input:checked+.toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    /* インフォメーションモーダル */
+    .info-modal-btn {
+      background: var(--hero-bg);
+      border: 1px solid var(--border-color);
+      color: var(--accent-blue);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .info-modal-btn:hover {
+      background: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      color: var(--text-main);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" style="text-decoration: none;" class="site-title">
+        <span>⚡</span> ポケスリ EXP＆レベル育成シミュレーター
+      </a>
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <span id="theme-icon">🌙</span> <span id="theme-text">ダーク</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- 常時トップ表示: ポケモン基本設定カード (タイプ・性格・Lv) -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-blue);">
+        <span>🐣</span> 対象ポケモンの基本ステータス ＆ 目標レベル設定
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <div class="control-group">
+            <label class="control-label">ポケモン区分 (経験値タイプ)</label>
+            <div class="pill-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
+              <button class="pill-btn active" id="type-normal-btn" onclick="setPokemonType('normal')">
+                🐣 通常 (1.0x)<br>
+              </button>
+              <button class="pill-btn" id="type-dragon600-btn" onclick="setPokemonType('dragon600')">
+                🐉 600族 (1.5x)<br>
+              </button>
+              <button class="pill-btn" id="type-legend1080-btn" onclick="setPokemonType('legend1080')">
+                👑 伝説 (1.8x)<br>
+              </button>
+              <button class="pill-btn" id="type-myth1320-btn" onclick="setPokemonType('myth1320')">
+                ✨ 特別 (2.2x)<br>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">性格補正 (獲得EXP)</label>
+            <div class="pill-selector">
+              <button class="pill-btn green" id="nature-up-btn" onclick="setNature('up')">⬆️ EXP上昇 (+20%)</button>
+              <button class="pill-btn active" id="nature-normal-btn" onclick="setNature('normal')">➡️ 普通 (±0%)</button>
+              <button class="pill-btn" id="nature-down-btn" onclick="setNature('down')">⬇️ EXP下降 (-16%)</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="control-group">
+            <label class="control-label">現在のレベル (Lv.1 〜 70)</label>
+            <div class="input-row">
+              <input type="range" class="slider-input" id="current-level-slider" min="1" max="70" value="1"
+                oninput="onCurrentLevelChange(this.value)">
+              <input type="number" class="number-input" id="current-level-input" min="1" max="70" value="1"
+                oninput="onCurrentLevelInputChange(this.value)">
+            </div>
+          </div>
+
+          <!-- 次のレベルまでの残りEXP入力 -->
+          <div class="control-group"
+            style="background: var(--hero-bg); padding: 9px 11px; border-radius: var(--radius-md); border: 1px solid var(--border-color-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <label class="control-label" style="margin: 0; color: var(--accent-blue); font-size: 0.8rem;">🔻
+                次のレベルまでの残りEXP</label>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <input type="number" class="number-input" id="next-level-exp-input" min="0" max="20000" value="0"
+                  style="width: 95px; padding: 4px 6px; font-size: 0.9rem;" oninput="calculateSimulation()">
+                <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub);">EXP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group" style="margin-top: 10px;">
+            <label class="control-label">目標レベル (Lv.1 〜 70)</label>
+            <div class="input-row">
+              <input type="range" class="slider-input" id="target-level-slider" min="1" max="70" value="30"
+                oninput="onTargetLevelChange(this.value)">
+              <input type="number" class="number-input" id="target-level-input" min="1" max="70" value="30"
+                oninput="onTargetLevelInputChange(this.value)">
+            </div>
+            <div class="preset-chips">
+              <button class="chip-btn" onclick="setTargetLevelPreset(30)">Lv.30</button>
+              <button class="chip-btn" onclick="setTargetLevelPreset(50)">Lv.50</button>
+              <button class="chip-btn" onclick="setTargetLevelPreset(60)">Lv.60</button>
+              <button class="chip-btn" onclick="setTargetLevelPreset(70)">Lv.70</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌟 3タブ切り替えバー -->
+    <div class="tab-bar">
+      <button class="tab-btn active candy-tab" id="tab-btn-candy" onclick="switchTab('candy')">
+        <span>🍬</span> アメ
+      </button>
+      <button class="tab-btn sleep-tab" id="tab-btn-sleep" onclick="switchTab('sleep')">
+        <span>💤</span> 睡眠
+      </button>
+      <button class="tab-btn island-tab" id="tab-btn-island" onclick="switchTab('island')">
+        <span>🏝️</span> ゴン平島
+      </button>
+    </div>
+
+    <!-- ==================== タブ①: 🍬 アメ育成コスト ==================== -->
+    <div class="tab-content active" id="tab-content-candy">
+      <div class="card">
+        <div class="card-title" style="color: var(--accent-purple);">
+          <span>🍬</span> アメ投下による育成コストシミュレーション
+        </div>
+
+        <!-- アメブースト設定 -->
+        <div class="control-group">
+          <label class="control-label">🔥 アメブーストイベント設定 (Ver.3.6.0最新適用)</label>
+          <div class="pill-selector"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px;">
+            <button class="pill-btn active purple" id="boost-none-btn" onclick="setCandyBoostMode('none')">
+              ⚪ OFF</span>
+            </button>
+            <button class="pill-btn purple" id="boost-mini-btn" onclick="setCandyBoostMode('mini')">
+              🔥 ミニ</span>
+            </button>
+            <button class="pill-btn purple" id="boost-holiday-btn" onclick="setCandyBoostMode('holiday')">
+              💥 ホリデー</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 特大成果表示 -->
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="hero-stat-card" style="border-color: var(--accent-purple);">
+            <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">🍬 目標Lvまでに必要な
+              アメの個数</div>
+            <div class="hero-stat-val" id="candy-res-candy" style="color: var(--accent-purple);">0 <span
+                style="font-size: 1.15rem;">個</span></div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+              id="candy-res-candy-sub">※対象ポケモンのアメ (Ver.3.6.0段階的獲得EXP適用)</div>
+          </div>
+
+          <div class="hero-stat-card" style="border-color: var(--accent-yellow);">
+            <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">💎 目標Lvまでに必要な
+              ゆめのかけら合計</div>
+            <div class="hero-stat-val" id="candy-res-shard" style="color: var(--accent-yellow);">0 <span
+                style="font-size: 1.15rem;">個</span></div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+              id="candy-res-shard-sub">※かけらは現在の残り経験値等で変動するため参考値</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== タブ②: 💤 通常睡眠リサーチ ==================== -->
+    <div class="tab-content" id="tab-content-sleep">
+      <div class="card">
+        <div class="card-title" style="color: var(--accent-green);">
+          <span>💤</span> 通常睡眠リサーチによる達成日数
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">1日の平均睡眠スコア (0 〜 100点)</label>
+          <div class="input-row">
+            <input type="range" class="slider-input" id="sleep-score-slider" min="0" max="100" value="100"
+              oninput="onSleepScoreChange(this.value)">
+            <input type="number" class="number-input" id="sleep-score-input" min="0" max="100" value="100"
+              oninput="onSleepScoreInputChange(this.value)">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">サブスキル「睡眠EXPボーナス」チーム合計数</label>
+          <div class="pill-selector">
+            <button class="pill-btn active green" onclick="setSleepExpBonus(0, this)">0個 (+0%)</button>
+            <button class="pill-btn green" onclick="setSleepExpBonus(1, this)">1個 (+14%)</button>
+            <button class="pill-btn green" onclick="setSleepExpBonus(2, this)">2個 (+28%)</button>
+            <button class="pill-btn green" onclick="setSleepExpBonus(3, this)">3個 (+42%)</button>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <span style="font-weight: 800; font-size: 0.88rem;">🌾 成長のおこう常時使用 (睡眠EXP 2倍)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sleep-incense-toggle" onchange="calculateSimulation()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span style="font-weight: 800; font-size: 0.88rem;">🌕 グッドスリープデー考慮 (月1回 GSD)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="sleep-gsd-toggle" checked onchange="calculateSimulation()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 特大成果表示 -->
+        <div class="hero-stat-card" style="border-color: var(--accent-green); margin-top: 14px;">
+          <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">💤
+            睡眠リサーチのみでの達成日数</div>
+          <div class="hero-stat-val" id="sleep-res-days" style="color: var(--accent-green);">0 <span
+              style="font-size: 1.15rem;">日</span></div>
+          <div class="target-date-tag" id="sleep-res-date">📅 2026年--月--日 に達成予定</div>
+          <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+            id="sleep-res-sub">1日あたり約 100 EXP 獲得計算</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== タブ③: 🏝️ おひるね島 (公式完全仕様) ==================== -->
+    <div class="tab-content" id="tab-content-island">
+      <div class="card">
+        <div class="card-title" style="color: var(--accent-yellow);">
+          <span>🏝️</span> おひるね島 滞在放置による目標達成日数
+        </div>
+
+        <!-- リラックスチケット選択 -->
+        <div class="control-group">
+          <label class="control-label">🎫 おひるねリラックスチケットの利用</label>
+          <div class="pill-selector">
+            <button class="pill-btn active yellow" id="ticket-off-btn" onclick="setIslandTicket(false)">
+              🏝️ 通常滞在<br><span style="font-size:0.72rem; font-weight:700;">150 EXP / 日</span>
+            </button>
+            <button class="pill-btn yellow" id="ticket-on-btn" onclick="setIslandTicket(true)">
+              🎟️ リラックスチケット使用<br><span style="font-size:0.72rem; font-weight:700;">600 EXP / 日 (+450EXP)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 7日間満喫ルール (早期引き取り半減) -->
+        <div class="toggle-row" style="margin-top: 8px;">
+          <div>
+            <span style="font-weight: 800; font-size: 0.88rem; color: var(--accent-yellow);">✨ 7日間以上満喫して引き取る (100%
+              獲得)</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="island-7days-toggle" checked onchange="calculateSimulation()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 🎁 ゴンベのものひろい還元考慮ボタン + ℹ️ モーダルボタン -->
+        <div class="toggle-row" style="margin-top: 8px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-weight: 800; font-size: 0.88rem; color: var(--accent-yellow);">🎁
+              ゴンベのものひろいアメ還元を考慮する</span>
+            <button type="button" class="info-modal-btn" onclick="openPickupModal()" title="説明を見る">ⓘ</button>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="island-pickup-toggle" onchange="calculateSimulation()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- 特大成果表示 -->
+        <div class="hero-stat-card" style="border-color: var(--accent-yellow); margin-top: 14px;">
+          <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">🏝️ おひるね島
+            滞在達成日数</div>
+          <div class="hero-stat-val" id="island-res-days" style="color: var(--accent-yellow);">0 <span
+              style="font-size: 1.15rem;">日</span></div>
+          <div class="target-date-tag" id="island-res-date"
+            style="color: var(--accent-yellow); border-color: rgba(217, 119, 6, 0.25);">2026年--月--日 に達成予定</div>
+          <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+            id="island-res-sub">1日あたり約 150 EXP 獲得計算</div>
+          <div
+            style="font-size: 0.82rem; font-weight: 900; color: var(--accent-purple); margin-top: 6px; display: none;"
+            id="island-pickup-sub">⚡ 2週間ごとのゴンベアメ還元により 約 0 日短縮！</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ℹ️ インフォメーション モーダルダイアログ -->
+  <div class="modal-overlay" id="pickup-modal-overlay" onclick="closePickupModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div
+          style="font-size: 1.05rem; font-weight: 900; color: var(--accent-yellow); display: flex; align-items: center; gap: 6px;">
+          <span>🎁</span> ゴンベのものひろいアメ還元について
+        </div>
+        <button type="button" onclick="closePickupModal()"
+          style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-sub); font-weight: 900;">✕</button>
+      </div>
+      <div style="font-size: 0.84rem; line-height: 1.55; color: var(--text-sub); font-weight: 700;">
+        おひるね島では、ものひろい箱が満杯になる<b>「2週間に1回（約14日）」</b>のペースで引き取ってアメを即投入することを想定しています。<br><br>
+        ゴンベが拾ったアメ（1日平均約2.5個分相当）をレベルアップに還元するため、<b>目標レベル到達までの【実質的な必要日数】が短縮</b>されます！<br><br>
+        <span style="color: var(--accent-purple);">※拾ったアメはアメブースト非適用・かけら消費なしで通常使用する計算です。</span>
+      </div>
+      <button type="button" onclick="closePickupModal()"
+        style="margin-top: 14px; width: 100%; padding: 9px; background: var(--accent-yellow); color: #fff; border: none; border-radius: var(--radius-md); font-weight: 900; cursor: pointer;">閉じる</button>
+    </div>
+  </div>
+
+  <footer>
+    ポケスリ ポケモンレベル育成＆EXP計算機 | dyussuca.com
+  </footer>
+
+  <script>
+    // --- 1. ポケスリ公式100%正確レベルマスターデータ (通常600タイプ基準: Lv.1〜70) ---
+    const LEVEL_BASE_DATA = [
+      [0, 0, 14],            // Lv.1
+      [54, 54, 14],          // Lv.2
+      [71, 125, 18],         // Lv.3
+      [108, 233, 22],        // Lv.4
+      [128, 361, 27],        // Lv.5
+      [164, 525, 30],        // Lv.6
+      [202, 727, 34],        // Lv.7
+      [244, 971, 39],        // Lv.8
+      [274, 1245, 44],       // Lv.9
+      [315, 1560, 48],       // Lv.10
+      [345, 1905, 50],       // Lv.11
+      [376, 2281, 52],       // Lv.12
+      [407, 2688, 53],       // Lv.13
+      [419, 3107, 56],       // Lv.14
+      [429, 3536, 59],       // Lv.15
+      [440, 3976, 62],       // Lv.16
+      [454, 4430, 66],       // Lv.17
+      [469, 4899, 68],       // Lv.18
+      [483, 5382, 71],       // Lv.19
+      [497, 5879, 74],       // Lv.20
+      [515, 6394, 78],       // Lv.21
+      [537, 6931, 81],       // Lv.22
+      [558, 7489, 85],       // Lv.23
+      [579, 8068, 88],       // Lv.24
+      [600, 8668, 92],       // Lv.25 (基準: 600EXP)
+      [622, 9290, 95],       // Lv.26
+      [643, 9933, 100],      // Lv.27
+      [665, 10598, 105],     // Lv.28
+      [686, 11284, 111],     // Lv.29
+      [708, 11992, 117],     // Lv.30
+      [729, 12721, 122],     // Lv.31
+      [748, 13469, 126],     // Lv.32
+      [766, 14235, 130],     // Lv.33
+      [785, 15020, 136],     // Lv.34
+      [803, 15823, 143],     // Lv.35
+      [821, 16644, 151],     // Lv.36
+      [839, 17483, 160],     // Lv.37
+      [857, 18340, 167],     // Lv.38
+      [875, 19215, 174],     // Lv.39
+      [893, 20108, 184],     // Lv.40
+      [910, 21018, 192],     // Lv.41
+      [928, 21946, 201],     // Lv.42
+      [945, 22891, 211],     // Lv.43
+      [963, 23854, 221],     // Lv.44
+      [980, 24834, 227],     // Lv.45
+      [997, 25831, 236],     // Lv.46
+      [1015, 26846, 250],    // Lv.47
+      [1032, 27878, 264],    // Lv.48
+      [1049, 28927, 279],    // Lv.49
+      [1066, 29993, 295],    // Lv.50
+      [1362, 31355, 309],    // Lv.51
+      [1562, 32917, 323],    // Lv.52
+      [1747, 34664, 338],    // Lv.53
+      [1946, 36610, 356],    // Lv.54
+      [2195, 38805, 372],    // Lv.55
+      [2279, 41084, 391],    // Lv.56
+      [2404, 43488, 437],    // Lv.57
+      [2533, 46021, 486],    // Lv.58
+      [2666, 48687, 538],    // Lv.59
+      [2806, 51493, 593],    // Lv.60
+      [2865, 54358, 651],    // Lv.61
+      [2922, 57280, 698],    // Lv.62
+      [2977, 60257, 750],    // Lv.63
+      [3029, 63286, 804],    // Lv.64
+      [3077, 66363, 866],    // Lv.65
+      [3095, 69458, 932],    // Lv.66
+      [3116, 72574, 1004],   // Lv.67
+      [3144, 75718, 1084],   // Lv.68
+      [3189, 78907, 1173],   // Lv.69
+      [3255, 82162, 1272]    // Lv.70
+    ];
+
+    // 経験値タイプ倍率マップ
+    const TYPE_MULT_MAP = {
+      normal: 1.0,     // 600タイプ
+      dragon600: 1.5,  // 900タイプ
+      legend1080: 1.8, // 1080タイプ
+      myth1320: 2.2    // 1320タイプ
+    };
+
+    // --- 2. アプリ状態変数 ---
+    let activeTab = 'candy'; // 'candy' | 'sleep' | 'island'
+    let pokemonType = 'normal';
+    let natureType = 'normal';
+    let candyBoostMode = 'none'; // 'none' | 'mini' | 'holiday'
+    let currentLevel = 1;
+    let targetLevel = 30;
+
+    let sleepScore = 100;
+    let sleepExpBonusCount = 0;
+
+    let isIslandTicket = false;
+
+    // --- 3. テーマ切り替え ---
+    function initTheme() {
+      const savedTheme = localStorage.getItem('exp_sim_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeUI(savedTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('exp_sim_theme', next);
+      updateThemeUI(next);
+    }
+
+    function updateThemeUI(theme) {
+      document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.getElementById('theme-text').textContent = theme === 'dark' ? 'ライト' : 'ダーク';
+    }
+
+    // モーダル開閉
+    function openPickupModal() {
+      document.getElementById('pickup-modal-overlay').classList.add('active');
+    }
+    function closePickupModal(e) {
+      if (!e || e.target === document.getElementById('pickup-modal-overlay')) {
+        document.getElementById('pickup-modal-overlay').classList.remove('active');
+      }
+    }
+
+    // --- 4. タブ切り替え ---
+    function switchTab(tabKey) {
+      activeTab = tabKey;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+      const activeContent = document.getElementById(`tab-content-${tabKey}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activeContent) activeContent.classList.add('active');
+      calculateSimulation();
+    }
+
+    // --- 5. 入力操作ハンドラ ---
+    function setPokemonType(type) {
+      pokemonType = type;
+      document.querySelectorAll('[id^="type-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`type-${type}-btn`);
+      if (activeBtn) activeBtn.classList.add('active');
+      calculateSimulation();
+    }
+
+    function setNature(nature) {
+      natureType = nature;
+      document.getElementById('nature-up-btn').classList.toggle('active', nature === 'up');
+      document.getElementById('nature-normal-btn').classList.toggle('active', nature === 'normal');
+      document.getElementById('nature-down-btn').classList.toggle('active', nature === 'down');
+      calculateSimulation();
+    }
+
+    function setCandyBoostMode(mode) {
+      candyBoostMode = mode;
+      document.getElementById('boost-none-btn').classList.toggle('active', mode === 'none');
+      document.getElementById('boost-mini-btn').classList.toggle('active', mode === 'mini');
+      document.getElementById('boost-holiday-btn').classList.toggle('active', mode === 'holiday');
+      calculateSimulation();
+    }
+
+    function setIslandTicket(isTicket) {
+      isIslandTicket = isTicket;
+      document.getElementById('ticket-off-btn').classList.toggle('active', !isTicket);
+      document.getElementById('ticket-on-btn').classList.toggle('active', isTicket);
+      calculateSimulation();
+    }
+
+    function onCurrentLevelChange(val) {
+      currentLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
+      if (currentLevel > targetLevel) {
+        targetLevel = currentLevel;
+        document.getElementById('target-level-slider').value = targetLevel;
+        document.getElementById('target-level-input').value = targetLevel;
+      }
+      document.getElementById('current-level-input').value = currentLevel;
+      calculateSimulation();
+    }
+
+    function onCurrentLevelInputChange(val) {
+      currentLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
+      if (currentLevel > targetLevel) {
+        targetLevel = currentLevel;
+        document.getElementById('target-level-slider').value = targetLevel;
+        document.getElementById('target-level-input').value = targetLevel;
+      }
+      document.getElementById('current-level-slider').value = currentLevel;
+      calculateSimulation();
+    }
+
+    function onTargetLevelChange(val) {
+      targetLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
+      if (targetLevel < currentLevel) {
+        currentLevel = targetLevel;
+        document.getElementById('current-level-slider').value = currentLevel;
+        document.getElementById('current-level-input').value = currentLevel;
+      }
+      document.getElementById('target-level-input').value = targetLevel;
+      calculateSimulation();
+    }
+
+    function onTargetLevelInputChange(val) {
+      targetLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
+      if (targetLevel < currentLevel) {
+        currentLevel = targetLevel;
+        document.getElementById('current-level-slider').value = currentLevel;
+        document.getElementById('current-level-input').value = currentLevel;
+      }
+      document.getElementById('target-level-slider').value = targetLevel;
+      calculateSimulation();
+    }
+
+    function setTargetLevelPreset(val) {
+      targetLevel = val;
+      if (currentLevel > targetLevel) {
+        currentLevel = targetLevel;
+        document.getElementById('current-level-slider').value = currentLevel;
+        document.getElementById('current-level-input').value = currentLevel;
+      }
+      document.getElementById('target-level-slider').value = targetLevel;
+      document.getElementById('target-level-input').value = targetLevel;
+      calculateSimulation();
+    }
+
+    function onSleepScoreChange(val) {
+      sleepScore = Math.min(100, Math.max(0, parseInt(val) || 0));
+      document.getElementById('sleep-score-input').value = sleepScore;
+      calculateSimulation();
+    }
+
+    function onSleepScoreInputChange(val) {
+      sleepScore = Math.min(100, Math.max(0, parseInt(val) || 0));
+      document.getElementById('sleep-score-slider').value = sleepScore;
+      calculateSimulation();
+    }
+
+    function setSleepExpBonus(count, btnElem) {
+      sleepExpBonusCount = count;
+      const parent = btnElem.parentElement;
+      parent.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btnElem.classList.add('active');
+      calculateSimulation();
+    }
+
+    // --- 6. 計算ヘルパー ---
+    function getCumulativeExp(level, type) {
+      if (level <= 1) return 0;
+      const baseCumulative = LEVEL_BASE_DATA[level - 1][1];
+      const mult = TYPE_MULT_MAP[type] || 1.0;
+      return Math.round(baseCumulative * mult);
+    }
+
+    function getLevelSingleExp(level, type) {
+      if (level <= 1) return 0;
+      const baseSingle = LEVEL_BASE_DATA[level - 1][0];
+      const mult = TYPE_MULT_MAP[type] || 1.0;
+      return Math.round(baseSingle * mult);
+    }
+
+    // 🌟 Ver.3.6.0 公式最新アメ獲得EXP算出関数
+    function getExpPerCandyForLevel(level, nature, boostMode) {
+      // 1. レベル帯ごとの基礎獲得EXP (Ver.3.6.0)
+      let baseExp = 25;
+      if (level <= 25) {
+        baseExp = 40; // Lv.1〜25は40EXP
+      } else if (level <= 30) {
+        baseExp = 35; // Lv.26〜30は35EXP
+      } else {
+        baseExp = 25; // Lv.31〜70は25EXP
+      }
+
+      // 2. 性格補正乗算
+      let natureMult = 1.0;
+      if (nature === 'up') natureMult = 1.2;       // +20%
+      else if (nature === 'down') natureMult = 0.84; // -16%
+
+      let candyExp = Math.round(baseExp * natureMult);
+
+      // 3. アメブースト (EXP 2倍)
+      if (boostMode === 'mini' || boostMode === 'holiday') {
+        candyExp *= 2;
+      }
+
+      return candyExp;
+    }
+
+    // 日数から到達日付文字列を算出
+    function getTargetDateStr(days) {
+      if (days <= 0) return '🎉 すでに達成しています！';
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + days);
+      const year = targetDate.getFullYear();
+      const month = targetDate.getMonth() + 1;
+      const date = targetDate.getDate();
+      const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][targetDate.getDay()];
+      return `📅 ${year}年${month}月${date}日(${dayOfWeek}) に達成予定`;
+    }
+
+    // --- 7. メイン計算処理 ---
+    function calculateSimulation() {
+      let sleepNatureMult = 1.0;
+      if (natureType === 'up') sleepNatureMult = 1.18;
+      else if (natureType === 'down') sleepNatureMult = 0.82;
+
+      // 残りEXP考慮した必要総EXP
+      const nextLevelExpInput = parseInt(document.getElementById('next-level-exp-input').value) || 0;
+      const currentCumulativeExp = getCumulativeExp(currentLevel, pokemonType);
+      const targetCumulativeExp = getCumulativeExp(targetLevel, pokemonType);
+
+      let rawRequiredExp = Math.max(0, targetCumulativeExp - currentCumulativeExp);
+      if (currentLevel < 70 && nextLevelExpInput > 0) {
+        const fullNextLevelExp = getLevelSingleExp(currentLevel + 1, pokemonType);
+        const alreadyEarnedExp = Math.max(0, fullNextLevelExp - nextLevelExpInput);
+        rawRequiredExp = Math.max(0, rawRequiredExp - alreadyEarnedExp);
+      }
+      const requiredExp = rawRequiredExp;
+
+      // 【1. アメ育成計算 (Ver.3.6.0 段階的アメ計算エンジン)】
+      let shardCostMultiplier = 1;
+      let boostSubText = '※かけらは現在の残り経験値等で変動するため参考値';
+
+      if (candyBoostMode === 'mini') {
+        shardCostMultiplier = 4;
+        boostSubText = '※ミニアメブースト適用中 (アメEXP 2倍 / かけら 4倍 / 50個/日上限)';
+      } else if (candyBoostMode === 'holiday') {
+        shardCostMultiplier = 5;
+        boostSubText = '※ホリデー大ブースト適用中 (アメEXP 2倍 / かけら 5倍 / 500個/日上限)';
+      }
+
+      let totalCandiesNeeded = 0;
+      let totalShardsNeeded = 0;
+
+      for (let lv = currentLevel; lv < targetLevel; lv++) {
+        let lvRequiredExp = getLevelSingleExp(lv + 1, pokemonType);
+        if (lv === currentLevel && nextLevelExpInput > 0) {
+          lvRequiredExp = Math.min(lvRequiredExp, nextLevelExpInput);
+        }
+
+        // 対象レベルlvでのアメ1個あたり獲得EXPを取得 (Ver.3.6.0)
+        const expPerCandyForLv = getExpPerCandyForLevel(lv + 1, natureType, candyBoostMode);
+
+        const candiesForLv = Math.ceil(lvRequiredExp / expPerCandyForLv);
+        totalCandiesNeeded += candiesForLv;
+
+        // ゆめのかけら単価は公式マスターデータ参照 (経験値タイプによらずかけら必要量は同一)
+        let shardCostPerCandy = LEVEL_BASE_DATA[lv - 1][2] * shardCostMultiplier;
+        totalShardsNeeded += (candiesForLv * shardCostPerCandy);
+      }
+
+      document.getElementById('candy-res-candy').innerHTML = `${totalCandiesNeeded.toLocaleString()} <span style="font-size: 1.15rem;">個</span>`;
+      document.getElementById('candy-res-candy-sub').textContent = `※対象ポケモンのアメ (Ver.3.6.0 段階的獲得EXP適用)`;
+
+      document.getElementById('candy-res-shard').innerHTML = `${totalShardsNeeded.toLocaleString()} <span style="font-size: 1.15rem;">個</span>`;
+      document.getElementById('candy-res-shard-sub').textContent = boostSubText;
+
+      // 【2. 通常睡眠リサーチ計算】
+      let dailyBaseSleepExp = sleepScore * sleepNatureMult;
+      let dailySleepExp = dailyBaseSleepExp * (1 + sleepExpBonusCount * 0.14);
+      if (document.getElementById('sleep-incense-toggle').checked) dailySleepExp *= 2;
+      const isSleepGsd = document.getElementById('sleep-gsd-toggle').checked;
+
+      let sleepDays = 0;
+      let accumSleepExp = 0;
+      while (accumSleepExp < requiredExp && sleepDays < 3650) {
+        sleepDays++;
+        let todayExp = dailySleepExp;
+        if (isSleepGsd && (sleepDays % 30 === 15)) todayExp *= 2.5;
+        accumSleepExp += todayExp;
+      }
+
+      document.getElementById('sleep-res-days').innerHTML = `${sleepDays.toLocaleString()} <span style="font-size: 1.15rem;">日</span>`;
+      document.getElementById('sleep-res-date').textContent = getTargetDateStr(sleepDays);
+      document.getElementById('sleep-res-sub').textContent = `1日あたり約 ${Math.round(dailySleepExp)} EXP 獲得計算 (${currentLevel}Lv ➔ ${targetLevel}Lv)`;
+
+      // 【3. おひるね島 (公式完全仕様) 計算】
+      const baseIslandExpPerDay = isIslandTicket ? 600 : 150;
+      const islandNatureMult = (natureType === 'up') ? 1.18 : 1.0;
+      const is7DaysFulfilled = document.getElementById('island-7days-toggle').checked;
+      const earlyWithdrawMult = is7DaysFulfilled ? 1.0 : 0.5;
+
+      const dailyIslandExp = Math.floor(baseIslandExpPerDay * islandNatureMult * earlyWithdrawMult);
+
+      // ゴンベのものひろいアメ還元計算
+      const isPickupConsidered = document.getElementById('island-pickup-toggle').checked;
+      const pickupSubElem = document.getElementById('island-pickup-sub');
+
+      // 現在レベルでのアメ獲得EXP還元
+      const currentCandyExpRate = getExpPerCandyForLevel(currentLevel, natureType, 'none');
+      const dailyPickupCandyExp = isPickupConsidered ? Math.round(2.5 * currentCandyExpRate) : 0;
+      const dailyTotalEffectiveExp = dailyIslandExp + dailyPickupCandyExp;
+
+      let baseIslandDays = 0;
+      if (dailyIslandExp > 0) baseIslandDays = Math.ceil(requiredExp / dailyIslandExp);
+
+      let effectiveIslandDays = 0;
+      if (dailyTotalEffectiveExp > 0) effectiveIslandDays = Math.ceil(requiredExp / dailyTotalEffectiveExp);
+
+      const savedDays = Math.max(0, baseIslandDays - effectiveIslandDays);
+
+      if (isPickupConsidered && savedDays > 0) {
+        pickupSubElem.style.display = 'block';
+        pickupSubElem.textContent = `⚡ 2週間ごとのゴンベアメ還元により 実質約 ${savedDays} 日 短縮！`;
+      } else {
+        pickupSubElem.style.display = 'none';
+      }
+
+      const finalIslandDays = isPickupConsidered ? effectiveIslandDays : baseIslandDays;
+
+      document.getElementById('island-res-days').innerHTML = `${finalIslandDays.toLocaleString()} <span style="font-size: 1.15rem;">日</span>`;
+      document.getElementById('island-res-date').textContent = getTargetDateStr(finalIslandDays);
+      document.getElementById('island-res-sub').textContent = `1日あたり実質約 ${dailyTotalEffectiveExp} EXP 獲得 ( ${dailyIslandExp}EXP ${isPickupConsidered ? '+ アメ還元: ' + dailyPickupCandyExp + 'EXP' : ''})`;
+    }
+
+    // --- 8. 初期化 ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      calculateSimulation();
+    });
+  </script>
+</body>
+
+</html>
