@@ -309,31 +309,32 @@
       display: block;
     }
 
-    /* 結果表示カード (dyussuca.com互換スタイル) */
+    /* 🌟 結果表示カード (数値を超大ドカンと拡大) */
     .hero-stat-card {
       background: var(--bg-card);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 16px;
+      padding: 20px 16px;
       text-align: center;
       box-shadow: var(--shadow-sm);
       margin-top: 12px;
     }
 
     .hero-stat-val {
-      font-size: 2.3rem;
+      font-size: 3.2rem;
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.1;
       font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+      margin: 6px 0;
     }
 
     .target-date-tag {
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: var(--accent-blue);
       background: var(--hero-bg);
-      padding: 3px 9px;
-      border-radius: 10px;
+      padding: 4px 12px;
+      border-radius: 12px;
       display: inline-block;
       margin-top: 6px;
       border: 1px solid var(--border-color-soft);
@@ -556,13 +557,13 @@
     <!-- 🌟 3タブ切り替えバー -->
     <div class="tab-bar">
       <button class="tab-btn active candy-tab" id="tab-btn-candy" onclick="switchTab('candy')">
-        <span>🍬</span> アメ
+        <span>🍬</span> 1. アメ育成コスト
       </button>
       <button class="tab-btn sleep-tab" id="tab-btn-sleep" onclick="switchTab('sleep')">
-        <span>💤</span> 睡眠
+        <span>💤</span> 2. 通常睡眠リサーチ
       </button>
       <button class="tab-btn island-tab" id="tab-btn-island" onclick="switchTab('island')">
-        <span>🏝️</span> ゴン平島
+        <span>🏝️</span> 3. おひるね島 (放置)
       </button>
     </div>
 
@@ -575,39 +576,33 @@
 
         <!-- アメブースト設定 -->
         <div class="control-group">
-          <label class="control-label">🔥 アメブーストイベント設定 (Ver.3.6.0最新適用)</label>
+          <label class="control-label">🔥 アメブーストイベント設定</label>
           <div class="pill-selector"
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px;">
             <button class="pill-btn active purple" id="boost-none-btn" onclick="setCandyBoostMode('none')">
-              ⚪ OFF</span>
+              ⚪ OFF (通常時)<br><span style="font-size:0.7rem; font-weight:700;">EXP 1倍 / かけら 1倍</span>
             </button>
             <button class="pill-btn purple" id="boost-mini-btn" onclick="setCandyBoostMode('mini')">
-              🔥 ミニ</span>
+              🔥 ミニアメブースト<br><span style="font-size:0.7rem; font-weight:700;">EXP 2倍 / かけら 4倍<br>(50個/日)</span>
             </button>
             <button class="pill-btn purple" id="boost-holiday-btn" onclick="setCandyBoostMode('holiday')">
-              💥 ホリデー</span>
+              💥 ホリデー2024/2025<br><span style="font-size:0.7rem; font-weight:700;">EXP 2倍 / かけら 5倍<br>(500個/日)</span>
             </button>
           </div>
         </div>
 
-        <!-- 特大成果表示 -->
+        <!-- 🌟 特大成果表示 (数値ドカン大表示 ＆ 余計な注記テキスト排除) -->
         <div class="grid-2" style="margin-top: 14px;">
           <div class="hero-stat-card" style="border-color: var(--accent-purple);">
-            <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">🍬 目標Lvまでに必要な
-              アメの個数</div>
+            <div style="font-size: 0.95rem; font-weight: 900; color: var(--text-sub);">🍬 目標Lvまでに必要な アメの個数</div>
             <div class="hero-stat-val" id="candy-res-candy" style="color: var(--accent-purple);">0 <span
-                style="font-size: 1.15rem;">個</span></div>
-            <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
-              id="candy-res-candy-sub">※対象ポケモンのアメ (Ver.3.6.0段階的獲得EXP適用)</div>
+                style="font-size: 1.4rem;">個</span></div>
           </div>
 
           <div class="hero-stat-card" style="border-color: var(--accent-yellow);">
-            <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">💎 目標Lvまでに必要な
-              ゆめのかけら合計</div>
+            <div style="font-size: 0.95rem; font-weight: 900; color: var(--text-sub);">💎 目標Lvまでに必要な ゆめのかけら合計</div>
             <div class="hero-stat-val" id="candy-res-shard" style="color: var(--accent-yellow);">0 <span
-                style="font-size: 1.15rem;">個</span></div>
-            <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
-              id="candy-res-shard-sub">※かけらは現在の残り経験値等で変動するため参考値</div>
+                style="font-size: 1.4rem;">個</span></div>
           </div>
         </div>
       </div>
@@ -658,12 +653,11 @@
 
         <!-- 特大成果表示 -->
         <div class="hero-stat-card" style="border-color: var(--accent-green); margin-top: 14px;">
-          <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">💤
-            睡眠リサーチのみでの達成日数</div>
+          <div style="font-size: 0.95rem; font-weight: 900; color: var(--text-sub);">💤 睡眠リサーチのみでの達成日数</div>
           <div class="hero-stat-val" id="sleep-res-days" style="color: var(--accent-green);">0 <span
-              style="font-size: 1.15rem;">日</span></div>
-          <div class="target-date-tag" id="sleep-res-date">📅 2026年--月--日 に達成予定</div>
-          <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+              style="font-size: 1.4rem;">日</span></div>
+          <div class="target-date-tag" id="sleep-res-date">📅 本日開始で 2026年--月--日 に達成予定</div>
+          <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-sub); margin-top: 8px;"
             id="sleep-res-sub">1日あたり約 100 EXP 獲得計算</div>
         </div>
       </div>
@@ -716,16 +710,15 @@
 
         <!-- 特大成果表示 -->
         <div class="hero-stat-card" style="border-color: var(--accent-yellow); margin-top: 14px;">
-          <div style="font-size: 0.88rem; font-weight: 900; color: var(--text-sub); margin-bottom: 4px;">🏝️ おひるね島
-            滞在達成日数</div>
+          <div style="font-size: 0.95rem; font-weight: 900; color: var(--text-sub);">🏝️ おひるね島 滞在達成日数</div>
           <div class="hero-stat-val" id="island-res-days" style="color: var(--accent-yellow);">0 <span
-              style="font-size: 1.15rem;">日</span></div>
+              style="font-size: 1.4rem;">日</span></div>
           <div class="target-date-tag" id="island-res-date"
             style="color: var(--accent-yellow); border-color: rgba(217, 119, 6, 0.25);">2026年--月--日 に達成予定</div>
-          <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub); margin-top: 6px;"
+          <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-sub); margin-top: 8px;"
             id="island-res-sub">1日あたり約 150 EXP 獲得計算</div>
           <div
-            style="font-size: 0.82rem; font-weight: 900; color: var(--accent-purple); margin-top: 6px; display: none;"
+            style="font-size: 0.85rem; font-weight: 900; color: var(--accent-purple); margin-top: 8px; display: none;"
             id="island-pickup-sub">⚡ 2週間ごとのゴンベアメ還元により 約 0 日短縮！</div>
         </div>
       </div>
@@ -1056,7 +1049,7 @@
       const month = targetDate.getMonth() + 1;
       const date = targetDate.getDate();
       const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][targetDate.getDay()];
-      return `📅 ${year}年${month}月${date}日(${dayOfWeek}) に達成予定`;
+      return `📅 本日開始で ${year}年${month}月${date}日(${dayOfWeek}) に達成予定`;
     }
 
     // --- 7. メイン計算処理 ---
@@ -1080,14 +1073,10 @@
 
       // 【1. アメ育成計算 (Ver.3.6.0 段階的アメ計算エンジン)】
       let shardCostMultiplier = 1;
-      let boostSubText = '※かけらは現在の残り経験値等で変動するため参考値';
-
       if (candyBoostMode === 'mini') {
         shardCostMultiplier = 4;
-        boostSubText = '※ミニアメブースト適用中 (アメEXP 2倍 / かけら 4倍 / 50個/日上限)';
       } else if (candyBoostMode === 'holiday') {
         shardCostMultiplier = 5;
-        boostSubText = '※ホリデー大ブースト適用中 (アメEXP 2倍 / かけら 5倍 / 500個/日上限)';
       }
 
       let totalCandiesNeeded = 0;
@@ -1105,16 +1094,14 @@
         const candiesForLv = Math.ceil(lvRequiredExp / expPerCandyForLv);
         totalCandiesNeeded += candiesForLv;
 
-        // ゆめのかけら単価は公式マスターデータ参照 (経験値タイプによらずかけら必要量は同一)
+        // ゆめのかけら単価は公式マスターデータ参照
         let shardCostPerCandy = LEVEL_BASE_DATA[lv - 1][2] * shardCostMultiplier;
         totalShardsNeeded += (candiesForLv * shardCostPerCandy);
       }
 
-      document.getElementById('candy-res-candy').innerHTML = `${totalCandiesNeeded.toLocaleString()} <span style="font-size: 1.15rem;">個</span>`;
-      document.getElementById('candy-res-candy-sub').textContent = `※対象ポケモンのアメ (Ver.3.6.0 段階的獲得EXP適用)`;
-
-      document.getElementById('candy-res-shard').innerHTML = `${totalShardsNeeded.toLocaleString()} <span style="font-size: 1.15rem;">個</span>`;
-      document.getElementById('candy-res-shard-sub').textContent = boostSubText;
+      // 数値を大表示
+      document.getElementById('candy-res-candy').innerHTML = `${totalCandiesNeeded.toLocaleString()} <span style="font-size: 1.4rem;">個</span>`;
+      document.getElementById('candy-res-shard').innerHTML = `${totalShardsNeeded.toLocaleString()} <span style="font-size: 1.4rem;">個</span>`;
 
       // 【2. 通常睡眠リサーチ計算】
       let dailyBaseSleepExp = sleepScore * sleepNatureMult;
@@ -1131,7 +1118,7 @@
         accumSleepExp += todayExp;
       }
 
-      document.getElementById('sleep-res-days').innerHTML = `${sleepDays.toLocaleString()} <span style="font-size: 1.15rem;">日</span>`;
+      document.getElementById('sleep-res-days').innerHTML = `${sleepDays.toLocaleString()} <span style="font-size: 1.4rem;">日</span>`;
       document.getElementById('sleep-res-date').textContent = getTargetDateStr(sleepDays);
       document.getElementById('sleep-res-sub').textContent = `1日あたり約 ${Math.round(dailySleepExp)} EXP 獲得計算 (${currentLevel}Lv ➔ ${targetLevel}Lv)`;
 
@@ -1147,7 +1134,6 @@
       const isPickupConsidered = document.getElementById('island-pickup-toggle').checked;
       const pickupSubElem = document.getElementById('island-pickup-sub');
 
-      // 現在レベルでのアメ獲得EXP還元
       const currentCandyExpRate = getExpPerCandyForLevel(currentLevel, natureType, 'none');
       const dailyPickupCandyExp = isPickupConsidered ? Math.round(2.5 * currentCandyExpRate) : 0;
       const dailyTotalEffectiveExp = dailyIslandExp + dailyPickupCandyExp;
@@ -1169,9 +1155,9 @@
 
       const finalIslandDays = isPickupConsidered ? effectiveIslandDays : baseIslandDays;
 
-      document.getElementById('island-res-days').innerHTML = `${finalIslandDays.toLocaleString()} <span style="font-size: 1.15rem;">日</span>`;
+      document.getElementById('island-res-days').innerHTML = `${finalIslandDays.toLocaleString()} <span style="font-size: 1.4rem;">日</span>`;
       document.getElementById('island-res-date').textContent = getTargetDateStr(finalIslandDays);
-      document.getElementById('island-res-sub').textContent = `1日あたり実質約 ${dailyTotalEffectiveExp} EXP 獲得 ( ${dailyIslandExp}EXP ${isPickupConsidered ? '+ アメ還元: ' + dailyPickupCandyExp + 'EXP' : ''})`;
+      document.getElementById('island-res-sub').textContent = `1日あたり実質約 ${dailyTotalEffectiveExp} EXP 獲得 (放置: ${dailyIslandExp}EXP ${isPickupConsidered ? '+ アメ還元: ' + dailyPickupCandyExp + 'EXP' : ''})`;
     }
 
     // --- 8. 初期化 ---
