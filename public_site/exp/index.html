@@ -14,7 +14,7 @@
 
   <style>
     :root {
-      --bg-main: #f8fafc;
+      --bg-main: #f1f5f9;
       --bg-card: #ffffff;
       --text-main: #0f172a;
       --text-sub: #475569;
@@ -24,11 +24,12 @@
       --accent-green: #10b981;
       --accent-yellow: #d97706;
       --accent-purple: #7c3aed;
-      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.06));
+      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.06), rgba(16, 185, 129, 0.08));
       --radius-lg: 16px;
       --radius-md: 12px;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.11);
+      --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.15);
     }
 
     [data-theme="dark"] {
@@ -121,7 +122,7 @@
       border-radius: var(--radius-lg);
       padding: 18px 20px;
       margin-bottom: 14px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
     }
 
     .card-title {
@@ -267,6 +268,7 @@
       padding: 5px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
     }
 
     .tab-btn {
@@ -289,16 +291,19 @@
     .tab-btn.active.candy-tab {
       background: var(--accent-purple);
       color: #ffffff;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
     }
 
     .tab-btn.active.sleep-tab {
       background: var(--accent-green);
       color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .tab-btn.active.island-tab {
       background: var(--accent-yellow);
       color: #ffffff;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
     }
 
     .tab-content {
@@ -316,7 +321,7 @@
       border-radius: var(--radius-md);
       padding: 20px 16px;
       text-align: center;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
       margin-top: 12px;
     }
 
@@ -464,7 +469,7 @@
   <header class="header">
     <div class="header-inner">
       <a href="/" style="text-decoration: none;" class="site-title">
-        <span>⚡</span> ポケスリ EXP＆レベル育成シミュレーター
+        <span>⚡</span> ポケスリ 育成シミュ
       </a>
       <button class="theme-toggle-btn" onclick="toggleTheme()">
         <span id="theme-icon">🌙</span> <span id="theme-text">ダーク</span>
@@ -477,13 +482,13 @@
     <!-- 常時トップ表示: ポケモン基本設定カード (タイプ・性格・Lv) -->
     <div class="card">
       <div class="card-title" style="color: var(--accent-blue);">
-        <span>🐣</span> 対象ポケモンの基本ステータス ＆ 目標レベル設定
+        <span>🐣</span> 対象のステータス ＆ レベル目標
       </div>
 
       <div class="grid-2">
         <div>
           <div class="control-group">
-            <label class="control-label">ポケモン区分 (経験値タイプ)</label>
+            <label class="control-label">ポケモン区分</label>
             <div class="pill-selector" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
               <button class="pill-btn active" id="type-normal-btn" onclick="setPokemonType('normal')">
                 🐣 通常 (1.0x)<br>
@@ -557,13 +562,13 @@
     <!-- 🌟 3タブ切り替えバー -->
     <div class="tab-bar">
       <button class="tab-btn active candy-tab" id="tab-btn-candy" onclick="switchTab('candy')">
-        <span>🍬</span> 1. アメ育成コスト
+        <span>🍬</span> アメ
       </button>
       <button class="tab-btn sleep-tab" id="tab-btn-sleep" onclick="switchTab('sleep')">
-        <span>💤</span> 2. 通常睡眠リサーチ
+        <span>💤</span> 睡眠
       </button>
       <button class="tab-btn island-tab" id="tab-btn-island" onclick="switchTab('island')">
-        <span>🏝️</span> 3. おひるね島 (放置)
+        <span>🏝️</span> ゴン平島
       </button>
     </div>
 
@@ -571,22 +576,22 @@
     <div class="tab-content active" id="tab-content-candy">
       <div class="card">
         <div class="card-title" style="color: var(--accent-purple);">
-          <span>🍬</span> アメ投下による育成コストシミュレーション
+          <span>🍬</span> アメ育成シミュレーション
         </div>
 
         <!-- アメブースト設定 -->
         <div class="control-group">
-          <label class="control-label">🔥 アメブーストイベント設定</label>
+          <label class="control-label">🔥 アメブースト設定</label>
           <div class="pill-selector"
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px;">
             <button class="pill-btn active purple" id="boost-none-btn" onclick="setCandyBoostMode('none')">
-              ⚪ OFF (通常時)<br><span style="font-size:0.7rem; font-weight:700;">EXP 1倍 / かけら 1倍</span>
+              ⚪ OFF</span>
             </button>
             <button class="pill-btn purple" id="boost-mini-btn" onclick="setCandyBoostMode('mini')">
-              🔥 ミニアメブースト<br><span style="font-size:0.7rem; font-weight:700;">EXP 2倍 / かけら 4倍<br>(50個/日)</span>
+              🔥 ミニアメブースト</span>
             </button>
             <button class="pill-btn purple" id="boost-holiday-btn" onclick="setCandyBoostMode('holiday')">
-              💥 ホリデー2024/2025<br><span style="font-size:0.7rem; font-weight:700;">EXP 2倍 / かけら 5倍<br>(500個/日)</span>
+              💥 ホリデー</span>
             </button>
           </div>
         </div>
@@ -656,7 +661,7 @@
           <div style="font-size: 0.95rem; font-weight: 900; color: var(--text-sub);">💤 睡眠リサーチのみでの達成日数</div>
           <div class="hero-stat-val" id="sleep-res-days" style="color: var(--accent-green);">0 <span
               style="font-size: 1.4rem;">日</span></div>
-          <div class="target-date-tag" id="sleep-res-date">📅 本日開始で 2026年--月--日 に達成予定</div>
+          <div class="target-date-tag" id="sleep-res-date">2026年--月--日 に達成予定</div>
           <div style="font-size: 0.82rem; font-weight: 800; color: var(--text-sub); margin-top: 8px;"
             id="sleep-res-sub">1日あたり約 100 EXP 獲得計算</div>
         </div>
@@ -667,7 +672,7 @@
     <div class="tab-content" id="tab-content-island">
       <div class="card">
         <div class="card-title" style="color: var(--accent-yellow);">
-          <span>🏝️</span> おひるね島 滞在放置による目標達成日数
+          <span>🏝️</span> おひるね島 滞在による目標達成日数
         </div>
 
         <!-- リラックスチケット選択 -->
@@ -675,10 +680,10 @@
           <label class="control-label">🎫 おひるねリラックスチケットの利用</label>
           <div class="pill-selector">
             <button class="pill-btn active yellow" id="ticket-off-btn" onclick="setIslandTicket(false)">
-              🏝️ 通常滞在<br><span style="font-size:0.72rem; font-weight:700;">150 EXP / 日</span>
+              通常滞在<br><span style="font-size:0.72rem; font-weight:700;">150 EXP / 日</span>
             </button>
             <button class="pill-btn yellow" id="ticket-on-btn" onclick="setIslandTicket(true)">
-              🎟️ リラックスチケット使用<br><span style="font-size:0.72rem; font-weight:700;">600 EXP / 日 (+450EXP)</span>
+              リラックスチケット<br><span style="font-size:0.72rem; font-weight:700;">600 EXP / 日 (+450EXP)</span>
             </button>
           </div>
         </div>
@@ -1049,7 +1054,7 @@
       const month = targetDate.getMonth() + 1;
       const date = targetDate.getDate();
       const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][targetDate.getDay()];
-      return `📅 本日開始で ${year}年${month}月${date}日(${dayOfWeek}) に達成予定`;
+      return `${year}年${month}月${date}日(${dayOfWeek}) に達成予定`;
     }
 
     // --- 7. メイン計算処理 ---
