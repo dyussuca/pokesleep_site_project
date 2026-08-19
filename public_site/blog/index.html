@@ -305,8 +305,31 @@
       transition: transform 0.3s ease;
     }
 
-    .article-card:hover .article-thumb img {
-      transform: scale(1.04);
+    .article-thumb-recipe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #064e3b, #0f172a);
+      border: 1px solid var(--border-color-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .article-thumb-recipe img {
+      max-height: 72%;
+      max-width: 72%;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45));
+      transition: transform 0.3s ease;
+    }
+
+    .article-card:hover .article-thumb img,
+    .article-card:hover .article-thumb-recipe img {
+      transform: scale(1.06);
     }
 
     .article-meta {
@@ -579,7 +602,29 @@
     <!-- ARTICLE GRID -->
     <div class="article-grid" id="article-grid">
 
-      <!-- COLUMN 003 (NEW) -->
+      <!-- COLUMN 004 (NEW) -->
+      <article class="article-card" data-category="column">
+        <a href="./column/004_ninja_salad_stock_guide.html"
+          style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div class="article-thumb-recipe">
+            <img src="../assets/recipes/ニンジャサラダ.png" alt="ニンジャサラダ" loading="lazy">
+          </div>
+          <div class="article-meta">
+            <span class="article-tag tag-col">💬 雑談・考察</span>
+            <time datetime="2026-08-19">2026.08.19</time>
+          </div>
+          <h2 class="article-title">ニンジャサラダの寿命が長すぎる！鍋容量57〜94まで現役な理由とABBウェーニバルの圧倒的強み</h2>
+          <p class="article-summary">
+            最適備蓄シミュレーターで発覚！鍋容量57から未来の94までトップに君臨し続ける「ニンジャサラダ」の驚異的な寿命と、大豆・ネギを両方カバーできるABBウェーニバルの厳選おすすめ理由を徹底解説します。
+          </p>
+          <div class="article-footer">
+            <span>続きを読む</span>
+            <span>➔</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- COLUMN 003 -->
       <article class="article-card" data-category="column">
         <a href="./column/003_ingredient_specialist_guide.html"
           style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
