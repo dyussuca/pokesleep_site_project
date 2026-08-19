@@ -219,10 +219,10 @@
       line-height: 1.7;
     }
 
-    /* CATEGORY FILTER */
+    /* CATEGORY FILTER (2大分類: 開発日誌 / 雑談・考察) */
     .category-filter {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 24px;
       overflow-x: auto;
       padding-bottom: 6px;
@@ -234,9 +234,9 @@
     }
 
     .filter-btn {
-      padding: 8px 16px;
+      padding: 9px 18px;
       border-radius: 30px;
-      font-size: 0.86rem;
+      font-size: 0.9rem;
       font-weight: 800;
       border: 1.5px solid var(--border-color);
       background: var(--bg-card);
@@ -298,6 +298,31 @@
       font-weight: 700;
     }
 
+    .article-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .article-num {
+      font-size: 0.74rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .num-dev {
+      color: var(--accent-blue);
+      background: rgba(37, 99, 235, 0.12);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+    }
+
+    .num-col {
+      color: var(--accent-purple);
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+    }
+
     .article-tag {
       padding: 3px 10px;
       border-radius: 8px;
@@ -310,15 +335,7 @@
       background: linear-gradient(135deg, #2563eb, #3b82f6);
     }
 
-    .tag-cook {
-      background: linear-gradient(135deg, #10b981, #059669);
-    }
-
-    .tag-exp {
-      background: linear-gradient(135deg, #d97706, #b45309);
-    }
-
-    .tag-column {
+    .tag-col {
       background: linear-gradient(135deg, #7c3aed, #6d28d9);
     }
 
@@ -533,25 +550,27 @@
       </p>
     </div>
 
-    <!-- CATEGORY FILTER -->
+    <!-- CATEGORY FILTER (2大分類) -->
     <div class="category-filter">
       <button class="filter-btn active" onclick="filterArticles('all', this)">すべて</button>
-      <button class="filter-btn" onclick="filterArticles('dev', this)">🛠️ 開発日誌・アプデ</button>
-      <button class="filter-btn" onclick="filterArticles('cook', this)">🍳 料理・備蓄戦略</button>
-      <button class="filter-btn" onclick="filterArticles('exp', this)">💤 レベル・EXP育成</button>
+      <button class="filter-btn" onclick="filterArticles('dev', this)">🛠️ 開発日誌</button>
+      <button class="filter-btn" onclick="filterArticles('column', this)">💬 雑談・ポケスリ考察</button>
     </div>
 
     <!-- ARTICLE GRID -->
     <div class="article-grid" id="article-grid">
 
-      <!-- ARTICLE 1 -->
-      <article class="article-card" data-category="dev cook">
-        <a href="./cooking-simulator-development.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+      <!-- DEV 001 -->
+      <article class="article-card" data-category="dev">
+        <a href="./dev/001_cooking_simulator.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
           <div class="article-meta">
-            <span class="article-tag tag-dev">🛠️ 開発日誌</span>
+            <div class="article-tags">
+              <span class="article-num num-dev">DEV #001</span>
+              <span class="article-tag tag-dev">🛠️ 開発日誌</span>
+            </div>
             <time datetime="2026-08-19">2026.08.19</time>
           </div>
-          <h2 class="article-title">【開発日誌】平日18食＆日曜3食の分割調理シミュレーション実装！大成功倍率のこだわりと裏話</h2>
+          <h2 class="article-title">【開発日誌 #001】平日18食＆日曜3食の分割調理シミュレーション実装！大成功倍率のこだわりと裏話</h2>
           <p class="article-summary">
             平日の料理チャンスS（最大+90%）と日曜日のボーナス（基礎30%・最大4.5倍）を完全分離して計算できるようにした理由や、自己加速EXPロジックの開発秘話を解説します。
           </p>
@@ -562,16 +581,19 @@
         </a>
       </article>
 
-      <!-- ARTICLE 2 -->
-      <article class="article-card" data-category="dev exp">
-        <a href="./exp-simulator-ver360-guide.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+      <!-- COLUMN 001 -->
+      <article class="article-card" data-category="column">
+        <a href="./column/001_exp_ver360.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
           <div class="article-meta">
-            <span class="article-tag tag-exp">💤 EXP・育成</span>
+            <div class="article-tags">
+              <span class="article-num num-col">COL #001</span>
+              <span class="article-tag tag-col">💬 雑談・考察</span>
+            </div>
             <time datetime="2026-08-19">2026.08.19</time>
           </div>
-          <h2 class="article-title">【Ver.3.6.0対応】アメの段階的EXP仕様とおひるね島放置育成の効率徹底解説</h2>
+          <h2 class="article-title">【ポケスリ雑談 #001】Ver.3.6.0アメ仕様とおひるね島放置育成の効率徹底考察</h2>
           <p class="article-summary">
-            Ver.3.6.0で新しくなったLv.1〜25(40EXP)・Lv.26〜30(35EXP)の段階的アメ仕様と、おひるね島でのゴンベアメ還元による実質必要日数の短縮ロジックを詳しく解説！
+            Ver.3.6.0で新しくなったLv.1〜25(40EXP)・Lv.26〜30(35EXP)の段階的アメ仕様と、おひるね島でのゴンベアメ還元による実質必要日数の短縮ロジックを詳しく考察します！
           </p>
           <div class="article-footer">
             <span>続きを読む</span>
@@ -580,14 +602,17 @@
         </a>
       </article>
 
-      <!-- ARTICLE 3 -->
-      <article class="article-card" data-category="cook">
-        <a href="./camp-ticket-stock-strategy.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+      <!-- COLUMN 002 -->
+      <article class="article-card" data-category="column">
+        <a href="./column/002_camp_ticket.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
           <div class="article-meta">
-            <span class="article-tag tag-cook">🍳 料理・備蓄</span>
+            <div class="article-tags">
+              <span class="article-num num-col">COL #002</span>
+              <span class="article-tag tag-col">💬 雑談・考察</span>
+            </div>
             <time datetime="2026-08-19">2026.08.19</time>
           </div>
-          <h2 class="article-title">【攻略コラム】いいキャンプチケット時の鍋容量拡張と3ジャンル最適備蓄戦略の基礎</h2>
+          <h2 class="article-title">【ポケスリ雑談 #002】いいキャンプチケット時の鍋容量拡張と3ジャンル最適備蓄戦略のこだわり</h2>
           <p class="article-summary">
             キャンチケ適用時の1.5倍鍋容量と食材被りシナジーを考慮した「3ジャンル最適備蓄」の考え方や、除外フィルターを使った無駄のないバッグ管理術をわかりやすくまとめました。
           </p>
@@ -605,7 +630,7 @@
       <img src="../assets/favicon.png" alt="管理者アイコン" class="about-avatar">
       <div class="about-content">
         <div class="about-name">
-          <span>管理者・開発者: dyussuca（菊池）</span>
+          <span>管理者・開発者: dyussuca</span>
           <span style="font-size:0.75rem; background:var(--accent-blue); color:#fff; padding:2px 8px; border-radius:6px;">AUTHOR</span>
         </div>
         <p class="about-text">
@@ -679,7 +704,7 @@
       }
     });
 
-    // --- 2. カテゴリフィルター ---
+    // --- 2. カテゴリフィルター (dev / column) ---
     function filterArticles(cat, btn) {
       const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(b => b.classList.remove('active'));
@@ -687,8 +712,8 @@
 
       const cards = document.querySelectorAll('.article-card');
       cards.forEach(card => {
-        const itemCats = card.getAttribute('data-category') || '';
-        if (cat === 'all' || itemCats.includes(cat)) {
+        const itemCat = card.getAttribute('data-category') || '';
+        if (cat === 'all' || itemCat === cat) {
           card.style.display = 'flex';
         } else {
           card.style.display = 'none';

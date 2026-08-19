@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>【開発日誌】平日18食＆日曜3食の分割調理シミュレーション実装！大成功倍率のこだわりと裏話 | dyussuca.com</title>
-  <meta name="description" content="平日の料理チャンスS（最大+90%）と日曜日のボーナス（基礎30%・最大4.5倍）を完全分離して計算できるようにした理由や、自己加速EXPロジックの開発秘話を解説します。">
-  <link rel="icon" href="../favicon.ico">
+  <title>【ポケスリ雑談 #001】Ver.3.6.0アメ仕様とおひるね島放置育成の効率徹底考察 | dyussuca.com</title>
+  <meta name="description" content="Ver.3.6.0で新しくなったLv.1〜25(40EXP)・Lv.26〜30(35EXP)の段階的アメ仕様と、おひるね島でのゴンベアメ還元による実質必要日数の短縮ロジックを詳しく考察します！">
+  <link rel="icon" href="../../favicon.ico">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
       --accent-green: #10b981;
       --accent-yellow: #d97706;
       --accent-purple: #7c3aed;
-      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08));
+      --hero-bg: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(124, 58, 237, 0.08));
       --radius-lg: 18px;
       --radius-md: 12px;
       --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
@@ -45,7 +45,7 @@
       --accent-green: #34d399;
       --accent-yellow: #fbbf24;
       --accent-purple: #a78bfa;
-      --hero-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(52, 211, 153, 0.12));
+      --hero-bg: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(167, 139, 250, 0.12));
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
       --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
     }
@@ -97,7 +97,7 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      border: 2px solid var(--accent-blue);
+      border: 2px solid var(--accent-purple);
       object-fit: cover;
     }
 
@@ -176,6 +176,23 @@
       text-decoration: none;
     }
 
+    .article-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-num {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--accent-purple);
+      background: rgba(124, 58, 237, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(124, 58, 237, 0.2);
+    }
+
     .article-tag {
       display: inline-block;
       padding: 4px 12px;
@@ -183,8 +200,7 @@
       font-size: 0.8rem;
       font-weight: 900;
       color: #ffffff;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      margin-bottom: 12px;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
     }
 
     h1 {
@@ -249,7 +265,7 @@
       margin-top: 36px;
       margin-bottom: 14px;
       padding-bottom: 8px;
-      border-bottom: 2px solid var(--accent-blue);
+      border-bottom: 2px solid var(--accent-purple);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -279,9 +295,27 @@
       margin-bottom: 6px;
     }
 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--hero-bg);
+      font-weight: 900;
+    }
+
     .highlight-box {
-      background: rgba(37, 99, 235, 0.08);
-      border-left: 4px solid var(--accent-blue);
+      background: rgba(124, 58, 237, 0.08);
+      border-left: 4px solid var(--accent-purple);
       padding: 16px 20px;
       border-radius: 8px;
       margin-bottom: 22px;
@@ -291,7 +325,7 @@
 
     .tool-link-card {
       background: var(--hero-bg);
-      border: 2px solid var(--accent-blue);
+      border: 2px solid var(--accent-purple);
       border-radius: var(--radius-md);
       padding: 20px;
       text-align: center;
@@ -303,13 +337,13 @@
       align-items: center;
       gap: 8px;
       padding: 10px 24px;
-      background: var(--accent-blue);
+      background: var(--accent-purple);
       color: #ffffff;
       font-weight: 900;
       text-decoration: none;
       border-radius: var(--radius-md);
       margin-top: 10px;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
     }
 
     footer {
@@ -367,14 +401,14 @@
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="./" class="site-brand">
-        <img src="../assets/favicon.png" alt="サイトアイコン">
+      <a href="../" class="site-brand">
+        <img src="../../assets/favicon.png" alt="サイトアイコン">
         <div class="site-title">ポケスリ攻略 ＆ 開発ブログ</div>
       </a>
       <nav class="nav-links">
-        <a href="../" class="nav-btn">🍳 料理計算機</a>
-        <a href="../exp/" class="nav-btn">💤 EXP計算機</a>
-        <a href="./" class="nav-btn">📝 ブログ一覧</a>
+        <a href="../../" class="nav-btn">🍳 料理計算機</a>
+        <a href="../../exp/" class="nav-btn">💤 EXP計算機</a>
+        <a href="../" class="nav-btn">📝 ブログ一覧</a>
         <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" title="テーマ切替 (Ctrl+Shift+L)">
           <span id="theme-icon">🌙</span>
         </button>
@@ -385,98 +419,127 @@
   <div class="container">
     <article class="article-wrap">
       <div class="breadcrumb">
-        <a href="./">ブログトップ</a> ＞ 開発日誌
+        <a href="../">ブログトップ</a> ＞ <a href="../?cat=column">雑談・考察</a> ＞ #001
       </div>
 
-      <span class="article-tag">🛠️ 開発日誌・アプデ</span>
-      <h1>【開発日誌】平日18食＆日曜3食の分割調理シミュレーション実装！大成功倍率のこだわりと裏話</h1>
+      <div class="article-tag-wrap">
+        <span class="article-num">COL #001</span>
+        <span class="article-tag">💬 雑談・ポケスリ考察</span>
+      </div>
+
+      <h1>【ポケスリ雑談 #001】Ver.3.6.0アメ仕様とおひるね島放置育成の効率徹底考察</h1>
 
       <div class="article-info">
         <span>📅 投稿日: 2026年8月19日</span>
-        <span>✍ 著者: dyussuca（菊池）</span>
+        <span>✍ 著者: dyussuca</span>
       </div>
 
       <div class="toc-box">
         <div class="toc-title">📋 目次</div>
         <ul>
-          <li><a href="#section1">1. なぜ「平日」と「日曜日」を分ける必要があったのか？</a></li>
-          <li><a href="#section2">2. ポケスリの大成功倍率・確率の仕組み（平日 vs 日曜）</a></li>
-          <li><a href="#section3">3. こだわりの計算ロジック：料理レベルの自己加速EXP</a></li>
-          <li><a href="#section4">4. 実際の活用方法とおすすめの立ち回り</a></li>
-          <li><a href="#section5">5. まとめと今後のアップデート予定</a></li>
+          <li><a href="#section1">1. Ver.3.6.0で大きく変わった「段階的アメEXP仕様」</a></li>
+          <li><a href="#section2">2. 性格補正とアメブースト（ミニ vs ホリデー）の計算式</a></li>
+          <li><a href="#section3">3. 新機能「おひるね島」の放置育成ルールと注意点</a></li>
+          <li><a href="#section4">4. ゴンベの「ものひろいアメ還元」による実質日数短縮</a></li>
+          <li><a href="#section5">5. まとめ：EXP計算機で育成リソースを賢く節約！</a></li>
         </ul>
       </div>
 
-      <h2 id="section1">1. なぜ「平日」と「日曜日」を分ける必要があったのか？</h2>
+      <h2 id="section1">1. Ver.3.6.0で大きく変わった「段階的アメEXP仕様」</h2>
       <p>
-        ポケモンスリープを熱心にプレイしていると、誰もが直面するのが「平日に作った料理エナジー」と「日曜日に作る料理エナジー」の圧倒的な格差です。
+        ポケモンスリープのVer.3.6.0大型アップデートにより、ポケモンのアメを使用した際に獲得できる経験値（EXP）がレベル帯ごとに段階的に引き上げられました。
       </p>
       <p>
-        従来の計算ツールでは、単に「1週間＝21回調理」として一括で計算するものが多く、「日曜日の大成功ボーナスや鍋容量拡張を含めると、実際にはどれくらいのエナジーになるのか？」を正確に予測するのが困難でした。
+        従来は全レベル共通で「アメ1個＝25 EXP」でしたが、最新仕様では低〜中レベル帯でのアメ効率が大幅に向上しています：
       </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>レベル帯</th>
+            <th>基礎EXP（普通）</th>
+            <th>EXP上昇性格 (+20%)</th>
+            <th>EXP下降性格 (-16%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Lv.1 〜 Lv.25</b></td>
+            <td><b>40 EXP</b>（+15増加）</td>
+            <td>48 EXP</td>
+            <td>34 EXP</td>
+          </tr>
+          <tr>
+            <td><b>Lv.26 〜 Lv.30</b></td>
+            <td><b>35 EXP</b>（+10増加）</td>
+            <td>42 EXP</td>
+            <td>29 EXP</td>
+          </tr>
+          <tr>
+            <td><b>Lv.31 〜 Lv.70</b></td>
+            <td><b>25 EXP</b>（従来通り）</td>
+            <td>30 EXP</td>
+            <td>21 EXP</td>
+          </tr>
+        </tbody>
+      </table>
+
       <div class="highlight-box">
-        「平日（月〜土の18回）は堅実にレシピレベルを育てつつ、日曜日（3回）に大成功チャンスを重ねて特大エナジーを叩き出す」というポケスリ本来の立ち回りをそのまま再現できるツールを作りたい、と考えたのが今回のアップデートのきっかけでした。
+        この変更により、序盤〜Lv.30（第2食材解放）までの育成コストが大幅に緩和されました！新しく捕まえた個体を即戦力化するハードルがグッと下がっています。
       </div>
 
-      <h2 id="section2">2. ポケスリの大成功倍率・確率の仕組み（平日 vs 日曜）</h2>
+      <h2 id="section2">2. 性格補正とアメブースト（ミニ vs ホリデー）の計算式</h2>
       <p>
-        ポケモンスリープにおける料理の大成功仕様は、平日と日曜日で明確に異なります：
+        アメ育成を行う際、イベント等で開催される「アメブースト機能」の使い分けが重要になります。
       </p>
       <ul>
-        <li><b>月曜日〜土曜日（平日）</b>:
-          <ul>
-            <li>基礎大成功確率: <b>10%</b></li>
-            <li>通常時の大成功倍率: <b>2.0倍</b>（イベント時は2.5倍〜3.0倍）</li>
-            <li>メインスキル「料理チャンスS」による加算上限: <b>最大 +90%</b>（合計100%）</li>
-          </ul>
+        <li><b>通常時（ブーストOFF）</b>:
+          アメ獲得EXP 1倍 ／ ゆめのかけら消費 1倍
         </li>
-        <li><b>日曜日（週末ボーナス）</b>:
-          <ul>
-            <li>基礎大成功確率: <b>30%</b>（平日10% ＋ 日曜ボーナス20%）</li>
-            <li>通常時の大成功倍率: <b>3.0倍</b>（イベント時は3.75倍〜4.5倍）</li>
-            <li>メインスキル「料理チャンスS」による加算上限: <b>最大 +70%</b>（合計100%）</li>
-          </ul>
+        <li><b>ミニアメブースト</b>:
+          アメ獲得EXP <b>2倍</b> ／ ゆめのかけら消費 <b>4倍</b>（1日50個まで）
+        </li>
+        <li><b>ホリデー大ブースト</b>:
+          アメ獲得EXP <b>2倍</b> ／ ゆめのかけら消費 <b>5倍</b>（1日500個まで）
         </li>
       </ul>
       <p>
-        このように、基礎確率だけでなく「大成功した時の倍率」自体が2倍と3倍で大きく跳ね上がるため、平日と日曜日を合算せずに別々の期待値として計算することが不可欠だったのです。
+        かけら消費が4〜5倍になるため、高レベル帯（Lv.50以降）でブーストを使うと一瞬で数十万のかけらが吹き飛びます。Ver.3.6.0の恩恵が大きい「Lv.1〜30」の範囲でミニアメブーストを集中投入するのが最もコスパの良い育成方法です。
       </p>
 
-      <h2 id="section3">3. こだわりの計算ロジック：料理レベルの自己加速EXP</h2>
+      <h2 id="section3">3. 新機能「おひるね島」の放置育成ルールと注意点</h2>
       <p>
-        当サイトの「レシピレベルシミュレーター」で最もこだわったのが、<b>「調理途中のレベルアップによる獲得EXP増加（自己加速効果）」の逐次シミュレーション</b>です。
+        「おひるね島」は、寝顔リサーチに参加させない控えのポケモンを預けておくことで、毎日コツコツと経験値を獲得できる新機能です。
       </p>
-      <p>
-        ポケスリでは、料理のレシピレベルが上がるにつれて「1回の調理で得られるレシピEXP」自体も増加していきます。例えば、Lv.1で10回作るのと、Lv.50で10回作るのでは、途中で蓄積される経験値の伸びが全く異なります。
-      </p>
-      <p>
-        当計算機では、指定された調理回数（例: 平日18回＋日曜3回）の1回1回について「現在のレベル ➔ 獲得EXP ➔ レベルアップ判定 ➔ 次回獲得EXPの更新」をループ計算しており、机上の単純掛け算ではない**公式完全一致の予想到達レベル**を算出しています。
-      </p>
+      <ul>
+        <li><b>通常滞在</b>: 1日あたり <b>150 EXP</b></li>
+        <li><b>リラックスチケット使用時</b>: 1日あたり <b>600 EXP</b>（+450 EXP）</li>
+        <li><b>性格補正の特殊仕様</b>: EXP上昇性格（1.18倍）は適用されますが、なんと<b>EXP下降性格のペナルティは無効化（1.0倍扱い）</b>されます！</li>
+        <li><b>7日間満喫ルール</b>: 7日未満で早期引き出しを行うと、獲得EXPが<b>半減（0.5倍）</b>になるため、必ず7日以上のサイクルで預けるのが基本です。</li>
+      </ul>
 
-      <h2 id="section4">4. 実際の活用方法とおすすめの立ち回り</h2>
+      <h2 id="section4">4. ゴンベの「ものひろいアメ還元」による実質日数短縮</h2>
       <p>
-        この分割シミュレーションを使うと、以下のような具体的な育成戦略が立てやすくなります：
+        おひるね島を語る上で見逃せないのが、「ゴンベのものひろい」によるアメの獲得です。
       </p>
-      <ol>
-        <li><b>「目標レベル（例: Lv.55やLv.60）までにあと何食必要か？」を逆算する</b></li>
-        <li><b>「日曜日に料理チャンスSを何回積めば、大成功期待値が最大化されるか？」を検証する</b></li>
-        <li><b>「イベント週（料理エナジー1.5倍など）に備えて、どの料理をレベル上げしておくべきか？」を比較する</b></li>
-      </ol>
+      <p>
+        ものひろい箱が満杯になる約2週間に1回のペースで引き取りを行うと、ゴンベが拾ってきたアメ（1日平均約2.5個分相当）が手に入ります。このアメを預けているポケモンにそのまま投入することで、<b>目標レベルまでの実質的な必要日数を大幅に短縮</b>することが可能です。
+      </p>
 
       <div class="tool-link-card">
-        <div style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">🍳 実際の料理計算機でシミュレーションしてみよう！</div>
-        <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">平日・日曜日の分割設定や料理チャンスSの確率連動を今すぐお試しいただけます。</p>
-        <a href="../#tab-recipe-level" class="tool-link-btn">
-          <span>🍳</span> レシピレベルシミュレーターを開く
+        <div style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">💤 EXP計算機で目標達成日をシミュレーション！</div>
+        <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">Ver.3.6.0アメ仕様・通常睡眠・おひるね島（ゴンベアメ還元対応）の3タブ計算機です。</p>
+        <a href="../../exp/" class="tool-link-btn">
+          <span>💤</span> EXP計算機を使ってみる
         </a>
       </div>
 
-      <h2 id="section5">5. まとめと今後のアップデート予定</h2>
+      <h2 id="section5">5. まとめ：EXP計算機で育成リソースを賢く節約！</h2>
       <p>
-        今回は、ポケスリ料理計算機における「平日18食＆日曜3食 分割調理シミュレーション」の設計思想と計算ロジックについてご紹介しました。
+        ポケモンスリープの育成は「アメ」「ゆめのかけら」「睡眠リサーチ日数」のバランスが鍵を握ります。
       </p>
       <p>
-        今後も新料理の追加やVerアップデート、ユーザー様からいただいたフィードバックをもとに、さらに使いやすいツールへと進化させていきます。ぜひご活用いただき、気づいた点やご要望があればお気軽にお問い合わせフォームからお寄せください！
+        当サイトのEXP計算機では、目標レベルまでの必要アメ数・かけら数だけでなく、「本日開始で何年何月何日に達成できるか」の未来日付も自動計算できます。ぜひ理想の個体育成計画にお役立てください！
       </p>
 
     </article>
@@ -486,12 +549,12 @@
 
   <footer>
     <div class="footer-links">
-      <a href="../">🍳 料理計算機</a>
-      <a href="../exp/">💤 EXP計算機</a>
-      <a href="./">📝 ブログトップ</a>
+      <a href="../../">🍳 料理計算機</a>
+      <a href="../../exp/">💤 EXP計算機</a>
+      <a href="../">📝 ブログトップ</a>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
         target="_blank" rel="noopener noreferrer">✉️ お問合せ</a>
-      <a href="../privacy.html">🔒 プライバシーポリシー</a>
+      <a href="../../privacy.html">🔒 プライバシーポリシー</a>
     </div>
     <div>&copy; 2026 dyussuca.com - ポケスリ 料理計算機＆シミュレーター 公式ブログ</div>
   </footer>
