@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>初心者のうちは「食材得意」を最優先で捕まえるべき理由！レシピレベル貯金と愛用マスカーニャの性能解説 | dyussuca.com</title>
+  <meta name="description" content="妥協できない性格だからこそ、初心者のうちはきのみ得意よりも食材得意を最優先で厳選すべき！レシピレベルの将来貯金やLv.60完結のメリット、筆者が愛用するABBマスカーニャの性能を徹底解説します。">
+  <link rel="icon" href="../../favicon.ico">
+
+  <!-- OGP / SNS Card -->
+  <meta property="og:title" content="初心者のうちは「食材得意」を最優先で捕まえるべき理由！レシピレベル貯金と愛用マスカーニャの性能解説">
+  <meta property="og:description" content="きのみ得意よりも厳選が早く終わり、将来のレシピ資産になる食材得意の魅力と相棒マスカーニャの育成論！">
+  <meta property="og:image" content="https://dyussuca.com/blog/column/assets/003_thumb.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-purple: #7c3aed;
+      --hero-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(37, 99, 235, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #a78bfa;
+      --hero-bg: linear-gradient(135deg, rgba(52, 211, 153, 0.12), rgba(59, 130, 246, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      padding-bottom: 60px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .site-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-purple);
+      object-fit: cover;
+    }
+
+    .site-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .article-wrap {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      .article-wrap {
+        padding: 24px 16px;
+      }
+    }
+
+    .breadcrumb {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .article-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .article-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color-soft);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    /* EYE CATCH THUMBNAIL */
+    .eyecatch-wrap {
+      margin-bottom: 28px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      aspect-ratio: 16 / 9;
+      background: #0f172a;
+    }
+
+    .eyecatch-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .toc-box {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--border-color-soft);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 30px;
+    }
+
+    .toc-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .toc-box ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .toc-box li {
+      margin-bottom: 6px;
+    }
+
+    .toc-box a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .toc-box a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent-purple);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      color: var(--text-main);
+      font-size: 0.98rem;
+    }
+
+    ul,
+    ol {
+      margin-left: 24px;
+      margin-bottom: 20px;
+      color: var(--text-main);
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .highlight-box {
+      background: rgba(124, 58, 237, 0.08);
+      border-left: 4px solid var(--accent-purple);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* POKEMON CARD DISPLAY */
+    .pokemon-showcase-card {
+      background: var(--hero-bg);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin: 32px 0;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .pokemon-img-wrap {
+      flex: 0 0 240px;
+      max-width: 260px;
+      margin: 0 auto;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid var(--accent-purple);
+      box-shadow: var(--shadow-md);
+      background: #ffffff;
+    }
+
+    .pokemon-status-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .pokemon-info-text {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .pokemon-info-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--accent-purple);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.88rem;
+    }
+
+    .spec-table th,
+    .spec-table td {
+      border: 1px solid var(--border-color-soft);
+      padding: 6px 10px;
+    }
+
+    .spec-table th {
+      background: rgba(124, 58, 237, 0.1);
+      width: 30%;
+      font-weight: 900;
+    }
+
+    .tool-link-card {
+      background: var(--hero-bg);
+      border: 2px solid var(--accent-purple);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      margin: 32px 0;
+    }
+
+    .tool-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: var(--accent-purple);
+      color: #ffffff;
+      font-weight: 900;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    #theme-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #theme-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+
+  <!-- Google AdSense Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="../" class="site-brand">
+        <img src="../../assets/favicon.png" alt="サイトアイコン">
+        <div class="site-title">ポケスリ攻略 ＆ 開発ブログ</div>
+      </a>
+      <nav class="nav-links">
+        <a href="../../" class="nav-btn">🍳 料理計算機</a>
+        <a href="../../exp/" class="nav-btn">💤 EXP計算機</a>
+        <a href="../" class="nav-btn">📝 ブログ</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <article class="article-wrap">
+      <!-- ARTICLE_ID: COL-003 -->
+      <div class="breadcrumb">
+        <a href="../">ブログトップ</a> ＞ 雑談・考察
+      </div>
+
+      <div class="article-tag-wrap">
+        <span class="article-tag">💬 雑談・考察</span>
+      </div>
+
+      <h1>初心者のうちは「食材得意」を最優先で捕まえるべき理由！レシピレベル貯金と愛用マスカーニャの性能解説</h1>
+
+      <div class="article-info">
+        <span>📅 投稿日: 2026年8月19日</span>
+        <span>✍ 著者: dyussuca</span>
+      </div>
+
+      <!-- 16:9 EYE CATCH THUMBNAIL -->
+      <div class="eyecatch-wrap">
+        <img src="./assets/003_thumb.png" alt="食材得意の厳選と愛用マスカーニャの解説サムネイル" class="eyecatch-img">
+      </div>
+
+      <div class="toc-box">
+        <div class="toc-title">📋 目次</div>
+        <ul>
+          <li><a href="#section1">1. なぜ「きのみ得意」より「食材得意」を初心者に推すのか？</a></li>
+          <li><a href="#section2">2. 食材厳選のリアル：AAAは狙わずにAAXで十分妥協してOK！</a></li>
+          <li><a href="#section3">3. レベル上げのプレッシャーが少ない！Lv.60で完結するコスパの良さ</a></li>
+          <li><a href="#section4">4. ゴールド旧発電所がアツい！御三家とジバコイルを狙うロードマップ</a></li>
+          <li><a href="#section5">5. スキルの好み：元気自己回復（ウツボット/ハルクジラ）vs 鍋拡張</a></li>
+          <li><a href="#section6">6. 【筆者の相棒】ABBマスカーニャの性能と実際の使い心地</a></li>
+          <li><a href="#section7">7. まとめ：まずは食材得意を10体ずつ捕まえて料理基盤を作ろう！</a></li>
+        </ul>
+      </div>
+
+      <h2 id="section1">1. なぜ「きのみ得意」より「食材得意」を初心者に推すのか？</h2>
+      <p>
+        僕自身、妥協ができない性格だからこそ、ポケモンスリープを始めて半年経った今、声を大にして言いたいことがあります。それは<b>「初心者のうちは、きのみ得意よりも食材得意を最優先で集めるべき」</b>ということです。
+      </p>
+      <p>
+        ポケスリを始めたばかりの頃は、「きのみの数Sを持ったきのみ得意ポケモン」を集めるのが正義のように感じられがちです。しかし、きのみ得意の理想個体（きのみS＋おてつだいスピードなど）を引くのは途方もない時間がかかります。
+      </p>
+      <div class="highlight-box">
+        それに対して食材得意は、<b>10回くらい捕まえれば「食材確率アップM」持ちや実用的な個体が1体くらいは出てくれます。</b><br>
+        全食材の担当ポケモンをある程度揃えてしまえば、毎食しっかり料理を作れるようになり、厳選が一気に楽になります！
+      </div>
+      <p>
+        さらに重要なのが<b>「レシピレベルという恒久的な資産（貯金）」</b>です。料理を作るたびにレシピレベルが上がっていき、獲得エナジーの基礎倍率が恒久的に底上げされます。これは将来どのフィールドへ行っても腐らない最大の強みです。
+      </p>
+
+      <h2 id="section2">2. 食材厳選のリアル：AAAは狙わずにAAXで十分妥協してOK！</h2>
+      <p>
+        食材得意の厳選でよく議論になるのが「食材の並び（AAA / AAB / AAC / ABB）」です。
+      </p>
+      <p>
+        もちろん理想を言えば、第1〜第3食材がすべて同じ「AAA（オールA）」が一番美しいです。しかし、<b>そんなトリプルAの完璧個体はめったに出ません！</b>
+      </p>
+      <ul>
+        <li><b>AAA（理想）</b>: 出たら奇跡。狙いすぎると厳選沼でサブレが枯渇する。</li>
+        <li><b>AAX（AAB / AAC）</b>: 10体ほど捕まえれば十分出会える現実的なライン。Lv.30まで第1食材を大量供給でき、Lv.60で別食材もカバー可能！</li>
+        <li><b>ABB型</b>: 第2・第3食材を専門的にドカ食いさせたい時に非常に重宝する優秀な構成。</li>
+      </ul>
+      <p>
+        僕の楽観的な予想も含めてですが、「10体捕まえればAA型は1体くらい出る」くらいの気持ちで、まずはAAXやABBでサクッと妥協して育成をスタートするのが最も効率的です。
+      </p>
+
+      <h2 id="section3">3. レベル上げのプレッシャーが少ない！Lv.60で完結するコスパの良さ</h2>
+      <p>
+        食材得意のもう1つの大きなメリットは、<b>「レベル上限まで無理に上げ続けるプレッシャーが少ないこと」</b>です。
+      </p>
+      <p>
+        きのみ得意は、ポケモンのレベルが1上がるごとにきのみ1個あたりのエナジーが直接上昇するため、常にキャップ解放（Lv.60 ➔ Lv.65 ➔ Lv.70...）に合わせて育成し続けなければなりません。
+      </p>
+      <p>
+        しかし食材得意は、第3食材が解放される<b>「Lv.60」まで育ててしまえば、それ以上のレベル上げによる食材数の変化はほとんどありません。</b>Lv.60時点でポケモンの性能がほぼ100%完成するため、リソースを次のポケモンへ回すことができます。
+      </p>
+
+      <h2 id="section4">4. ゴールド旧発電所がアツい！御三家とジバコイルを狙うロードマップ</h2>
+      <p>
+        フィールドの進行度と厳選優先度についてですが、将来的には料理エナジーを跳ね上げるために「料理チャンスS（デデンネ）」などが欲しくなってきます。
+      </p>
+      <p>
+        しかし、デデンネや上位島へ行ける段階になるまでは、焦らずゆっくり様々な食材得意を集めていくのがベストです。特に<b>「ゴールド旧発電所（ゴル旧）」</b>は食材厳選の聖地です：
+      </p>
+      <ul>
+        <li><b>パルデア御三家（マスカーニャ、ラウドボーン、ウェーニバル）</b>: 全員食材が極めて優秀！どれが出ても当たり。</li>
+        <li><b>コイル系（ジバコイル）</b>: 上位レシピ作成に必須となる「料理パワーアップS（鍋拡張）」要員。</li>
+      </ul>
+      <p>
+        アンバー渓谷の食材得意（イシズマイ等）に比べても、ゴールド旧発電所で手に入るポケモンたちの汎用性は圧倒的です。
+      </p>
+
+      <h2 id="section5">5. スキルの好み：元気自己回復（ウツボット/ハルクジラ）vs 鍋拡張</h2>
+      <p>
+        食材得意の中で僕が特に好きなのが、<b>「自分で元気を回復できるタイプの食材得意」</b>です。
+      </p>
+      <p>
+        ヒーラー（プクリンやサーナイト）の回復が下振れても、自己回復持ちは1日中元気を80%以上キープしてお手伝いスピードが落ちません。
+      </p>
+      <ul>
+        <li>トマト・ポテト担当: レントラーよりも<b>ウツボット</b>（げんきチャージS）が好き！</li>
+        <li>たまご・オイル担当: マスカーニャよりも<b>ハルクジラ</b>が好き！</li>
+      </ul>
+      <p>
+        とはいえ、普段いいキャンプチケットを使わないプレイヤー層にとっては、鍋拡張スキル持ちや高ステータス個体も非常に重要です。手持ちの食材事情と相談しながら組み替えていくのがポケスリの醍醐味ですね。
+      </p>
+
+      <h2 id="section6">6. 【筆者の相棒】ABBマスカーニャの性能と実際の使い心地</h2>
+      <p>
+        ここで、僕が普段から愛用している相棒の<b>「ABBマスカーニャ」</b>の実際のステータスをご紹介します！
+      </p>
+
+      <!-- SHOWCASE CARD -->
+      <div class="pokemon-showcase-card">
+        <div class="pokemon-img-wrap">
+          <img src="./assets/003_meowscarada_status.png" alt="愛用マスカーニャのステータス詳細画面" class="pokemon-status-img">
+        </div>
+        <div class="pokemon-info-text">
+          <div class="pokemon-info-title">
+            <span>🐱</span> マスカーニャ（Lv.32 / ABB型）
+          </div>
+          <table class="spec-table">
+            <tr>
+              <th>食材構成</th>
+              <td>Lv.1 モーモーミルク ×2<br>Lv.30 ほっこりポテト ×5<br>Lv.60 ほっこりポテト ×7</td>
+            </tr>
+            <tr>
+              <th>サブスキル</th>
+              <td>Lv.10: おてつだいスピードS<br>Lv.25: 食材確率アップM<br>Lv.50: スキル確率アップS</td>
+            </tr>
+            <tr>
+              <th>性格</th>
+              <td>おとなしい（スキル発生確率▲▲ / げんき回復量▼▼）</td>
+            </tr>
+          </table>
+          <p style="font-size:0.9rem; margin-top:10px; margin-bottom:0;">
+            Lv.25に<b>「食材確率アップM」</b>が付いており、Lv.30でポテトを解放してからはポテトを大量に持ってきてくれます！ミルクとポテトはカレー・サラダ・デザートのどれでも使える万能食材なので、ABB型でも大活躍してくれています。
+          </p>
+        </div>
+      </div>
+
+      <div class="tool-link-card">
+        <div style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">🍳 3ジャンル備蓄シミュレーターで食材被りをチェック！</div>
+        <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">ポテトやミルクを使った最高効率の料理組み合わせを今すぐ検索できます。</p>
+        <a href="../../#tab-optimizer" class="tool-link-btn">
+          <span>⚡</span> 最適備蓄シミュレーターを開く
+        </a>
+      </div>
+
+      <h2 id="section7">7. まとめ：まずは食材得意を10体ずつ捕まえて料理基盤を作ろう！</h2>
+      <p>
+        「きのみ得意の理想個体が出ない…」と悩んでいる初心者の皆様は、ぜひ一度<b>「食材得意の厳選」</b>にシフトしてみてください。
+      </p>
+      <ol>
+        <li>各食材のポケモンを10体前後捕まえて、食材MやAAX/ABBを確保する</li>
+        <li>Lv.30まで育てて第2食材を解放する</li>
+        <li>毎食しっかり料理を作ってレシピレベルをコツコツ貯金する</li>
+      </ol>
+      <p>
+        この流れを作るだけで、毎週のエナジーが安定し、ポケスリが何倍も楽しくなりますよ！
+      </p>
+
+    </article>
+  </div>
+
+  <div id="theme-toast"></div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="../../">🍳 料理計算機</a>
+      <a href="../../exp/">💤 EXP計算機</a>
+      <a href="../">📝 ブログ</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
+        target="_blank" rel="noopener noreferrer">✉️ お問合せ</a>
+      <a href="../../privacy.html">🔒 プライバシーポリシー</a>
+    </div>
+    <div>&copy; 2026 dyussuca.com - ポケスリ 料理計算機＆シミュレーター 公式ブログ</div>
+  </footer>
+
+  <script>
+    function initTheme() {
+      const saved = localStorage.getItem('pokesleep_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pokesleep_theme', next);
+      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
+    }
+
+    function showThemeToast(msg) {
+      const toast = document.getElementById('theme-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', initTheme);
+  </script>
+</body>
+
+</html>

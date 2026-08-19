@@ -287,6 +287,28 @@
       background: var(--bg-card-hover);
     }
 
+    .article-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: #0f172a;
+      border: 1px solid var(--border-color-soft);
+    }
+
+    .article-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .article-card:hover .article-thumb img {
+      transform: scale(1.04);
+    }
+
     .article-meta {
       display: flex;
       align-items: center;
@@ -556,6 +578,28 @@
 
     <!-- ARTICLE GRID -->
     <div class="article-grid" id="article-grid">
+
+      <!-- COLUMN 003 (NEW) -->
+      <article class="article-card" data-category="column">
+        <a href="./column/003_ingredient_specialist_guide.html"
+          style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div class="article-thumb">
+            <img src="./column/assets/003_thumb.png" alt="食材得意の厳選と愛用マスカーニャ解説サムネイル" loading="lazy">
+          </div>
+          <div class="article-meta">
+            <span class="article-tag tag-col">💬 雑談・考察</span>
+            <time datetime="2026-08-19">2026.08.19</time>
+          </div>
+          <h2 class="article-title">初心者のうちは「食材得意」を最優先で捕まえるべき理由！レシピレベル貯金と愛用マスカーニャの性能解説</h2>
+          <p class="article-summary">
+            妥協できない性格だからこそ、初心者のうちはきのみ得意よりも食材得意を最優先で厳選すべき！レシピレベルの将来貯金やLv.60完結のメリット、筆者が愛用するABBマスカーニャの性能を徹底解説します。
+          </p>
+          <div class="article-footer">
+            <span>続きを読む</span>
+            <span>➔</span>
+          </div>
+        </a>
+      </article>
 
       <!-- DEV 001 -->
       <article class="article-card" data-category="dev">
