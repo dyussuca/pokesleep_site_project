@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ポケスリ攻略コラム＆開発日誌 | dyussuca.com 公式ブログ</title>
+  <meta name="description" content="ポケモンスリープの料理備蓄戦略やEXP育成仕様の解説、ポケスリ計算機ツールの開発裏話・アプデ情報をお届けする公式ブログポータルです。">
+  <link rel="icon" href="../favicon.ico">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f8fafc;
+      --bg-input: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-purple: #7c3aed;
+      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+      --shadow-lg: 0 14px 36px rgba(15, 23, 42, 0.16);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #27354f;
+      --bg-input: #0f172a;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #a78bfa;
+      --hero-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(52, 211, 153, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .site-brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-blue);
+      object-fit: cover;
+    }
+
+    .site-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 13px;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--hero-bg);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+
+    .theme-toggle-btn {
+      background: var(--hero-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-blue);
+      transform: scale(1.03);
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 960px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      background: var(--hero-bg);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-blue);
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .hero-desc {
+      font-size: 0.96rem;
+      color: var(--text-sub);
+      max-width: 680px;
+      margin: 0 auto;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    /* CATEGORY FILTER */
+    .category-filter {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+
+    .category-filter::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-sub);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .filter-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.28);
+    }
+
+    /* ARTICLE GRID */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+
+    .article-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-blue);
+      background: var(--bg-card-hover);
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      font-weight: 700;
+    }
+
+    .article-tag {
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .tag-dev {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+    }
+
+    .tag-cook {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .tag-exp {
+      background: linear-gradient(135deg, #d97706, #b45309);
+    }
+
+    .tag-column {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    }
+
+    .article-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1.45;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .article-card:hover .article-title {
+      color: var(--accent-blue);
+    }
+
+    .article-summary {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+
+    .article-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      border-top: 1px dashed var(--border-color-soft);
+      padding-top: 12px;
+    }
+
+    /* ABOUT ME CARD */
+    .about-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 40px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .about-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-green);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .about-content {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .about-name {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .about-text {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    /* CONTACT BANNER */
+    .contact-banner {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
+      border: 2px dashed var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .contact-banner h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .contact-banner p {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 900;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* TOAST */
+    #theme-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+    }
+
+    #theme-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+
+  <!-- Google AdSense Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="site-brand">
+        <img src="../assets/favicon.png" alt="サイトアイコン">
+        <div class="site-title">ポケスリ攻略 ＆ 開発ブログ</div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="../" class="nav-btn">🍳 料理計算機</a>
+        <a href="../exp/" class="nav-btn">💤 EXP計算機</a>
+        <a href="./" class="nav-btn active">📝 ブログ一覧</a>
+        <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" title="テーマ切替 (Ctrl+Shift+L)">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div class="hero-badge">OFFICIAL COLUMN & DEV NOTES</div>
+      <h1 class="hero-title">ポケスリ攻略コラム ＆ 開発日誌</h1>
+      <p class="hero-desc">
+        ポケモンスリープの料理備蓄戦略やEXP育成仕様の解説、便利ツールの開発裏話・アプデ情報をお届けする公式ブログポータルです。
+      </p>
+    </div>
+
+    <!-- CATEGORY FILTER -->
+    <div class="category-filter">
+      <button class="filter-btn active" onclick="filterArticles('all', this)">すべて</button>
+      <button class="filter-btn" onclick="filterArticles('dev', this)">🛠️ 開発日誌・アプデ</button>
+      <button class="filter-btn" onclick="filterArticles('cook', this)">🍳 料理・備蓄戦略</button>
+      <button class="filter-btn" onclick="filterArticles('exp', this)">💤 レベル・EXP育成</button>
+    </div>
+
+    <!-- ARTICLE GRID -->
+    <div class="article-grid" id="article-grid">
+
+      <!-- ARTICLE 1 -->
+      <article class="article-card" data-category="dev cook">
+        <a href="./cooking-simulator-development.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div class="article-meta">
+            <span class="article-tag tag-dev">🛠️ 開発日誌</span>
+            <time datetime="2026-08-19">2026.08.19</time>
+          </div>
+          <h2 class="article-title">【開発日誌】平日18食＆日曜3食の分割調理シミュレーション実装！大成功倍率のこだわりと裏話</h2>
+          <p class="article-summary">
+            平日の料理チャンスS（最大+90%）と日曜日のボーナス（基礎30%・最大4.5倍）を完全分離して計算できるようにした理由や、自己加速EXPロジックの開発秘話を解説します。
+          </p>
+          <div class="article-footer">
+            <span>続きを読む</span>
+            <span>➔</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- ARTICLE 2 -->
+      <article class="article-card" data-category="dev exp">
+        <a href="./exp-simulator-ver360-guide.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div class="article-meta">
+            <span class="article-tag tag-exp">💤 EXP・育成</span>
+            <time datetime="2026-08-19">2026.08.19</time>
+          </div>
+          <h2 class="article-title">【Ver.3.6.0対応】アメの段階的EXP仕様とおひるね島放置育成の効率徹底解説</h2>
+          <p class="article-summary">
+            Ver.3.6.0で新しくなったLv.1〜25(40EXP)・Lv.26〜30(35EXP)の段階的アメ仕様と、おひるね島でのゴンベアメ還元による実質必要日数の短縮ロジックを詳しく解説！
+          </p>
+          <div class="article-footer">
+            <span>続きを読む</span>
+            <span>➔</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- ARTICLE 3 -->
+      <article class="article-card" data-category="cook">
+        <a href="./camp-ticket-stock-strategy.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+          <div class="article-meta">
+            <span class="article-tag tag-cook">🍳 料理・備蓄</span>
+            <time datetime="2026-08-19">2026.08.19</time>
+          </div>
+          <h2 class="article-title">【攻略コラム】いいキャンプチケット時の鍋容量拡張と3ジャンル最適備蓄戦略の基礎</h2>
+          <p class="article-summary">
+            キャンチケ適用時の1.5倍鍋容量と食材被りシナジーを考慮した「3ジャンル最適備蓄」の考え方や、除外フィルターを使った無駄のないバッグ管理術をわかりやすくまとめました。
+          </p>
+          <div class="article-footer">
+            <span>続きを読む</span>
+            <span>➔</span>
+          </div>
+        </a>
+      </article>
+
+    </div>
+
+    <!-- ABOUT ME -->
+    <div class="about-card">
+      <img src="../assets/favicon.png" alt="管理者アイコン" class="about-avatar">
+      <div class="about-content">
+        <div class="about-name">
+          <span>管理者・開発者: dyussuca（菊池）</span>
+          <span style="font-size:0.75rem; background:var(--accent-blue); color:#fff; padding:2px 8px; border-radius:6px;">AUTHOR</span>
+        </div>
+        <p class="about-text">
+          ポケモンスリープを毎日欠かさず楽しんでいる熱心なファンです！「自分が一番使いやすい、サクサク動いて見やすい計算機が欲しい」という思いから当サイト（dyussuca.com）を個人開発・運営しています。プレイヤーの皆様の睡眠リサーチと料理育成がより快適になるよう、日々アップデートを続けています。
+        </p>
+      </div>
+    </div>
+
+    <!-- CONTACT BANNER -->
+    <div class="contact-banner">
+      <h3>📝 ご意見・機能改善リクエストはこちら</h3>
+      <p>「こんな機能が欲しい」「計算結果に気になる点がある」など、お気軽にお知らせください！</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
+        target="_blank" rel="noopener noreferrer" class="contact-btn">
+        <span>📝</span> お問い合わせ・ご意見フォーム（Googleフォーム） <span>↗</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="theme-toast"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-links">
+      <a href="../">🍳 料理計算機</a>
+      <a href="../exp/">💤 EXP計算機</a>
+      <a href="./">📝 ブログトップ</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
+        target="_blank" rel="noopener noreferrer">✉️ お問合せ</a>
+      <a href="../privacy.html">🔒 プライバシーポリシー</a>
+    </div>
+    <div>&copy; 2026 dyussuca.com - ポケスリ 料理計算機＆シミュレーター 公式ブログ</div>
+  </footer>
+
+  <script>
+    // --- 1. テーマ制御 ＆ ショートカット (Ctrl+Shift+L) ---
+    function initTheme() {
+      const saved = localStorage.getItem('pokesleep_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+      updateThemeIcon(saved);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pokesleep_theme', next);
+      updateThemeIcon(next);
+      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function showThemeToast(msg) {
+      const toast = document.getElementById('theme-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+
+    // --- 2. カテゴリフィルター ---
+    function filterArticles(cat, btn) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.article-card');
+      cards.forEach(card => {
+        const itemCats = card.getAttribute('data-category') || '';
+        if (cat === 'all' || itemCats.includes(cat)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+    });
+  </script>
+</body>
+
+</html>

@@ -1727,7 +1727,9 @@
 <body>
 
   <header>
-    <div class="header-btn-group">
+    <div class="header-btn-group" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <a href="./blog/" class="credit-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;"><span>📝</span> ブログ</a>
+      <a href="./exp/" class="credit-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;"><span>💤</span> EXP計算機</a>
       <button class="credit-btn" onclick="openCreditModal()"><span>✉️</span> お問合せ</button>
     </div>
     <div class="header-title"
@@ -2591,6 +2593,8 @@
     style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.88rem; color: var(--text-sub);">
     <div
       style="display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; font-weight: 800; flex-wrap: wrap;">
+      <a href="./exp/" style="color: var(--accent-blue); text-decoration: none;">💤 EXP計算機</a>
+      <a href="./blog/" style="color: var(--accent-blue); text-decoration: none;">📝 ブログ・開発日誌</a>
       <a href="#" onclick="toggleUsageGuide(); return false;"
         style="color: var(--accent-blue); text-decoration: none;">💡 使い方ガイド</a>
       <a href="#" onclick="openCreditModal(); return false;"

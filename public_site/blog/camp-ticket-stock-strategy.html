@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【攻略コラム】いいキャンプチケット時の鍋容量拡張と3ジャンル最適備蓄戦略の基礎 | dyussuca.com</title>
+  <meta name="description" content="キャンチケ適用時の1.5倍鍋容量と食材被りシナジーを考慮した「3ジャンル最適備蓄」の考え方や、除外フィルターを使った無駄のないバッグ管理術をわかりやすくまとめました。">
+  <link rel="icon" href="../favicon.ico">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-purple: #7c3aed;
+      --hero-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(37, 99, 235, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #a78bfa;
+      --hero-bg: linear-gradient(135deg, rgba(52, 211, 153, 0.12), rgba(59, 130, 246, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      padding-bottom: 60px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .site-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-green);
+      object-fit: cover;
+    }
+
+    .site-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .theme-toggle-btn {
+      background: var(--hero-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 11px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .article-wrap {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      .article-wrap {
+        padding: 24px 16px;
+      }
+    }
+
+    .breadcrumb {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(135deg, #10b981, #059669);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .article-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color-soft);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .toc-box {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--border-color-soft);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin-bottom: 30px;
+    }
+
+    .toc-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .toc-box ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .toc-box li {
+      margin-bottom: 6px;
+    }
+
+    .toc-box a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .toc-box a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-top: 36px;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      color: var(--text-main);
+      font-size: 0.98rem;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 20px;
+      color: var(--text-main);
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .highlight-box {
+      background: rgba(16, 185, 129, 0.08);
+      border-left: 4px solid var(--accent-green);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .tool-link-card {
+      background: var(--hero-bg);
+      border: 2px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      margin: 32px 0;
+    }
+
+    .tool-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: var(--accent-green);
+      color: #ffffff;
+      font-weight: 900;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    #theme-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #theme-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+
+  <!-- Google AdSense Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="./" class="site-brand">
+        <img src="../assets/favicon.png" alt="サイトアイコン">
+        <div class="site-title">ポケスリ攻略 ＆ 開発ブログ</div>
+      </a>
+      <nav class="nav-links">
+        <a href="../" class="nav-btn">🍳 料理計算機</a>
+        <a href="../exp/" class="nav-btn">💤 EXP計算機</a>
+        <a href="./" class="nav-btn">📝 ブログ一覧</a>
+        <button type="button" class="theme-toggle-btn" onclick="toggleTheme()" title="テーマ切替 (Ctrl+Shift+L)">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <article class="article-wrap">
+      <div class="breadcrumb">
+        <a href="./">ブログトップ</a> ＞ 料理・備蓄
+      </div>
+
+      <span class="article-tag">🍳 料理・備蓄</span>
+      <h1>【攻略コラム】いいキャンプチケット時の鍋容量拡張と3ジャンル最適備蓄戦略の基礎</h1>
+
+      <div class="article-info">
+        <span>📅 投稿日: 2026年8月19日</span>
+        <span>✍ 著者: dyussuca（菊池）</span>
+      </div>
+
+      <div class="toc-box">
+        <div class="toc-title">📋 目次</div>
+        <ul>
+          <li><a href="#section1">1. 週初めのジャンル抽選に負けない「3ジャンル備蓄」とは？</a></li>
+          <li><a href="#section2">2. いいキャンプチケット（キャンチケ）適用時の鍋容量計算ルール</a></li>
+          <li><a href="#section3">3. 食材被りシナジーを意識したレシピトリオの選び方</a></li>
+          <li><a href="#section4">4. 食材バッグを圧迫させない「除外フィルター」の活用術</a></li>
+          <li><a href="#section5">5. まとめ：計算機を活用して月曜朝から最高ダッシュを決めよう！</a></li>
+        </ul>
+      </div>
+
+      <h2 id="section1">1. 週初めのジャンル抽選に負けない「3ジャンル備蓄」とは？</h2>
+      <p>
+        ポケモンスリープでは、毎週月曜日の朝4:00にフィールドを移動すると、その週のカビゴンの料理リクエスト（カレー・シチュー ／ サラダ ／ ドリンク・デザート）がランダムに抽選されます。
+      </p>
+      <p>
+        「カレー用に食材を集めていたのにサラダが来てしまって初日に強い料理が作れない…」という事故を防ぐための王道戦略が、<b>「カレー・サラダ・デザートの最高峰レシピを各1種ずつ想定し、共通する食材を集めておく3ジャンル備蓄」</b>です。
+      </p>
+
+      <h2 id="section2">2. いいキャンプチケット（キャンチケ）適用時の鍋容量計算ルール</h2>
+      <p>
+        ダイヤやイベントで手に入る「いいキャンプチケット」を使用すると、鍋の容量が <b>1.5倍（小数点以下切り上げ）</b> に拡張されます。
+      </p>
+      <ul>
+        <li>基礎容量 45個 ➔ キャンチケ時 <b>68個</b>（45 × 1.5 = 67.5 ➔ 68）</li>
+        <li>基礎容量 57個 ➔ キャンチケ時 <b>86個</b>（57 × 1.5 = 85.5 ➔ 86）</li>
+        <li>基礎容量 69個 ➔ キャンチケ時 <b>104個</b>（69 × 1.5 = 103.5 ➔ 104）</li>
+      </ul>
+      <p>
+        さらに、ジバコイルやブースターなどの「料理パワーアップS」スキルを日曜日に重ねがけしておくことで、月曜日の朝一番に100個〜200個を超える超大型レシピ（れんごくコーンキーマカレーやフラワーギフトマカロン等）を確定で作ることが可能になります。
+      </p>
+
+      <h2 id="section3">3. 食材被りシナジーを意識したレシピトリオの選び方</h2>
+      <p>
+        3ジャンル備蓄を行う際、最も重要なのが<b>「食材の種類の重複（シナジー）」</b>です。
+      </p>
+      <div class="highlight-box">
+        例えば、カレー・サラダ・デザートで必要食材が全くバラバラ（全15種類など）だと、食材バッグの容量がどれだけあっても足りません。
+        「コーン」「ミルク」「オイル」「カカオ」など、3ジャンル中2〜3ジャンルで共通して大量に消費できるレシピセットを選ぶことで、手持ちの食材得意ポケモンを絞り込んで効率的に集めることができます。
+      </div>
+
+      <h2 id="section4">4. 食材バッグを圧迫させない「除外フィルター」の活用術</h2>
+      <p>
+        プレイヤーの手持ちポケモンの厳選状況によっては、「まだしっぽ解放個体がいない」「キノコを安定供給できるポケモンがいない」といった状況がよくあります。
+      </p>
+      <p>
+        当サイトの「3ジャンル最適備蓄シミュレーター」では、集められない食材アイコンをタップして赤色の除外（✕）状態にするだけで、その食材を避けた上での最高効率TOP5の料理トリオを自動計算します。
+      </p>
+
+      <div class="tool-link-card">
+        <div style="font-weight:900; font-size:1.1rem; margin-bottom:6px;">⚡ 最適備蓄シミュレーターで理想のトリオを探そう！</div>
+        <p style="font-size:0.9rem; color:var(--text-sub); margin-bottom:12px;">鍋容量・キャンチケ・除外食材を入力するだけで、食材被り率最高峰の料理セットを即座に提案します。</p>
+        <a href="../#tab-optimizer" class="tool-link-btn">
+          <span>⚡</span> 最適備蓄シミュレーターを開く
+        </a>
+      </div>
+
+      <h2 id="section5">5. まとめ：計算機を活用して月曜朝から最高ダッシュを決めよう！</h2>
+      <p>
+        ポケモンスリープの料理は、事前の備蓄計画次第で初日のエナジー獲得量が何倍にも跳ね上がります。
+      </p>
+      <p>
+        ぜひ当サイトの「単体調理計算」や「3ジャンル最適備蓄シミュレーター」をご活用いただき、快適なポケスリライフをお過ごしください！
+      </p>
+
+    </article>
+  </div>
+
+  <div id="theme-toast"></div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="../">🍳 料理計算機</a>
+      <a href="../exp/">💤 EXP計算機</a>
+      <a href="./">📝 ブログトップ</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
+        target="_blank" rel="noopener noreferrer">✉️ お問合せ</a>
+      <a href="../privacy.html">🔒 プライバシーポリシー</a>
+    </div>
+    <div>&copy; 2026 dyussuca.com - ポケスリ 料理計算機＆シミュレーター 公式ブログ</div>
+  </footer>
+
+  <script>
+    function initTheme() {
+      const saved = localStorage.getItem('pokesleep_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+      updateThemeIcon(saved);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pokesleep_theme', next);
+      updateThemeIcon(next);
+      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function showThemeToast(msg) {
+      const toast = document.getElementById('theme-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 2000);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', initTheme);
+  </script>
+</body>
+
+</html>

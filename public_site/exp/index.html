@@ -480,9 +480,13 @@
       <a href="/" style="text-decoration: none;" class="site-title">
         <span>⚡</span> ポケスリ 育成シミュ
       </a>
-      <button class="theme-toggle-btn" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span> <span id="theme-text">ダーク</span>
-      </button>
+      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <a href="/" style="text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 800; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--border-color);">🍳 料理計算機</a>
+        <a href="/blog/" style="text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 800; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--border-color);">📝 ブログ</a>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="テーマ切替 (Ctrl+Shift+L)">
+          <span id="theme-icon">🌙</span> <span id="theme-text">ダーク</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -762,6 +766,12 @@
   </div>
 
   <footer>
+    <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; font-weight: 800; flex-wrap: wrap;">
+      <a href="/" style="color: var(--accent-blue); text-decoration: none;">🍳 料理計算機</a>
+      <a href="/blog/" style="color: var(--accent-blue); text-decoration: none;">📝 ブログ・開発日誌</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
+      <a href="/privacy.html" style="color: var(--accent-blue); text-decoration: none;">🔒 プライバシーポリシー</a>
+    </div>
     ポケスリ ポケモンレベル育成＆EXP計算機 | dyussuca.com
   </footer>
 
@@ -863,7 +873,7 @@
 
     // --- 3. テーマ切り替え ---
     function initTheme() {
-      const savedTheme = localStorage.getItem('exp_sim_theme') || 'light';
+      const savedTheme = localStorage.getItem('pokesleep_theme') || localStorage.getItem('exp_sim_theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
       updateThemeUI(savedTheme);
     }
@@ -872,6 +882,7 @@
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pokesleep_theme', next);
       localStorage.setItem('exp_sim_theme', next);
       updateThemeUI(next);
     }
@@ -880,6 +891,13 @@
       document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
       document.getElementById('theme-text').textContent = theme === 'dark' ? 'ライト' : 'ダーク';
     }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
+        e.preventDefault();
+        toggleTheme();
+      }
+    });
 
     // モーダル開閉
     function openPickupModal() {
