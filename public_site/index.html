@@ -2624,7 +2624,7 @@
   <div class="modal-overlay" id="credit-modal" onclick="closeCreditModal(event)">
     <div class="modal-container" onclick="event.stopPropagation()" style="max-width: 540px;">
       <div class="modal-header">
-        <div class="modal-title"><span>✉️</span>お問合せ</div>
+        <div class="modal-title"><span>✉️</span> お問合せ・ご意見</div>
         <button class="modal-close-btn" onclick="closeCreditModal()">✕</button>
       </div>
       <div style="padding: 24px; text-align: center;">
@@ -2633,24 +2633,22 @@
         </div>
         <p style="font-size: 0.95rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; font-weight: 700;">
           ご利用いただきありがとうございます！<br>
-          機能のご要望、不具合のご報告、改善のご意見などがございましたら、お気軽に以下の連絡先までお寄せください。
+          機能のご要望、不具合のご報告、改善のご意見などがございましたら、お気軽に以下のフォームよりお寄せください。
         </p>
 
         <div
-          style="background: var(--hero-bg); border: 2px dashed var(--accent-blue); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
-          <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub); margin-bottom: 6px;">📧 連絡先メールアドレス
+          style="background: var(--hero-bg); border: 2px dashed var(--accent-blue); border-radius: 16px; padding: 22px 18px; margin-bottom: 20px;">
+          <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-sub); margin-bottom: 12px;">📝 お問い合わせ・ご意見窓口
           </div>
-          <div style="font-size: 1.35rem; font-weight: 900; color: var(--accent-blue); word-break: break-all;"
-            id="contact-email-text">
-            snorlax@dyussuca.com
-          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
+            target="_blank" rel="noopener noreferrer" class="apply-combo-btn"
+            style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; font-size: 1.05rem; font-weight: 900; text-decoration: none; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
+            <span>📝</span> Googleフォームを開く <span>↗</span>
+          </a>
+          <p style="font-size: 0.82rem; color: var(--text-sub); margin-top: 10px; margin-bottom: 0;">※別タブでGoogleフォームが開きます</p>
         </div>
 
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="apply-combo-btn" onclick="copyContactEmail()"
-            style="padding: 10px 20px; font-size: 0.95rem;">
-            📋 アドレスをコピー
-          </button>
           <button type="button" class="apply-combo-btn" onclick="openGuideFromCredit()"
             style="padding: 10px 20px; font-size: 0.95rem; background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));">
             💡 使い方ガイドを表示
@@ -2693,8 +2691,8 @@
         <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3.
           個人情報の収集およびお問合せについて</h3>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
-          当サイトでは、ユーザーの個人識別情報を直接取得することはありません。お問合せメール（<a href="mailto:snorlax@dyussuca.com"
-            style="color: var(--accent-blue); font-weight: 800;">snorlax@dyussuca.com</a>）経由でいただいた情報については、回答およびサービス改善・不具合対応の目的のみに使用し、第三者に提供することはありません。
+          当サイトでは、ユーザーの個人識別情報を直接取得することはありません。お問合せフォーム（<a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform" target="_blank" rel="noopener noreferrer"
+            style="color: var(--accent-blue); font-weight: 800;">Googleフォーム</a>）経由でいただいた情報については、回答およびサービス改善・不具合対応の目的のみに使用し、第三者に提供することはありません。
         </p>
 
         <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 広告配信（Google
@@ -3052,15 +3050,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     function closeCreditModal(e) {
       const modal = document.getElementById('credit-modal');
       if (modal) modal.classList.remove('open');
-    }
-
-    function copyContactEmail() {
-      const email = 'snorlax@dyussuca.com';
-      navigator.clipboard.writeText(email).then(() => {
-        showThemeToast('📋 メールアドレスをコピーしました！');
-      }).catch(() => {
-        showThemeToast('📧 snorlax@dyussuca.com');
-      });
     }
 
     function showThemeToast(msg) {
