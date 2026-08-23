@@ -1049,26 +1049,27 @@
       return Math.round(baseSingle * mult);
     }
 
-    // 🌟 Ver.3.6.0 公式最新アメ獲得EXP算出関数
+    // 🌟 Ver.3.6.0 公式確定アメ獲得EXP算出関数
+    // Lv.1〜25:   普通 40 / 上昇 47 / 下降 33
+    // Lv.26〜30:  普通 35 / 上昇 41 / 下降 29
+    // Lv.31〜70:  普通 25 / 上昇 30 / 下降 21
     function getExpPerCandyForLevel(level, nature, boostMode) {
-      // 1. レベル帯ごとの基礎獲得EXP (Ver.3.6.0)
-      let baseExp = 25;
+      let candyExp = 25;
       if (level <= 25) {
-        baseExp = 40; // Lv.1〜25は40EXP
+        if (nature === 'up') candyExp = 47;
+        else if (nature === 'down') candyExp = 33;
+        else candyExp = 40;
       } else if (level <= 30) {
-        baseExp = 35; // Lv.26〜30は35EXP
+        if (nature === 'up') candyExp = 41;
+        else if (nature === 'down') candyExp = 29;
+        else candyExp = 35;
       } else {
-        baseExp = 25; // Lv.31〜70は25EXP
+        if (nature === 'up') candyExp = 30;
+        else if (nature === 'down') candyExp = 21;
+        else candyExp = 25;
       }
 
-      // 2. 性格補正乗算
-      let natureMult = 1.0;
-      if (nature === 'up') natureMult = 1.2;       // +20%
-      else if (nature === 'down') natureMult = 0.84; // -16%
-
-      let candyExp = Math.round(baseExp * natureMult);
-
-      // 3. アメブースト (EXP 2倍)
+      // アメブースト (EXP 2倍)
       if (boostMode === 'mini' || boostMode === 'holiday') {
         candyExp *= 2;
       }
@@ -1109,7 +1110,7 @@
       }
       const requiredExp = rawRequiredExp;
 
-      // 【1. アメ育成計算 (Ver.3.6.0 段階的アメ計算エンジン)】
+      // 【1. アメ育成計算 (ゲーム内実挙動100%再現エンジン)】
       let shardCostMultiplier = 1;
       if (candyBoostMode === 'mini') {
         shardCostMultiplier = 4;
@@ -1120,23 +1121,35 @@
       let totalCandiesNeeded = 0;
       let totalShardsNeeded = 0;
 
-      for (let lv = currentLevel; lv < targetLevel; lv++) {
-        let lvRequiredExp = getLevelSingleExp(lv + 1, pokemonType);
-        if (lv === currentLevel) {
-          const fullNextLevelExp = lvRequiredExp;
-          const clampedInput = Math.min(fullNextLevelExp, Math.max(0, nextLevelExpInput));
-          lvRequiredExp = clampedInput;
+      let simLv = currentLevel;
+      const fullCurrentLevelExp = getLevelSingleExp(simLv + 1, pokemonType);
+      let simRemainingExp = Math.min(fullCurrentLevelExp, Math.max(0, nextLevelExpInput));
+      if (simRemainingExp <= 0 && simLv < targetLevel) {
+        simRemainingExp = fullCurrentLevelExp;
+      }
+
+      while (simLv < targetLevel) {
+        const candyExp = getExpPerCandyForLevel(simLv, natureType, candyBoostMode);
+        const shardCostPerCandy = LEVEL_BASE_DATA[simLv - 1][2] * shardCostMultiplier;
+
+        totalCandiesNeeded++;
+        totalShardsNeeded += shardCostPerCandy;
+
+        if (candyExp >= simRemainingExp) {
+          let overflowExp = candyExp - simRemainingExp;
+          simLv++;
+          while (simLv < targetLevel && overflowExp >= getLevelSingleExp(simLv + 1, pokemonType)) {
+            overflowExp -= getLevelSingleExp(simLv + 1, pokemonType);
+            simLv++;
+          }
+          if (simLv < targetLevel) {
+            simRemainingExp = getLevelSingleExp(simLv + 1, pokemonType) - overflowExp;
+          } else {
+            simRemainingExp = 0;
+          }
+        } else {
+          simRemainingExp -= candyExp;
         }
-
-        // 対象レベルlvでのアメ1個あたり獲得EXPを取得 (Ver.3.6.0)
-        const expPerCandyForLv = getExpPerCandyForLevel(lv + 1, natureType, candyBoostMode);
-
-        const candiesForLv = Math.ceil(lvRequiredExp / expPerCandyForLv);
-        totalCandiesNeeded += candiesForLv;
-
-        // ゆめのかけら単価は公式マスターデータ参照
-        let shardCostPerCandy = LEVEL_BASE_DATA[lv - 1][2] * shardCostMultiplier;
-        totalShardsNeeded += (candiesForLv * shardCostPerCandy);
       }
 
       // 数値を大表示
