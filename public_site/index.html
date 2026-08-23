@@ -4904,7 +4904,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
         const slotW = 184;
         const slotStartX = gridX + 52;
-        const mealIcons = ['☀️', '🍱', '🌙'];
 
         for (let m = 0; m < 3; m++) {
           const sx = slotStartX + m * (slotW + 8);
@@ -4920,37 +4919,33 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           ctx.fill();
           ctx.stroke();
 
-          ctx.font = '14px "M PLUS Rounded 1c", sans-serif';
-          ctx.fillText(mealIcons[m], sx + 8, sy + 25);
-
           if (isCrit) {
             ctx.fillStyle = '#ff3d00';
-            ctx.font = '900 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
+            ctx.font = '900 18px "Outfit", "M PLUS Rounded 1c", sans-serif';
           } else {
             ctx.fillStyle = e > 0 ? '#0f172a' : '#94a3b8';
-            ctx.font = '700 14px "Outfit", "M PLUS Rounded 1c", sans-serif';
+            ctx.font = '800 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
           }
-          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 30, sy + 25);
+          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 12, sy + 25);
 
           const rateVal = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '';
 
           if (isCrit) {
             ctx.fillStyle = '#ea580c';
-            ctx.font = '900 11px "Outfit", "M PLUS Rounded 1c", sans-serif';
-            ctx.fillText(`✨ CRIT ${critMultiplier}x`, sx + 30, sy + 45);
+            ctx.font = '900 12px "Outfit", "M PLUS Rounded 1c", sans-serif';
+            ctx.fillText(`✨ CRIT ${critMultiplier}x`, sx + 12, sy + 45);
 
             if (rateVal) {
               ctx.fillStyle = '#c2410c';
-              ctx.font = '800 11px "Outfit", sans-serif';
+              ctx.font = '800 12px "Outfit", sans-serif';
               ctx.textAlign = 'right';
-              ctx.fillText(`(${rateVal})`, sx + slotW - 8, sy + 45);
+              ctx.fillText(rateVal, sx + slotW - 10, sy + 45);
               ctx.textAlign = 'left';
             }
           } else {
             ctx.fillStyle = '#64748b';
-            ctx.font = '600 11px "Outfit", sans-serif';
-            const rateDisplay = rateVal ? `確率 ${rateVal}` : '-';
-            ctx.fillText(rateDisplay, sx + 30, sy + 45);
+            ctx.font = '700 12px "Outfit", sans-serif';
+            ctx.fillText(rateVal ? rateVal : '-', sx + 12, sy + 45);
           }
         }
       });
