@@ -1720,90 +1720,6 @@
     /* ============================================================
        🍽️ 料理記録 (Record Tab) スタイル
        ============================================================ */
-    .record-hero {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      background: var(--hero-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .record-recipe-img {
-      width: 88px;
-      height: 88px;
-      object-fit: contain;
-      border-radius: 16px;
-      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
-      background: rgba(255, 255, 255, 0.05);
-      padding: 6px;
-      flex-shrink: 0;
-    }
-
-    .record-hero-body {
-      flex: 1;
-      min-width: 220px;
-    }
-
-    .record-hero-title {
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: var(--text-main);
-      line-height: 1.3;
-    }
-
-    .record-hero-subtitle {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-sub);
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-
-    .record-hero-ings-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 8px;
-    }
-
-    /* イベントボーナス選択ボタン群 */
-    .record-event-btn-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .record-event-btn {
-      flex: 1;
-      min-width: 90px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      border: 1.5px solid var(--border-color);
-      background: var(--bg-card);
-      color: var(--text-sub);
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .record-event-btn:hover {
-      background: var(--bg-card-hover);
-      color: var(--text-main);
-    }
-
-    .record-event-btn.active {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-      border-color: #f59e0b;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
-    }
-
     .record-day-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -1940,30 +1856,28 @@
       outline: none;
     }
 
-    /* 大成功トグルボタン（！ボタン化・省スペース・スマホ快適） */
+    /* 大成功トグルボタン（！の絵文字アイコンのみ・文字なし・スマホ最適） */
     .record-crit-toggle-btn {
-      width: 60px;
-      padding: 7px 4px;
+      width: 44px;
+      height: 38px;
+      padding: 0;
       border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 900;
+      font-size: 1.15rem;
       cursor: pointer;
       border: 1.5px solid var(--border-color);
       background: var(--bg-card);
       color: var(--text-sub);
       transition: all 0.2s ease;
-      white-space: nowrap;
       flex-shrink: 0;
-      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      user-select: none;
     }
 
     .record-crit-toggle-btn:hover {
       background: var(--bg-card-hover);
-      color: var(--text-main);
+      transform: scale(1.05);
     }
 
     .record-meal-box.is-crit .record-crit-toggle-btn {
@@ -2627,11 +2541,9 @@
   
   <!-- TAB 6: 料理記録 -->
   <div id="tab-record" class="tab-content">
-    <!-- カード①: メイン料理選択 ＆ 基礎・イベント設定 -->
+    <!-- 料理選択カード（レシピレベルタブと共通の構成） -->
     <div class="card">
-      <div class="card-title">
-        <span>🍽️</span> 週間メイン料理 ＆ 基礎・イベント設定
-      </div>
+      <div class="card-title"><span>🍽️</span> 料理記録 シミュレータ</div>
 
       <div class="control-group">
         <label class="control-label">料理ジャンル</label>
@@ -2643,49 +2555,77 @@
       </div>
 
       <div class="control-group">
-        <label class="control-label">今週作り続けるメイン料理</label>
+        <label class="control-label">今週作り続ける料理</label>
         <button class="recipe-picker-trigger" onclick="openRecipeModal('record')">
-          <span id="record-picker-label">料理を選択...</span>
+          <span id="record-picker-label">れんごくコーンスコーン</span>
           <span style="color: var(--accent-yellow);"> ▾</span>
         </button>
       </div>
+    </div>
 
-      <!-- 選択中料理のプレビュー -->
-      <div class="record-hero" id="record-recipe-hero">
-        <img id="record-hero-img" src="./assets/recipes/れんごくコーンスコーン.png" class="record-recipe-img" alt="料理画像">
-        <div class="record-hero-body">
-          <div id="record-hero-name" class="record-hero-title">れんごくコーンスコーン</div>
-          <div id="record-hero-details" class="record-hero-subtitle">基礎エナジー: 14,015 / 必要食材: 77個 (Lv.70: 49,053)</div>
-          <div id="record-hero-ings" class="record-hero-ings-grid"></div>
+    <!-- カード①: レシピレベル ＆ 共通環境設定（レシピレベルタブと全く同じUI） -->
+    <div class="card">
+      <div class="card-title" style="color: var(--accent-blue);"><span>🎚️</span> レシピレベル & 共通環境設定</div>
+
+      <div class="control-group">
+        <label class="control-label">現在のレシピレベル (Lv.1〜70)</label>
+        <div class="rl-level-input-group">
+          <input type="range" class="rl-slider" id="record-level-slider" min="1" max="70" value="1"
+            oninput="onRecordLevelChange(this.value)">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="record-level-input" min="1" max="70" value="1"
+              oninput="onRecordLevelInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">Lv</span>
+          </div>
         </div>
       </div>
 
-      <!-- 環境設定（2段組・レスポンシブ） -->
-      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color-soft);">
-        <!-- 段1: 料理イベント倍率 -->
-        <div>
-          <label class="control-label" style="font-size: 0.85rem; margin-bottom: 6px;">🎉 料理イベントボーナス (エナジー＆大成功倍率)</label>
-          <div class="record-event-btn-group">
-            <button type="button" class="record-event-btn active" id="record-event-100-btn" onclick="setRecordEventBonus(1.0, this)">通常 (1.0x)</button>
-            <button type="button" class="record-event-btn" id="record-event-125-btn" onclick="setRecordEventBonus(1.25, this)">1.25倍 イベント</button>
-            <button type="button" class="record-event-btn" id="record-event-150-btn" onclick="setRecordEventBonus(1.50, this)">1.50倍 イベント</button>
+      <!-- フィールドボーナス設定 -->
+      <div class="control-group">
+        <label class="control-label">フィールドボーナス (0%〜85%)</label>
+        <div class="rl-level-input-group">
+          <input type="range" class="rl-slider" id="record-fb-slider" min="0" max="85" value="0" step="1"
+            oninput="onRecordFieldBonusChange(this.value)">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" class="number-input" id="record-fb-input" min="0" max="85" value="0"
+              oninput="onRecordFieldBonusInputChange(this.value)"
+              style="width: 80px; text-align: center; font-size: 1.15rem; font-weight: 900; padding: 6px 8px;">
+            <span style="font-weight: 900; font-size: 0.95rem; color: var(--text-sub);">%</span>
           </div>
         </div>
+      </div>
 
-        <!-- 段2: レシピレベル ＆ フィールドボーナス -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+      <!-- イベントボーナス倍率選択 (1.25倍 & 1.5倍) -->
+      <div class="control-group"
+        style="margin-top: 14px; border-top: 1px dashed var(--border-color-soft); padding-top: 12px;">
+        <label class="control-label">🎉 イベントボーナス (料理エナジー倍率)</label>
+        <div class="times-buttons" style="display: flex; gap: 10px; margin-top: 6px;">
+          <button type="button" id="record-event-125-btn" class="time-btn record-event-btn"
+            onclick="setRecordEventBonus(1.25, this)"
+            style="flex: 1; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            🎪 1.25倍 イベント
+          </button>
+          <button type="button" id="record-event-150-btn" class="time-btn record-event-btn" onclick="setRecordEventBonus(1.5, this)"
+            style="flex: 1; padding: 10px 14px; font-size: 0.95rem; font-weight: 800; border-radius: 12px; transition: all 0.2s;">
+            🔥 1.5倍 イベント
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 選択中の料理ヒーロー表示カード（レシピレベルタブと全く同じUI） -->
+    <div class="card">
+      <div class="recipe-hero"
+        style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
+          <img id="record-hero-img" src="./assets/recipes/れんごくコーンスコーン.png" class="recipe-hero-img" alt="Recipe Image">
           <div>
-            <label class="control-label" style="font-size: 0.85rem;">週初めのレシピレベル (Lv.1〜70)</label>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="range" class="rl-slider" id="record-level-slider" min="1" max="70" value="1" oninput="onRecordLevelChange(this.value)">
-              <span id="record-level-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-blue);">Lv.1</span>
-            </div>
-          </div>
-          <div>
-            <label class="control-label" style="font-size: 0.85rem;">フィールドボーナス (0〜85%)</label>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="range" class="rl-slider" id="record-fb-slider" min="0" max="85" value="0" oninput="onRecordFieldBonusChange(this.value)">
-              <span id="record-fb-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-green);">+0%</span>
+            <div id="record-hero-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">れんごくコーンスコーン</div>
+            <div style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <span>必要食材 <b id="record-hero-total-val" style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">77</b></span>
+              <span id="record-hero-energy-val" style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">基礎: 14,015</span>
+              <span class="modal-energy-tag" id="record-hero-energy-max-tag" style="font-size:0.92rem;">Lv.70: 49,053</span>
             </div>
           </div>
         </div>
@@ -4364,35 +4304,78 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
     function setRecordEventBonus(val, btnElem) {
       const targetVal = parseFloat(val) || 1.0;
-      recordEventBonus = targetVal;
-
-      document.querySelectorAll('.record-event-btn').forEach(btn => btn.classList.remove('active'));
-      if (btnElem) btnElem.classList.add('active');
-      else {
-        if (targetVal === 1.0) document.getElementById('record-event-100-btn')?.classList.add('active');
-        if (targetVal === 1.25) document.getElementById('record-event-125-btn')?.classList.add('active');
-        if (targetVal === 1.50) document.getElementById('record-event-150-btn')?.classList.add('active');
+      if (recordEventBonus === targetVal) {
+        recordEventBonus = 1.0;
+      } else {
+        recordEventBonus = targetVal;
       }
-
+      updateRecordEventBonusUI();
       renderRecordGrid();
       updateRecordCalculation();
     }
 
+    function updateRecordEventBonusUI() {
+      const btn125 = document.getElementById('record-event-125-btn');
+      const btn150 = document.getElementById('record-event-150-btn');
+
+      if (btn125) {
+        if (recordEventBonus === 1.25) {
+          btn125.classList.add('active');
+          btn125.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          btn125.style.color = '#fff';
+          btn125.style.borderColor = '#10b981';
+          btn125.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)';
+        } else {
+          btn125.classList.remove('active');
+          btn125.style.background = '';
+          btn125.style.color = '';
+          btn125.style.borderColor = '';
+          btn125.style.boxShadow = '';
+        }
+      }
+
+      if (btn150) {
+        if (recordEventBonus === 1.5) {
+          btn150.classList.add('active');
+          btn150.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+          btn150.style.color = '#fff';
+          btn150.style.borderColor = '#f59e0b';
+          btn150.style.boxShadow = '0 4px 12px rgba(245, 158, 11, 0.3)';
+        } else {
+          btn150.classList.remove('active');
+          btn150.style.background = '';
+          btn150.style.color = '';
+          btn150.style.borderColor = '';
+          btn150.style.boxShadow = '';
+        }
+      }
+    }
+
     function onRecordLevelChange(val) {
       recordLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
+      const input = document.getElementById('record-level-input');
+      if (input) input.value = recordLevel;
+      updateRecordCalculation();
+    }
+
+    function onRecordLevelInputChange(val) {
+      recordLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
       const slider = document.getElementById('record-level-slider');
-      const badge = document.getElementById('record-level-badge');
       if (slider) slider.value = recordLevel;
-      if (badge) badge.textContent = `Lv.${recordLevel}`;
       updateRecordCalculation();
     }
 
     function onRecordFieldBonusChange(val) {
       recordFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
+      const input = document.getElementById('record-fb-input');
+      if (input) input.value = recordFieldBonus;
+      updateRecordCalculation();
+    }
+
+    function onRecordFieldBonusInputChange(val) {
+      recordFieldBonus = Math.min(85, Math.max(0, parseInt(val) || 0));
       const slider = document.getElementById('record-fb-slider');
-      const badge = document.getElementById('record-fb-badge');
       if (slider) slider.value = recordFieldBonus;
-      if (badge) badge.textContent = `+${recordFieldBonus}%`;
       updateRecordCalculation();
     }
 
@@ -4467,7 +4450,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           const meal = recordMeals[d][m];
           const isCrit = meal.isCrit;
           const critBadgeText = isSunday ? `🌟 大成功! ${critMultiplier}x` : `✨ 大成功! ${critMultiplier}x`;
-          const btnText = isCrit ? `❗ ${critMultiplier}x` : '❗ 通常';
 
           html += `
             <div class="record-meal-box ${isCrit ? 'is-crit' : ''}" id="record-box-${d}-${m}">
@@ -4488,7 +4470,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
                 </div>
                 <button type="button" class="record-crit-toggle-btn ${isCrit ? 'active-crit' : ''}" 
                   onclick="toggleRecordMealCrit(${d}, ${m})" title="大成功を切り替え">
-                  ${btnText}
+                  ❗
                 </button>
               </div>
             </div>
@@ -4510,8 +4492,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       const heroImg = document.getElementById('record-hero-img');
       const heroName = document.getElementById('record-hero-name');
-      const heroDetails = document.getElementById('record-hero-details');
-      const heroIngs = document.getElementById('record-hero-ings');
+      const heroTotalVal = document.getElementById('record-hero-total-val');
+      const heroEnergyVal = document.getElementById('record-hero-energy-val');
+      const heroEnergyMaxTag = document.getElementById('record-hero-energy-max-tag');
       const pickerLabel = document.getElementById('record-picker-label');
       const sumImg = document.getElementById('record-sum-img');
 
@@ -4522,38 +4505,25 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (pickerLabel) pickerLabel.textContent = recipe.name;
 
       const totalIngCount = Object.values(recipe.items).reduce((a, b) => a + b, 0);
-      if (heroDetails) {
-        heroDetails.textContent = `基礎エナジー: ${recipe.energy.toLocaleString()} / 必要食材: ${totalIngCount}個 (Lv.70: ${recipe.maxEnergy.toLocaleString()})`;
-      }
-
-      if (heroIngs) {
-        let ingsHtml = '';
-        Object.keys(recipe.items).forEach(k => {
-          const ing = INGREDIENTS[k] || { name: k, emoji: '🍱' };
-          ingsHtml += `<span class="modal-ing-chip"><img src="${ing.img || `./assets/ingredients/${k}.png`}" class="ing-img-icon"> ${ing.name} <b style="font-size:0.95rem; font-weight:900;">× ${recipe.items[k]}</b></span>`;
-        });
-        heroIngs.innerHTML = ingsHtml;
-      }
+      if (heroTotalVal) heroTotalVal.textContent = totalIngCount;
+      if (heroEnergyVal) heroEnergyVal.textContent = `基礎: ${recipe.energy.toLocaleString()}`;
+      if (heroEnergyMaxTag) heroEnergyMaxTag.textContent = `Lv.70: ${recipe.maxEnergy.toLocaleString()}`;
 
       document.querySelectorAll('.record-cat-btn').forEach(btn => btn.classList.remove('active'));
       const catBtn = document.querySelector(`.record-cat-btn.${recordCategory}`);
       if (catBtn) catBtn.classList.add('active');
 
       const levelSlider = document.getElementById('record-level-slider');
-      const levelBadge = document.getElementById('record-level-badge');
+      const levelInput = document.getElementById('record-level-input');
       if (levelSlider) levelSlider.value = recordLevel;
-      if (levelBadge) levelBadge.textContent = `Lv.${recordLevel}`;
+      if (levelInput) levelInput.value = recordLevel;
 
       const fbSlider = document.getElementById('record-fb-slider');
-      const fbBadge = document.getElementById('record-fb-badge');
+      const fbInput = document.getElementById('record-fb-input');
       if (fbSlider) fbSlider.value = recordFieldBonus;
-      if (fbBadge) fbBadge.textContent = `+${recordFieldBonus}%`;
+      if (fbInput) fbInput.value = recordFieldBonus;
 
-      // Event bonus buttons UI
-      document.querySelectorAll('.record-event-btn').forEach(btn => btn.classList.remove('active'));
-      if (recordEventBonus === 1.0) document.getElementById('record-event-100-btn')?.classList.add('active');
-      if (recordEventBonus === 1.25) document.getElementById('record-event-125-btn')?.classList.add('active');
-      if (recordEventBonus === 1.50) document.getElementById('record-event-150-btn')?.classList.add('active');
+      updateRecordEventBonusUI();
 
       let totalEnergy = 0;
       let weekdayEnergy = 0;
