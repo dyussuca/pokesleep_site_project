@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新機能「料理記録」タブをリリース！週間21食の料理ログ・大成功確率・高精細リザルト画像出力＆SNS共有に対応 | dyussuca.com</title>
+  <meta name="description"
+    content="ポケモンスリープ備蓄＆調理計算機に新機能「料理記録」タブが登場！週間21食の料理エナジー記録、大成功❗トグル、盛った大成功確率の集計、ライトモード水色系の美麗なリザルト画像出力、𝕏ポスト＆Excel対応CSVダウンロードに対応しました。">
+  <meta name="keywords" content="ポケモンスリープ,ポケスリ,料理記録,料理ログ,大成功確率,リザルト画像,料理エナジー,備蓄計算機,dyussuca">
+  <link rel="icon" href="../../favicon.ico">
+
+  <!-- OGP / SNS Card -->
+  <meta property="og:title" content="新機能「料理記録」タブをリリース！週間21食の料理ログ・大成功確率・高精細リザルト画像出力＆SNS共有に対応">
+  <meta property="og:description" content="1週間の料理エナジーをスマートに記録！実エナジー直接手入力、大成功トグル、盛った確率集計、美麗なリザルト画像保存＆𝕏シェア機能を実装しました。">
+  <meta property="og:image" content="https://dyussuca.com/blog/dev/assets/004_thumb.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dyussuca.com/blog/dev/004_cooking_record_release.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="新機能「料理記録」タブをリリース！週間21食の料理ログ＆リザルト画像出力">
+  <meta name="twitter:description" content="実エナジー入力、大成功❗トグル、盛った確率集計、爽やか水色系リザルト画像保存＆𝕏シェアに対応！">
+  <meta name="twitter:image" content="https://dyussuca.com/blog/dev/assets/004_thumb.png">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "新機能「料理記録」タブをリリース！週間21食の料理ログ・大成功確率・高精細リザルト画像出力＆SNS共有に対応",
+    "image": "https://dyussuca.com/blog/dev/assets/004_thumb.png",
+    "datePublished": "2026-08-23",
+    "dateModified": "2026-08-23",
+    "author": {
+      "@type": "Person",
+      "name": "dyussuca"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "dyussuca.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://dyussuca.com/assets/favicon.png"
+      }
+    },
+    "description": "ポケモンスリープ備蓄＆調理計算機に新機能「料理記録」タブが登場！週間21食の料理エナジー記録、大成功❗トグル、盛った大成功確率の集計、ライトモード水色系の美麗なリザルト画像出力、𝕏ポスト＆Excel対応CSVダウンロードに対応しました。"
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #0284c7;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-orange: #ea580c;
+      --hero-bg: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(16, 185, 129, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-orange: #fb923c;
+      --hero-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(52, 211, 153, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    .logo-link img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .article-wrap {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      .article-wrap {
+        padding: 24px 16px;
+      }
+    }
+
+    .breadcrumb {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .article-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .article-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border-color-soft);
+    }
+
+    .article-thumb-main {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 28px;
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .article-thumb-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .article-body h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin: 36px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-body h3 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .article-body p {
+      margin-bottom: 16px;
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+
+    .feature-card {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .feature-list li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: var(--accent-green);
+      font-weight: 900;
+    }
+
+    .sample-img-box {
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .sample-img-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sample-caption {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.14), rgba(16, 185, 129, 0.14));
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin: 40px 0 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cta-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 900;
+      padding: 12px 28px;
+      border-radius: var(--radius-md);
+      margin-top: 12px;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color-soft);
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="https://dyussuca.com/" class="logo-link">
+        <img src="../../assets/favicon.png" alt="Logo">
+        <span>ポケスリ備蓄＆調理計算機</span>
+      </a>
+      <div class="header-nav">
+        <a href="../index.html" class="nav-btn">📖 ブログ一覧</a>
+        <a href="https://dyussuca.com/" class="nav-btn">🍳 計算機本体</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="article-wrap">
+      <div class="breadcrumb">
+        <a href="https://dyussuca.com/">TOP</a> &gt; <a href="../index.html">公式ブログ</a> &gt; 開発日誌 #004
+      </div>
+
+      <div class="article-tag-wrap">
+        <span class="article-tag">開発日誌 #004</span>
+        <span class="article-tag" style="background: linear-gradient(135deg, #d97706, #b45309);">新機能リリース</span>
+      </div>
+
+      <h1>新機能「料理記録」タブをリリース！週間21食の料理ログ・大成功確率・高精細リザルト画像出力＆SNS共有に対応</h1>
+
+      <div class="article-info">
+        <span>📅 2026年8月23日</span>
+        <span>✍️ dyussuca 開発チーム</span>
+      </div>
+
+      <div class="article-thumb-main">
+        <img src="./assets/004_thumb.png" alt="新機能「料理記録」タブ サムネイル">
+      </div>
+
+      <div class="article-body">
+        <p>
+          いつも『ポケモンスリープ 備蓄＆調理計算機（dyussuca.com）』をご利用いただきありがとうございます！
+        </p>
+        <p>
+          ポケモンスリープの週課において、<strong>「今週は同じ大型レシピを1週間（全21食）作り続けて、どれだけ総エナジーを稼げたか記録したい」「料理チャンスSやいいキャンプチケットで盛った大成功確率と、実際の成績を振り返りたい」</strong>というプレイヤーの声を多数いただき、新たに<strong>第6のタブ「🍽️ 料理記録」</strong>を正式実装・公開いたしました！
+        </p>
+
+        <h2><span>🎯</span> 「料理記録」タブの主な機能＆特徴</h2>
+
+        <div class="feature-card">
+          <div class="feature-card-title"><span>📝</span> 1. 料理後の実エナジー直接入力 ＆ 「❗」大成功トグル</div>
+          <p>
+            レシピレベルシミュレータと同じ直感的なUIで料理・週初レベル・フィールドボーナス・イベント倍率（1.25x / 1.5x）を選択。各食（朝・昼・晩×7日間＝全21食）で料理後に実際に出た数値をそのまま入力するだけで、リアルタイムに週間総エナジーが自動集計されます。
+          </p>
+          <ul class="feature-list">
+            <li><strong>勝手な自動乗算を廃止した安全設計</strong>：料理後の数値をそのまま入れる仕様のため、大成功ボタンを押しても数値を勝手に2倍化・3倍化しません。</li>
+            <li><strong>原作さながらの「❗」絵文字ボタン</strong>：ボタン上の余計な文字を排除し、タップ1つで朱色（#ff3d00）太字の大成功演出へ切り替わります。</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-title"><span>🎲</span> 2. 盛った大成功確率の自由入力 ＆ 平均集計</div>
+          <p>
+            各食事で「料理チャンスS」等によって<strong>盛った追加確率（％）</strong>を自由に入力可能。初期状態はすべて未入力（空欄）となっており、入力された食事のみを対象として「平均盛った確率」がリアルタイムに自動算出されます。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-title"><span>🖼️</span> 3. 高精細ライトモード水色系リザルト画像保存（PNG）</div>
+          <p>
+            1週間の完走結果を、爽やかなスカイブルーグラデーション＆立体ドロップシャドウを効かせた<strong>1200×675（16:9）の高画質PNG画像カード</strong>としてワンクリック保存できます！
+          </p>
+          <ul class="feature-list">
+            <li><strong>全79レシピのBase64エンジン搭載</strong>：ブラウザのセキュリティ（CORS）制限に一切触れず、ローカルでもWebでも100%確実に高精細な料理画像・カビゴンロゴが出力されます。</li>
+            <li><strong>特大58pxの合計エナジー表示</strong>：週間総エナジーが黄金オレンジの特大フォントで強調されます。</li>
+            <li><strong>大成功枠の確率併記</strong>：大成功したスロットでも「✨ CRIT 2x (+15%)」のように盛った確率を隠さずに記録。</li>
+          </ul>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-card-title"><span>🚀</span> 4. 𝕏（Twitter）シェア ＆ Excel対応CSVダウンロード</div>
+          <p>
+            週間総エナジーや大成功回数が入ったポスト文をワンクリックで生成して𝕏へシェアできるほか、21食すべての詳細ログ（曜日、食事、エナジー、盛った確率、大成功判定、倍率）をExcel対応（UTF-8 BOM付き）のCSVファイルとして一括ダウンロードできます。
+          </p>
+        </div>
+
+        <h2><span>📸</span> 実際に出力されるリザルト画像サンプル</h2>
+        <p>
+          「🖼️ リザルト画像を保存」ボタンを押すことで、以下のような美麗な画像カードが瞬時に生成・ダウンロードされます。SNSでの成果報告や振り返りにぜひご活用ください！
+        </p>
+
+        <div class="sample-img-box">
+          <img src="./assets/004_result_sample.png" alt="週間料理リザルト画像サンプル">
+          <div class="sample-caption">▲ 実際に生成・ダウンロードされる週間料理リザルト画像（1200×675px）</div>
+        </div>
+
+        <h2><span>💡</span> 開発時のこだわりとUI改善</h2>
+        <p>
+          今回の開発では、特にスマホでの操作性・視認性に徹底的にこだわりました。
+        </p>
+        <ul class="feature-list">
+          <li><strong>週間サマリーの特大フォント（3.4rem）</strong>：サイト上でも達成感を味わえるよう、合計エナジーをゴールド発光の特大サイズで表示。</li>
+          <li><strong>料理名と進捗バッジの独立改行</strong>：スマホの狭い画面でも料理名が不自然に崩れないよう、「料理名」と「21/21食 記録済み」を独立したピル型バッジとして改行配置。</li>
+          <li><strong>朝昼晩アイコンを排した数字拡大</strong>：各食スロットのエナジー文字を最大20pxまで拡大し、パッと見でのエナジー視認性を向上。</li>
+        </ul>
+
+        <div class="cta-banner">
+          <div class="cta-title">🍳 さっそく今週の料理を記録してみよう！</div>
+          <p style="font-size: 0.92rem; color: var(--text-sub); margin-bottom: 12px;">
+            無料・登録不要・スマホ/PCどちらでも快適にご利用いただけます。
+          </p>
+          <a href="https://dyussuca.com/" class="cta-btn">
+            <span>🍽️</span> 料理記録・備蓄計算機を使ってみる
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 dyussuca.com / ポケモンスリープ 備蓄＆調理計算機</p>
+  </footer>
+</body>
+
+</html>
