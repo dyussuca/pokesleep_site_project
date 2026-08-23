@@ -4654,7 +4654,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecordCalculation();
     }
 
-    function generateRecordCanvasImage() {
+    async function generateRecordCanvasImage() {
       const canvas = document.getElementById('record-share-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -4666,12 +4666,30 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       const recipe = RECIPES.find(r => r.id === recordRecipeId) || RECIPES[0];
       const recipeName = recipe ? recipe.name : '料理';
+      const recipeImgSrc = getRecipeImg(recipe.name, recipe.cat);
+      const faviconImgSrc = './assets/favicon.png';
+
+      // 画像を確実にプリロードするPromise
+      const loadImg = (src) => new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+
+      const [recipeImg, logoImg] = await Promise.all([
+        loadImg(recipeImgSrc),
+        loadImg(faviconImgSrc)
+      ]);
 
       let totalEnergy = 0;
       let weekdayEnergy = 0;
       let sundayEnergy = 0;
       let critCount = 0;
       let recordedCount = 0;
+      let sumCritRate = 0;
+      let critRateEnteredCount = 0;
 
       for (let d = 0; d < 7; d++) {
         for (let m = 0; m < 3; m++) {
@@ -4682,184 +4700,250 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           if (d < 6) weekdayEnergy += e;
           else sundayEnergy += e;
           if (meal.isCrit) critCount++;
+          if (meal.critRate !== undefined && meal.critRate !== '') {
+            sumCritRate += parseInt(meal.critRate) || 0;
+            critRateEnteredCount++;
+          }
         }
       }
 
       const critRatePct = recordedCount > 0 ? ((critCount / recordedCount) * 100).toFixed(1) : '0.0';
       const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
+      const avgCritRateText = critRateEnteredCount > 0 ? `+${(sumCritRate / critRateEnteredCount).toFixed(1)}%` : '未入力';
 
+      // 🌌 ナイトモード（ポケモンスリープの睡眠・夜空）背景描画
       const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-      bgGrad.addColorStop(0, '#0b132b');
-      bgGrad.addColorStop(0.5, '#1c2541');
+      bgGrad.addColorStop(0, '#070b19');
+      bgGrad.addColorStop(0.4, '#0f172a');
+      bgGrad.addColorStop(0.8, '#1e1b4b');
       bgGrad.addColorStop(1, '#0f172a');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
-      const glowGrad = ctx.createRadialGradient(250, 200, 10, 250, 200, 400);
-      glowGrad.addColorStop(0, 'rgba(2, 132, 199, 0.25)');
+      // ナイトグロー（月光・オーロラのような光彩）
+      const glowGrad = ctx.createRadialGradient(250, 180, 20, 250, 180, 450);
+      glowGrad.addColorStop(0, 'rgba(56, 189, 248, 0.22)');
+      glowGrad.addColorStop(0.5, 'rgba(124, 58, 237, 0.12)');
       glowGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = glowGrad;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 24px "Noto Sans JP", sans-serif';
-      ctx.fillText('🍳 POKÉMON SLEEP 週間料理リザルト', 50, 55);
+      // ✨ ヘッダー部
+      // カビゴンロゴ
+      if (logoImg) {
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+        ctx.shadowBlur = 10;
+        roundRect(ctx, 50, 24, 38, 38, 19);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.clip();
+        ctx.drawImage(logoImg, 50, 24, 38, 38);
+        ctx.restore();
+      }
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-      ctx.font = '700 16px "Noto Sans JP", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 24px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
+      ctx.fillText('POKÉMON SLEEP 週間料理リザルト', logoImg ? 100 : 50, 52);
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.font = '800 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText('dyussuca.com / ポケスリ計算機', W - 50, 55);
+      ctx.fillText('dyussuca.com', W - 50, 52);
       ctx.textAlign = 'left';
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-      ctx.lineWidth = 2;
-      roundRect(ctx, 50, 80, 400, 545, 20);
+      // 🎴 左側メインカード
+      const leftCardX = 50;
+      const leftCardY = 78;
+      const leftCardW = 420;
+      const leftCardH = 562;
+
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, leftCardX, leftCardY, leftCardW, leftCardH, 20);
       ctx.fill();
       ctx.stroke();
 
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.src = getRecipeImg(recipe.name, recipe.cat);
-      img.onload = () => { drawCanvasRest(); };
-      img.onerror = () => { drawCanvasRest(); };
+      // 料理画像（110x110）
+      const imgX = leftCardX + 24;
+      const imgY = leftCardY + 24;
+      const imgSize = 110;
 
-      function drawCanvasRest() {
-        if (img.complete && img.naturalWidth > 0) {
-          ctx.save();
-          roundRect(ctx, 80, 110, 100, 100, 16);
-          ctx.clip();
-          ctx.drawImage(img, 80, 110, 100, 100);
-          ctx.restore();
-        }
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+      ctx.lineWidth = 1;
+      roundRect(ctx, imgX, imgY, imgSize, imgSize, 18);
+      ctx.fill();
+      ctx.stroke();
 
+      if (recipeImg) {
+        ctx.save();
+        roundRect(ctx, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12, 14);
+        ctx.clip();
+        ctx.drawImage(recipeImg, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12);
+        ctx.restore();
+      }
+
+      // 料理名 & バッジ
+      const textStartX = imgX + imgSize + 16;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 24px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
+      ctx.fillText(recipeName, textStartX, imgY + 38, leftCardW - imgSize - 56);
+
+      const eventBadgeText = recordEventBonus > 1.0 ? `🎉 ${recordEventBonus}x イベント` : '✨ 21食 完走記録';
+      ctx.fillStyle = recordEventBonus > 1.0 ? '#f59e0b' : '#38bdf8';
+      ctx.font = '800 14px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(eventBadgeText, textStartX, imgY + 70);
+
+      const recipeLvText = `週初Lv.${recordLevel} / FB+${recordFieldBonus}%`;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+      ctx.font = '700 13px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(recipeLvText, textStartX, imgY + 95);
+
+      // 🔥 週間総料理エナジー（特大58px）
+      const energyBlockY = leftCardY + 160;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+      ctx.font = '800 15px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText('🔥 週間総料理エナジー', leftCardX + 24, energyBlockY);
+
+      // 合計エナジー値（58px 特大・ゴールド・Outfit英数字フォント）
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '900 58px "Outfit", "M PLUS Rounded 1c", sans-serif';
+      ctx.shadowColor = 'rgba(245, 158, 11, 0.4)';
+      ctx.shadowBlur = 16;
+      ctx.fillText(totalEnergy.toLocaleString(), leftCardX + 24, energyBlockY + 58, leftCardW - 48);
+      ctx.shadowBlur = 0; // シャドウリセット
+
+      // 大成功サマリーボックス（朱色アクセント枠）
+      const critBoxY = energyBlockY + 80;
+      const critBoxH = 76;
+      ctx.fillStyle = 'rgba(255, 87, 34, 0.12)';
+      ctx.strokeStyle = '#ff5722';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, leftCardX + 20, critBoxY, leftCardW - 40, critBoxH, 14);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ff7043';
+      ctx.font = '800 13px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText('✨ 週間大成功回数・実績率', leftCardX + 34, critBoxY + 26);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 25px "Outfit", "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(`${critCount}回 / 21食 (${critRatePct}%)`, leftCardX + 34, critBoxY + 58);
+
+      // 下部統計リスト
+      const listStartY = critBoxY + 105;
+      const drawStatLine = (icon, label, value, y) => {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+        ctx.font = '700 14px "M PLUS Rounded 1c", sans-serif';
+        ctx.fillText(`${icon} ${label}`, leftCardX + 24, y);
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 26px "Noto Sans JP", sans-serif';
-        ctx.fillText(recipeName, 195, 155, 230);
+        ctx.font = '800 15px "Outfit", "M PLUS Rounded 1c", sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(value, leftCardX + leftCardW - 24, y);
+        ctx.textAlign = 'left';
+      };
 
-        const subBadgeText = recordEventBonus > 1.0 ? `21食完走 (イベ ${recordEventBonus}x)` : '21食 完走記録';
-        ctx.fillStyle = '#38bdf8';
-        ctx.font = '800 15px "Noto Sans JP", sans-serif';
-        ctx.fillText(subBadgeText, 195, 185);
+      drawStatLine('📈', '1食あたり平均', `${avgEnergy.toLocaleString()}`, listStartY);
+      drawStatLine('🎯', '盛った確率(平均)', `${avgCritRateText}`, listStartY + 32);
+      drawStatLine('📅', '平日合計(18食)', `${weekdayEnergy.toLocaleString()}`, listStartY + 64);
+      drawStatLine('🌟', '日曜合計(3食)', `${sundayEnergy.toLocaleString()}`, listStartY + 96);
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.font = '800 16px "Noto Sans JP", sans-serif';
-        ctx.fillText('🔥 週間総料理エナジー', 80, 260);
+      // 📅 右側 21食ミニグリッド
+      const gridX = 495;
+      const gridY = 78;
+      const gridW = 655;
+      const cardH = 74;
+      const gapY = 7;
 
-        ctx.fillStyle = '#fbbf24';
-        ctx.font = '900 44px "Noto Sans JP", sans-serif';
-        ctx.fillText(totalEnergy.toLocaleString(), 80, 310, 340);
+      DAYS_LABEL.forEach((dayName, d) => {
+        const cy = gridY + d * (cardH + gapY);
+        const isSunday = (d === 6);
+        const baseCritMult = isSunday ? 3 : 2;
+        const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
 
-        ctx.fillStyle = 'rgba(255, 87, 34, 0.15)';
-        ctx.strokeStyle = '#ff5722';
-        ctx.lineWidth = 1.5;
-        roundRect(ctx, 80, 340, 340, 75, 12);
+        ctx.fillStyle = isSunday ? 'rgba(245, 158, 11, 0.14)' : 'rgba(15, 23, 42, 0.7)';
+        ctx.strokeStyle = isSunday ? 'rgba(245, 158, 11, 0.75)' : 'rgba(255, 255, 255, 0.12)';
+        ctx.lineWidth = isSunday ? 1.5 : 1;
+        roundRect(ctx, gridX, cy, gridW, cardH, 12);
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = '#ff7043';
-        ctx.font = '800 14px "Noto Sans JP", sans-serif';
-        ctx.fillText('✨ 大成功回数・実績率', 95, 368);
+        // 曜日ラベル
+        ctx.fillStyle = isSunday ? '#fbbf24' : '#94a3b8';
+        ctx.font = '900 17px "M PLUS Rounded 1c", sans-serif';
+        ctx.fillText(dayName.slice(0, 1), gridX + 16, cy + 44);
 
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 24px "Noto Sans JP", sans-serif';
-        ctx.fillText(`${critCount}回 / 21食 (${critRatePct}%)`, 95, 400);
+        const slotW = 184;
+        const slotStartX = gridX + 52;
+        const mealIcons = ['☀️', '🍱', '🌙'];
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.font = '700 15px "Noto Sans JP", sans-serif';
-        ctx.fillText(`📈 1食平均: ${avgEnergy.toLocaleString()}`, 80, 455);
-        ctx.fillText(`📅 平日合計: ${weekdayEnergy.toLocaleString()}`, 80, 490);
-        ctx.fillText(`🌟 日曜合計: ${sundayEnergy.toLocaleString()}`, 80, 525);
+        for (let m = 0; m < 3; m++) {
+          const sx = slotStartX + m * (slotW + 8);
+          const sy = cy + 9;
+          const meal = recordMeals[d][m];
+          const e = parseInt(meal.energy) || 0;
+          const isCrit = meal.isCrit;
 
-        const gridX = 475;
-        const gridY = 80;
-        const gridW = 675;
-        const cardH = 72;
-        const gapY = 6;
-
-        DAYS_LABEL.forEach((dayName, d) => {
-          const cy = gridY + d * (cardH + gapY);
-          const isSunday = (d === 6);
-          const baseCritMult = isSunday ? 3 : 2;
-          const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
-
-          ctx.fillStyle = isSunday ? 'rgba(245, 158, 11, 0.12)' : 'rgba(255, 255, 255, 0.04)';
-          ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(255, 255, 255, 0.08)';
-          ctx.lineWidth = 1.5;
-          roundRect(ctx, gridX, cy, gridW, cardH, 10);
+          ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.22)' : 'rgba(0, 0, 0, 0.3)';
+          ctx.strokeStyle = isCrit ? '#ff5722' : 'transparent';
+          ctx.lineWidth = 1;
+          roundRect(ctx, sx, sy, slotW, 56, 8);
           ctx.fill();
-          ctx.stroke();
+          if (isCrit) ctx.stroke();
 
-          ctx.fillStyle = isSunday ? '#fbbf24' : '#94a3b8';
-          ctx.font = '900 16px "Noto Sans JP", sans-serif';
-          ctx.fillText(dayName.slice(0, 1), gridX + 16, cy + 42);
+          // アイコン
+          ctx.font = '14px "M PLUS Rounded 1c", sans-serif';
+          ctx.fillText(mealIcons[m], sx + 8, sy + 25);
 
-          const slotW = 190;
-          const slotStartX = gridX + 55;
-          const mealIcons = ['☀️', '🍱', '🌙'];
-
-          for (let m = 0; m < 3; m++) {
-            const sx = slotStartX + m * (slotW + 8);
-            const sy = cy + 8;
-            const meal = recordMeals[d][m];
-            const e = parseInt(meal.energy) || 0;
-            const isCrit = meal.isCrit;
-
-            ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.2)' : 'rgba(0, 0, 0, 0.25)';
-            ctx.strokeStyle = isCrit ? '#ff5722' : 'transparent';
-            ctx.lineWidth = 1;
-            roundRect(ctx, sx, sy, slotW, 56, 8);
-            ctx.fill();
-            if (isCrit) ctx.stroke();
-
-            ctx.font = '14px "Noto Sans JP", sans-serif';
-            ctx.fillText(mealIcons[m], sx + 8, sy + 25);
-
-            if (isCrit) {
-              ctx.fillStyle = '#ff3d00';
-              ctx.font = '900 16px "Noto Sans JP", sans-serif';
-            } else {
-              ctx.fillStyle = e > 0 ? '#ffffff' : 'rgba(255, 255, 255, 0.3)';
-              ctx.font = '700 14px "Noto Sans JP", sans-serif';
-            }
-            ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 32, sy + 25);
-
-            if (isCrit) {
-              ctx.fillStyle = '#ff9800';
-              ctx.font = '900 11px "Noto Sans JP", sans-serif';
-              ctx.fillText(`CRIT ${critMultiplier}x`, sx + 32, sy + 45);
-            } else {
-              ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-              ctx.font = '600 11px "Noto Sans JP", sans-serif';
-              const rateDisplay = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '-';
-              ctx.fillText(rateDisplay, sx + 32, sy + 45);
-            }
+          // エナジー
+          if (isCrit) {
+            ctx.fillStyle = '#ff3d00';
+            ctx.font = '900 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
+          } else {
+            ctx.fillStyle = e > 0 ? '#ffffff' : 'rgba(255, 255, 255, 0.3)';
+            ctx.font = '700 14px "Outfit", "M PLUS Rounded 1c", sans-serif';
           }
-        });
+          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 30, sy + 25);
 
-        const dataUrl = canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-        a.href = dataUrl;
-        a.download = `週間料理リザルト_${recipeName}_${today}.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }
+          // サブ情報（CRITスタンプ / 盛った確率）
+          if (isCrit) {
+            ctx.fillStyle = '#ff9800';
+            ctx.font = '900 11px "Outfit", sans-serif';
+            ctx.fillText(`CRIT ${critMultiplier}x`, sx + 30, sy + 45);
+          } else {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.font = '600 11px "Outfit", sans-serif';
+            const rateDisplay = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '-';
+            ctx.fillText(rateDisplay, sx + 30, sy + 45);
+          }
+        }
+      });
 
-      function roundRect(ctx, x, y, width, height, radius) {
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y);
-        ctx.lineTo(x + width - radius, y);
-        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-        ctx.lineTo(x + width, y + height - radius);
-        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-        ctx.lineTo(x + radius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-        ctx.closePath();
-      }
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      a.href = dataUrl;
+      a.download = `週間料理リザルト_${recipeName}_${today}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
     }
 
     function initRecordTab() {
