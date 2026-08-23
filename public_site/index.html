@@ -4958,10 +4958,16 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
 
     function roundRect(ctx, x, y, width, height, radius) {
+      if (typeof ctx.roundRect === 'function') {
+        ctx.beginPath();
+        ctx.roundRect(x, y, width, height, radius);
+        ctx.closePath();
+        return;
+      }
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
       ctx.lineTo(x + width - radius, y);
-      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
       ctx.lineTo(x + width, y + height - radius);
       ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
       ctx.lineTo(x + radius, y + height);
