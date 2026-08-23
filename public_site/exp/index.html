@@ -545,7 +545,7 @@
               <label class="control-label" style="margin: 0; color: var(--accent-blue); font-size: 0.8rem;">🔻
                 次のレベルまでの残りEXP</label>
               <div style="display: flex; align-items: center; gap: 4px;">
-                <input type="number" class="number-input" id="next-level-exp-input" min="0" max="20000" value="0"
+                <input type="number" class="number-input" id="next-level-exp-input" min="0" max="20000" value="54"
                   style="width: 95px; padding: 4px 6px; font-size: 0.9rem;" oninput="calculateSimulation()">
                 <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub);">EXP</span>
               </div>
@@ -921,12 +921,26 @@
       calculateSimulation();
     }
 
+    function updateNextLevelExpInput() {
+      const nextExpInput = document.getElementById('next-level-exp-input');
+      if (!nextExpInput) return;
+      if (currentLevel >= 70) {
+        nextExpInput.value = 0;
+        nextExpInput.max = 0;
+      } else {
+        const fullExp = getLevelSingleExp(currentLevel + 1, pokemonType);
+        nextExpInput.value = fullExp;
+        nextExpInput.max = fullExp;
+      }
+    }
+
     // --- 5. 入力操作ハンドラ ---
     function setPokemonType(type) {
       pokemonType = type;
       document.querySelectorAll('[id^="type-"]').forEach(btn => btn.classList.remove('active'));
       const activeBtn = document.getElementById(`type-${type}-btn`);
       if (activeBtn) activeBtn.classList.add('active');
+      updateNextLevelExpInput();
       calculateSimulation();
     }
 
@@ -961,6 +975,7 @@
         document.getElementById('target-level-input').value = targetLevel;
       }
       document.getElementById('current-level-input').value = currentLevel;
+      updateNextLevelExpInput();
       calculateSimulation();
     }
 
@@ -972,6 +987,7 @@
         document.getElementById('target-level-input').value = targetLevel;
       }
       document.getElementById('current-level-slider').value = currentLevel;
+      updateNextLevelExpInput();
       calculateSimulation();
     }
 
@@ -1079,14 +1095,16 @@
       else if (natureType === 'down') sleepNatureMult = 0.82;
 
       // 残りEXP考慮した必要総EXP
-      const nextLevelExpInput = parseInt(document.getElementById('next-level-exp-input').value) || 0;
+      const nextExpElem = document.getElementById('next-level-exp-input');
+      const nextLevelExpInput = parseInt(nextExpElem ? nextExpElem.value : 0) || 0;
       const currentCumulativeExp = getCumulativeExp(currentLevel, pokemonType);
       const targetCumulativeExp = getCumulativeExp(targetLevel, pokemonType);
 
       let rawRequiredExp = Math.max(0, targetCumulativeExp - currentCumulativeExp);
-      if (currentLevel < 70 && nextLevelExpInput > 0) {
+      if (currentLevel < 70) {
         const fullNextLevelExp = getLevelSingleExp(currentLevel + 1, pokemonType);
-        const alreadyEarnedExp = Math.max(0, fullNextLevelExp - nextLevelExpInput);
+        const clampedInput = Math.min(fullNextLevelExp, Math.max(0, nextLevelExpInput));
+        const alreadyEarnedExp = Math.max(0, fullNextLevelExp - clampedInput);
         rawRequiredExp = Math.max(0, rawRequiredExp - alreadyEarnedExp);
       }
       const requiredExp = rawRequiredExp;
@@ -1104,8 +1122,10 @@
 
       for (let lv = currentLevel; lv < targetLevel; lv++) {
         let lvRequiredExp = getLevelSingleExp(lv + 1, pokemonType);
-        if (lv === currentLevel && nextLevelExpInput > 0) {
-          lvRequiredExp = Math.min(lvRequiredExp, nextLevelExpInput);
+        if (lv === currentLevel) {
+          const fullNextLevelExp = lvRequiredExp;
+          const clampedInput = Math.min(fullNextLevelExp, Math.max(0, nextLevelExpInput));
+          lvRequiredExp = clampedInput;
         }
 
         // 対象レベルlvでのアメ1個あたり獲得EXPを取得 (Ver.3.6.0)
@@ -1183,6 +1203,7 @@
     // --- 8. 初期化 ---
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      updateNextLevelExpInput();
       calculateSimulation();
     });
   </script>
