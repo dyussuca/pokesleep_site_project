@@ -4655,50 +4655,68 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
 
     async function generateRecordCanvasImage() {
-      const canvas = document.getElementById('record-share-canvas') || document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
       const W = 1200;
       const H = 675;
-      canvas.width = W;
-      canvas.height = H;
 
       const recipe = RECIPES.find(r => r.id === recordRecipeId) || RECIPES[0];
       const recipeName = recipe ? recipe.name : '料理';
       const recipeImgSrc = getRecipeImg(recipe.name, recipe.cat);
+      const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      const filename = `週間料理リザルト_${recipeName}_${today}.png`;
 
-      // 安全な画像ロード関数（タイムアウト付きで絶対にハングしない）
+      // 安全な画像ロード関数（DataURL変換 or Imageロード）
       const safeLoadImage = (src) => {
         return new Promise((resolve) => {
           if (!src) return resolve(null);
-          const img = new Image();
-          let resolved = false;
-          const timer = setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              resolve(null);
-            }
-          }, 1200);
-
-          img.onload = () => {
-            if (!resolved) {
-              resolved = true;
-              clearTimeout(timer);
-              resolve(img);
-            }
-          };
-          img.onerror = () => {
-            if (!resolved) {
-              resolved = true;
-              clearTimeout(timer);
-              resolve(null);
-            }
-          };
-          img.src = src;
+          // fetch + FileReader で Data URI 変換を試みる（Taint防止）
+          if (window.location.protocol.startsWith('http')) {
+            fetch(src)
+              .then(res => res.blob())
+              .then(blob => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const img = new Image();
+                  img.onload = () => resolve(img);
+                  img.onerror = () => resolve(null);
+                  img.src = reader.result;
+                };
+                reader.readAsDataURL(blob);
+              })
+              .catch(() => fallbackDirectLoad(src, resolve));
+          } else {
+            fallbackDirectLoad(src, resolve);
+          }
         });
       };
 
-      // DOM要素からの直接取得（最優先）または新規ロード
+      function fallbackDirectLoad(src, resolve) {
+        const img = new Image();
+        let resolved = false;
+        const timer = setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            resolve(null);
+          }
+        }, 1000);
+
+        img.onload = () => {
+          if (!resolved) {
+            resolved = true;
+            clearTimeout(timer);
+            resolve(img);
+          }
+        };
+        img.onerror = () => {
+          if (!resolved) {
+            resolved = true;
+            clearTimeout(timer);
+            resolve(null);
+          }
+        };
+        img.src = src;
+      }
+
+      // 画像のロード（DOMまたは新規）
       let recipeImg = document.getElementById('record-hero-img');
       if (!recipeImg || !recipeImg.complete || recipeImg.naturalWidth === 0) {
         recipeImg = await safeLoadImage(recipeImgSrc);
@@ -4709,9 +4727,11 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         logoImg = await safeLoadImage('./assets/favicon.png');
       }
 
-      // 描画実行関数（画像あり／なし両対応でフォールバック可能）
-      function renderCanvas(useImages = true) {
-        ctx.clearRect(0, 0, W, H);
+      // キャンバス描画関数
+      function drawSceneToCanvas(targetCanvas, useImages = true) {
+        const ctx = targetCanvas.getContext('2d');
+        targetCanvas.width = W;
+        targetCanvas.height = H;
 
         let totalEnergy = 0;
         let weekdayEnergy = 0;
@@ -4758,7 +4778,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         ctx.fillRect(0, 0, W, H);
 
         // ✨ ヘッダー部
-        // カビゴンロゴ
         if (useImages && logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
           try {
             ctx.save();
@@ -4833,9 +4852,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         }
         if (!drewRecipe) {
           ctx.fillStyle = '#0284c7';
-          ctx.font = '900 48px "M PLUS Rounded 1c", sans-serif';
+          ctx.font = '900 52px "M PLUS Rounded 1c", sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText('🍳', imgX + imgSize / 2, imgY + imgSize / 2 + 16);
+          ctx.fillText('🍳', imgX + imgSize / 2, imgY + imgSize / 2 + 18);
           ctx.textAlign = 'left';
         }
 
@@ -4969,57 +4988,41 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         });
       }
 
-      // まず画像付きで描画
-      renderCanvas(true);
-
-      // 安全なダウンロード実行
-      const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-      const filename = `週間料理リザルト_${recipeName}_${today}.png`;
-
-      function triggerDownload(url) {
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          document.body.removeChild(a);
-          if (url.startsWith('blob:')) URL.revokeObjectURL(url);
-        }, 100);
+      function downloadFromCanvas(c) {
+        return new Promise((resolve, reject) => {
+          try {
+            const dataUrl = c.toDataURL('image/png');
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              document.body.removeChild(a);
+              resolve(true);
+            }, 100);
+          } catch(e) {
+            reject(e);
+          }
+        });
       }
+
+      // 1. まず画像付きで描画＆ダウンロードを試行
+      const mainCanvas = document.createElement('canvas');
+      drawSceneToCanvas(mainCanvas, true);
 
       try {
-        if (canvas.toBlob) {
-          canvas.toBlob((blob) => {
-            if (blob) {
-              const url = URL.createObjectURL(blob);
-              triggerDownload(url);
-            } else {
-              fallbackDataUrl();
-            }
-          }, 'image/png');
-        } else {
-          fallbackDataUrl();
-        }
-      } catch (err) {
-        console.warn("toBlob error, attempting fallback:", err);
-        fallbackDataUrl();
-      }
-
-      function fallbackDataUrl() {
+        await downloadFromCanvas(mainCanvas);
+      } catch (taintErr) {
+        console.warn("Primary canvas export blocked by CORS/file security. Executing safe vector fallback...", taintErr);
+        // 2. Taintedエラー時は、完全に新規のクリーンなキャンバスで画像なし高精度ベクター描画を実行し100%成功させる
+        const fallbackCanvas = document.createElement('canvas');
+        drawSceneToCanvas(fallbackCanvas, false);
         try {
-          const dataUrl = canvas.toDataURL('image/png');
-          triggerDownload(dataUrl);
-        } catch (taintErr) {
-          console.warn("Canvas tainted by external image, re-rendering without external images:", taintErr);
-          // CORS/Taintエラー時は画像なしで確実にエクスポート
-          renderCanvas(false);
-          try {
-            const safeDataUrl = canvas.toDataURL('image/png');
-            triggerDownload(safeDataUrl);
-          } catch(e) {
-            alert('画像の保存に失敗しました。ブラウザのセキュリティ設定をご確認ください。');
-          }
+          await downloadFromCanvas(fallbackCanvas);
+        } catch(fallbackErr) {
+          console.error("All export attempts failed:", fallbackErr);
+          alert('画像の保存に失敗しました。');
         }
       }
     }
