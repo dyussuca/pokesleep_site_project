@@ -4280,10 +4280,11 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       { name: '夕食', icon: '🌙' }
     ];
 
-    let recordMeals = Array.from({ length: 7 }, (_, d) =>
-      Array.from({ length: 3 }, (_, m) => ({
+    // デフォルトはすべて未入力
+    let recordMeals = Array.from({ length: 7 }, () =>
+      Array.from({ length: 3 }, () => ({
         energy: '',
-        critRate: d === 6 ? 20 : 10,
+        critRate: '',
         isCrit: false
       }))
     );
@@ -4386,27 +4387,15 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
 
     function onRecordMealCritRateChange(dayIndex, mealIndex, val) {
-      const rate = Math.min(100, Math.max(0, parseInt(val) || 0));
-      recordMeals[dayIndex][mealIndex].critRate = rate;
+      const num = val === '' ? '' : Math.min(100, Math.max(0, parseInt(val) || 0));
+      recordMeals[dayIndex][mealIndex].critRate = num;
       updateRecordCalculation();
     }
 
+    // 大成功ボタン押下時はエナジー値を勝手に書き換えず、フラグのみトグルする
     function toggleRecordMealCrit(dayIndex, mealIndex) {
       const meal = recordMeals[dayIndex][mealIndex];
-      const isSunday = (dayIndex === 6);
-      const baseCritMult = isSunday ? 3 : 2;
-      const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
-
       meal.isCrit = !meal.isCrit;
-
-      if (meal.energy && typeof meal.energy === 'number') {
-        if (meal.isCrit) {
-          meal.energy = Math.round(meal.energy * critMultiplier);
-        } else {
-          meal.energy = Math.round(meal.energy / critMultiplier);
-        }
-      }
-
       renderRecordGrid();
       updateRecordCalculation();
     }
@@ -4461,10 +4450,10 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
                 <input type="number" class="record-energy-input" 
                   placeholder="エナジー値" value="${meal.energy !== '' ? meal.energy : ''}" 
                   oninput="onRecordMealEnergyChange(${d}, ${m}, this.value)">
-                <div class="record-crit-rate-wrapper" title="この食事での大成功確率（料理チャンス含む）">
+                <div class="record-crit-rate-wrapper" title="料理チャンス等で盛った大成功確率">
                   <span style="font-size: 0.72rem; color: var(--text-sub);">確率</span>
                   <input type="number" class="record-crit-rate-input" 
-                    min="0" max="100" value="${meal.critRate !== undefined ? meal.critRate : (isSunday ? 20 : 10)}" 
+                    placeholder="0" min="0" max="100" value="${meal.critRate !== undefined && meal.critRate !== '' ? meal.critRate : ''}" 
                     oninput="onRecordMealCritRateChange(${d}, ${m}, this.value)">
                   <span style="font-size: 0.72rem; color: var(--text-sub);">%</span>
                 </div>
@@ -4530,7 +4519,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       let sundayEnergy = 0;
       let critCount = 0;
       let recordedCount = 0;
-      let totalCritRate = 0;
+      let sumCritRate = 0;
+      let critRateEnteredCount = 0;
 
       for (let d = 0; d < 7; d++) {
         for (let m = 0; m < 3; m++) {
@@ -4542,13 +4532,17 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           else sundayEnergy += e;
 
           if (meal.isCrit) critCount++;
-          totalCritRate += (meal.critRate !== undefined ? parseInt(meal.critRate) || 0 : (d === 6 ? 20 : 10));
+
+          if (meal.critRate !== undefined && meal.critRate !== '') {
+            sumCritRate += parseInt(meal.critRate) || 0;
+            critRateEnteredCount++;
+          }
         }
       }
 
       const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
       const actualCritPct = recordedCount > 0 ? ((critCount / recordedCount) * 100).toFixed(1) : '0.0';
-      const avgCritRate = (totalCritRate / 21).toFixed(1);
+      const avgCritRate = critRateEnteredCount > 0 ? `平均 ${(sumCritRate / critRateEnteredCount).toFixed(1)}%` : '未入力';
 
       const totalElem = document.getElementById('record-sum-total-energy');
       const recipeNameElem = document.getElementById('record-sum-recipe-name');
@@ -4560,7 +4554,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (totalElem) totalElem.textContent = totalEnergy.toLocaleString();
       if (recipeNameElem) recipeNameElem.textContent = `${recipe.name} (${recordedCount}/21食 記録済み)`;
       if (critStatElem) critStatElem.textContent = `${critCount}回 / 21食 (${actualCritPct}%)`;
-      if (avgCritRateElem) avgCritRateElem.textContent = `平均 ${avgCritRate}%`;
+      if (avgCritRateElem) avgCritRateElem.textContent = avgCritRate;
       if (avgEnergyElem) avgEnergyElem.textContent = avgEnergy.toLocaleString();
       if (weekdaySundayElem) weekdaySundayElem.textContent = `${weekdayEnergy.toLocaleString()} / ${sundayEnergy.toLocaleString()}`;
 
@@ -4606,7 +4600,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const recipeName = recipe ? recipe.name : '料理';
       
       let csvContent = '\uFEFF'; // UTF-8 BOM
-      csvContent += '曜日,食事,料理名,エナジー,設定大成功確率,大成功判定,適用倍率\r\n';
+      csvContent += '曜日,食事,料理名,エナジー,盛った大成功確率,大成功判定,適用倍率\r\n';
 
       let totalEnergy = 0;
       let critCount = 0;
@@ -4623,7 +4617,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           if (meal.isCrit) critCount++;
           const critText = meal.isCrit ? '大成功' : '通常';
           const mult = meal.isCrit ? `${critMultiplier}` : '1.0';
-          const rate = meal.critRate !== undefined ? `${meal.critRate}%` : (isSunday ? '20%' : '10%');
+          const rate = (meal.critRate !== undefined && meal.critRate !== '') ? `${meal.critRate}%` : '-';
 
           csvContent += `"${dayName}","${mealInfo.name}","${recipeName}",${e},"${rate}","${critText}",${mult}\r\n`;
         });
@@ -4648,10 +4642,10 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         return;
       }
 
-      recordMeals = Array.from({ length: 7 }, (_, d) =>
-        Array.from({ length: 3 }, (_, m) => ({
+      recordMeals = Array.from({ length: 7 }, () =>
+        Array.from({ length: 3 }, () => ({
           energy: '',
-          critRate: d === 6 ? 20 : 10,
+          critRate: '',
           isCrit: false
         }))
       );
@@ -4837,7 +4831,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
             } else {
               ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
               ctx.font = '600 11px "Noto Sans JP", sans-serif';
-              ctx.fillText(`${meal.critRate || (isSunday ? 20 : 10)}%`, sx + 32, sy + 45);
+              const rateDisplay = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '-';
+              ctx.fillText(rateDisplay, sx + 32, sy + 45);
             }
           }
         });
