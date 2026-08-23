@@ -43,6 +43,7 @@
   }
   </script>
 
+  <script src="./recipe_base64_data.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -4660,378 +4661,307 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       const recipe = RECIPES.find(r => r.id === recordRecipeId) || RECIPES[0];
       const recipeName = recipe ? recipe.name : '料理';
-      const recipeImgSrc = getRecipeImg(recipe.name, recipe.cat);
       const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
       const filename = `週間料理リザルト_${recipeName}_${today}.png`;
 
-      // 安全な画像ロード関数（DataURL変換 or Imageロード）
-      const safeLoadImage = (src) => {
-        return new Promise((resolve) => {
-          if (!src) return resolve(null);
-          // fetch + FileReader で Data URI 変換を試みる（Taint防止）
-          if (window.location.protocol.startsWith('http')) {
-            fetch(src)
-              .then(res => res.blob())
-              .then(blob => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  const img = new Image();
-                  img.onload = () => resolve(img);
-                  img.onerror = () => resolve(null);
-                  img.src = reader.result;
-                };
-                reader.readAsDataURL(blob);
-              })
-              .catch(() => fallbackDirectLoad(src, resolve));
-          } else {
-            fallbackDirectLoad(src, resolve);
+      // 1. レシピ画像のDataURIを取得（Base64マップ最優先でCORS/Taintを完全回避）
+      let recipeDataUri = '';
+      if (window.RECIPE_BASE64_MAP) {
+        recipeDataUri = window.RECIPE_BASE64_MAP[recipeName] ||
+                        window.RECIPE_BASE64_MAP[recipeName.replace(/\s/g, '')] || '';
+      }
+      if (!recipeDataUri) {
+        recipeDataUri = getRecipeImg(recipe.name, recipe.cat);
+      }
+
+      // 2. カビゴンロゴのDataURIを取得
+      let logoDataUri = '';
+      if (window.RECIPE_BASE64_MAP && window.RECIPE_BASE64_MAP['__favicon__']) {
+        logoDataUri = window.RECIPE_BASE64_MAP['__favicon__'];
+      } else {
+        logoDataUri = './assets/favicon.png';
+      }
+
+      // 画像の完全非同期ロード
+      const loadImage = (src) => new Promise((resolve) => {
+        if (!src) return resolve(null);
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+
+      const [recipeImg, logoImg] = await Promise.all([
+        loadImage(recipeDataUri),
+        loadImage(logoDataUri)
+      ]);
+
+      // キャンバス作成
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      let totalEnergy = 0;
+      let weekdayEnergy = 0;
+      let sundayEnergy = 0;
+      let critCount = 0;
+      let recordedCount = 0;
+      let sumCritRate = 0;
+      let critRateEnteredCount = 0;
+
+      for (let d = 0; d < 7; d++) {
+        for (let m = 0; m < 3; m++) {
+          const meal = recordMeals[d][m];
+          const e = parseInt(meal.energy) || 0;
+          if (e > 0 || meal.energy !== '') recordedCount++;
+          totalEnergy += e;
+          if (d < 6) weekdayEnergy += e;
+          else sundayEnergy += e;
+          if (meal.isCrit) critCount++;
+          if (meal.critRate !== undefined && meal.critRate !== '') {
+            sumCritRate += parseInt(meal.critRate) || 0;
+            critRateEnteredCount++;
           }
-        });
+        }
+      }
+
+      const critRatePct = recordedCount > 0 ? ((critCount / recordedCount) * 100).toFixed(1) : '0.0';
+      const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
+      const avgCritRateText = critRateEnteredCount > 0 ? `+${(sumCritRate / critRateEnteredCount).toFixed(1)}%` : '未入力';
+
+      // 🌤️ 背景：爽やかなライトモード水色グラデーション
+      const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+      bgGrad.addColorStop(0, '#e0f2fe');   // 水色
+      bgGrad.addColorStop(0.5, '#f0fdf4'); // 若草
+      bgGrad.addColorStop(1, '#e0e7ff');   // ラベンダー
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // グロー
+      const glowGrad = ctx.createRadialGradient(250, 180, 20, 250, 180, 450);
+      glowGrad.addColorStop(0, 'rgba(2, 132, 199, 0.14)');
+      glowGrad.addColorStop(0.6, 'rgba(16, 185, 129, 0.07)');
+      glowGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = glowGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // ✨ ヘッダー部
+      if (logoImg) {
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.12)';
+        ctx.shadowBlur = 8;
+        roundRect(ctx, 50, 22, 40, 40, 20);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.strokeStyle = '#0284c7';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.clip();
+        ctx.drawImage(logoImg, 50, 22, 40, 40);
+        ctx.restore();
+      }
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 24px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
+      ctx.fillText('🍳 POKÉMON SLEEP 週間料理リザルト', logoImg ? 102 : 50, 50);
+
+      ctx.fillStyle = '#0284c7';
+      ctx.font = '800 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText('dyussuca.com / ポケスリ計算機', W - 50, 50);
+      ctx.textAlign = 'left';
+
+      // 🎴 左側メインカード
+      const leftCardX = 50;
+      const leftCardY = 76;
+      const leftCardW = 420;
+      const leftCardH = 564;
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
+      ctx.shadowBlur = 16;
+      ctx.shadowOffsetY = 4;
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+      ctx.strokeStyle = 'rgba(2, 132, 199, 0.25)';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, leftCardX, leftCardY, leftCardW, leftCardH, 20);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 料理画像（110x110）
+      const imgX = leftCardX + 22;
+      const imgY = leftCardY + 22;
+      const imgSize = 110;
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1;
+      roundRect(ctx, imgX, imgY, imgSize, imgSize, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      if (recipeImg) {
+        ctx.save();
+        roundRect(ctx, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12, 14);
+        ctx.clip();
+        ctx.drawImage(recipeImg, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = '#0284c7';
+        ctx.font = '900 52px "M PLUS Rounded 1c", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🍳', imgX + imgSize / 2, imgY + imgSize / 2 + 18);
+        ctx.textAlign = 'left';
+      }
+
+      // 料理名 & バッジ
+      const textStartX = imgX + imgSize + 16;
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 23px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
+      ctx.fillText(recipeName, textStartX, imgY + 36, leftCardW - imgSize - 54);
+
+      const eventBadgeText = recordEventBonus > 1.0 ? `🎉 ${recordEventBonus}x イベント` : '✨ 21食 完走記録';
+      ctx.fillStyle = recordEventBonus > 1.0 ? '#d97706' : '#0284c7';
+      ctx.font = '800 14px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(eventBadgeText, textStartX, imgY + 68);
+
+      const recipeLvText = `週初Lv.${recordLevel} / FB+${recordFieldBonus}%`;
+      ctx.fillStyle = '#64748b';
+      ctx.font = '700 13px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(recipeLvText, textStartX, imgY + 94);
+
+      // 🔥 週間総料理エナジー（特大58px）
+      const energyBlockY = leftCardY + 160;
+      ctx.fillStyle = '#475569';
+      ctx.font = '800 15px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText('🔥 週間総料理エナジー', leftCardX + 22, energyBlockY);
+
+      ctx.fillStyle = '#d97706';
+      ctx.font = '900 58px "Outfit", "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(totalEnergy.toLocaleString(), leftCardX + 22, energyBlockY + 58, leftCardW - 44);
+
+      // 大成功サマリーボックス
+      const critBoxY = energyBlockY + 80;
+      const critBoxH = 76;
+      ctx.fillStyle = 'rgba(255, 87, 34, 0.08)';
+      ctx.strokeStyle = '#ff5722';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, leftCardX + 18, critBoxY, leftCardW - 36, critBoxH, 14);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ea580c';
+      ctx.font = '800 13px "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText('✨ 週間大成功回数・実績率', leftCardX + 32, critBoxY + 26);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 25px "Outfit", "M PLUS Rounded 1c", sans-serif';
+      ctx.fillText(`${critCount}回 / 21食 (${critRatePct}%)`, leftCardX + 32, critBoxY + 58);
+
+      // 下部統計リスト
+      const listStartY = critBoxY + 105;
+      const drawStatLine = (icon, label, value, y) => {
+        ctx.fillStyle = '#64748b';
+        ctx.font = '700 14px "M PLUS Rounded 1c", sans-serif';
+        ctx.fillText(`${icon} ${label}`, leftCardX + 22, y);
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '800 15px "Outfit", "M PLUS Rounded 1c", sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(value, leftCardX + leftCardW - 22, y);
+        ctx.textAlign = 'left';
       };
 
-      function fallbackDirectLoad(src, resolve) {
-        const img = new Image();
-        let resolved = false;
-        const timer = setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            resolve(null);
-          }
-        }, 1000);
+      drawStatLine('📈', '1食あたり平均', `${avgEnergy.toLocaleString()}`, listStartY);
+      drawStatLine('🎯', '盛った確率(平均)', `${avgCritRateText}`, listStartY + 32);
+      drawStatLine('📅', '平日合計(18食)', `${weekdayEnergy.toLocaleString()}`, listStartY + 64);
+      drawStatLine('🌟', '日曜合計(3食)', `${sundayEnergy.toLocaleString()}`, listStartY + 96);
 
-        img.onload = () => {
-          if (!resolved) {
-            resolved = true;
-            clearTimeout(timer);
-            resolve(img);
-          }
-        };
-        img.onerror = () => {
-          if (!resolved) {
-            resolved = true;
-            clearTimeout(timer);
-            resolve(null);
-          }
-        };
-        img.src = src;
-      }
+      // 📅 右側 21食ミニグリッド
+      const gridX = 495;
+      const gridY = 76;
+      const gridW = 655;
+      const cardH = 74;
+      const gapY = 7;
 
-      // 画像のロード（DOMまたは新規）
-      let recipeImg = document.getElementById('record-hero-img');
-      if (!recipeImg || !recipeImg.complete || recipeImg.naturalWidth === 0) {
-        recipeImg = await safeLoadImage(recipeImgSrc);
-      }
+      DAYS_LABEL.forEach((dayName, d) => {
+        const cy = gridY + d * (cardH + gapY);
+        const isSunday = (d === 6);
+        const baseCritMult = isSunday ? 3 : 2;
+        const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
 
-      let logoImg = document.querySelector('header img') || document.querySelector('.header-title img');
-      if (!logoImg || !logoImg.complete || logoImg.naturalWidth === 0) {
-        logoImg = await safeLoadImage('./assets/favicon.png');
-      }
-
-      // キャンバス描画関数
-      function drawSceneToCanvas(targetCanvas, useImages = true) {
-        const ctx = targetCanvas.getContext('2d');
-        targetCanvas.width = W;
-        targetCanvas.height = H;
-
-        let totalEnergy = 0;
-        let weekdayEnergy = 0;
-        let sundayEnergy = 0;
-        let critCount = 0;
-        let recordedCount = 0;
-        let sumCritRate = 0;
-        let critRateEnteredCount = 0;
-
-        for (let d = 0; d < 7; d++) {
-          for (let m = 0; m < 3; m++) {
-            const meal = recordMeals[d][m];
-            const e = parseInt(meal.energy) || 0;
-            if (e > 0 || meal.energy !== '') recordedCount++;
-            totalEnergy += e;
-            if (d < 6) weekdayEnergy += e;
-            else sundayEnergy += e;
-            if (meal.isCrit) critCount++;
-            if (meal.critRate !== undefined && meal.critRate !== '') {
-              sumCritRate += parseInt(meal.critRate) || 0;
-              critRateEnteredCount++;
-            }
-          }
-        }
-
-        const critRatePct = recordedCount > 0 ? ((critCount / recordedCount) * 100).toFixed(1) : '0.0';
-        const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
-        const avgCritRateText = critRateEnteredCount > 0 ? `+${(sumCritRate / critRateEnteredCount).toFixed(1)}%` : '未入力';
-
-        // 🌤️ 背景：爽やかなライトモード水色グラデーション
-        const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-        bgGrad.addColorStop(0, '#e0f2fe');   // 水色
-        bgGrad.addColorStop(0.5, '#f0fdf4'); // 若草
-        bgGrad.addColorStop(1, '#e0e7ff');   // ラベンダー
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
-
-        // グロー
-        const glowGrad = ctx.createRadialGradient(250, 180, 20, 250, 180, 450);
-        glowGrad.addColorStop(0, 'rgba(2, 132, 199, 0.14)');
-        glowGrad.addColorStop(0.6, 'rgba(16, 185, 129, 0.07)');
-        glowGrad.addColorStop(1, 'transparent');
-        ctx.fillStyle = glowGrad;
-        ctx.fillRect(0, 0, W, H);
-
-        // ✨ ヘッダー部
-        if (useImages && logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
-          try {
-            ctx.save();
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.12)';
-            ctx.shadowBlur = 8;
-            roundRect(ctx, 50, 22, 40, 40, 20);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            ctx.strokeStyle = '#0284c7';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.clip();
-            ctx.drawImage(logoImg, 50, 22, 40, 40);
-            ctx.restore();
-          } catch(e) {
-            console.warn("Logo image draw skipped:", e);
-          }
-        }
-
-        ctx.fillStyle = '#0f172a';
-        ctx.font = '900 24px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
-        ctx.fillText('🍳 POKÉMON SLEEP 週間料理リザルト', (useImages && logoImg) ? 102 : 50, 50);
-
-        ctx.fillStyle = '#0284c7';
-        ctx.font = '800 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText('dyussuca.com / ポケスリ計算機', W - 50, 50);
-        ctx.textAlign = 'left';
-
-        // 🎴 左側メインカード
-        const leftCardX = 50;
-        const leftCardY = 76;
-        const leftCardW = 420;
-        const leftCardH = 564;
-
-        ctx.save();
-        ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
-        ctx.shadowBlur = 16;
-        ctx.shadowOffsetY = 4;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-        ctx.strokeStyle = 'rgba(2, 132, 199, 0.25)';
-        ctx.lineWidth = 1.5;
-        roundRect(ctx, leftCardX, leftCardY, leftCardW, leftCardH, 20);
-        ctx.fill();
-        ctx.stroke();
-        ctx.restore();
-
-        // 料理画像（110x110）
-        const imgX = leftCardX + 22;
-        const imgY = leftCardY + 22;
-        const imgSize = 110;
-
-        ctx.fillStyle = '#f8fafc';
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.lineWidth = 1;
-        roundRect(ctx, imgX, imgY, imgSize, imgSize, 18);
+        ctx.fillStyle = isSunday ? 'rgba(254, 243, 199, 0.85)' : 'rgba(255, 255, 255, 0.9)';
+        ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(203, 213, 225, 0.8)';
+        ctx.lineWidth = isSunday ? 1.5 : 1;
+        roundRect(ctx, gridX, cy, gridW, cardH, 12);
         ctx.fill();
         ctx.stroke();
 
-        let drewRecipe = false;
-        if (useImages && recipeImg && recipeImg.complete && recipeImg.naturalWidth > 0) {
-          try {
-            ctx.save();
-            roundRect(ctx, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12, 14);
-            ctx.clip();
-            ctx.drawImage(recipeImg, imgX + 6, imgY + 6, imgSize - 12, imgSize - 12);
-            ctx.restore();
-            drewRecipe = true;
-          } catch(e) {
-            console.warn("Recipe image draw skipped:", e);
-          }
-        }
-        if (!drewRecipe) {
-          ctx.fillStyle = '#0284c7';
-          ctx.font = '900 52px "M PLUS Rounded 1c", sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('🍳', imgX + imgSize / 2, imgY + imgSize / 2 + 18);
-          ctx.textAlign = 'left';
-        }
+        ctx.fillStyle = isSunday ? '#d97706' : '#0284c7';
+        ctx.font = '900 17px "M PLUS Rounded 1c", sans-serif';
+        ctx.fillText(dayName.slice(0, 1), gridX + 16, cy + 44);
 
-        // 料理名 & バッジ
-        const textStartX = imgX + imgSize + 16;
-        ctx.fillStyle = '#0f172a';
-        ctx.font = '900 23px "M PLUS Rounded 1c", "Noto Sans JP", sans-serif';
-        ctx.fillText(recipeName, textStartX, imgY + 36, leftCardW - imgSize - 54);
+        const slotW = 184;
+        const slotStartX = gridX + 52;
+        const mealIcons = ['☀️', '🍱', '🌙'];
 
-        const eventBadgeText = recordEventBonus > 1.0 ? `🎉 ${recordEventBonus}x イベント` : '✨ 21食 完走記録';
-        ctx.fillStyle = recordEventBonus > 1.0 ? '#d97706' : '#0284c7';
-        ctx.font = '800 14px "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText(eventBadgeText, textStartX, imgY + 68);
+        for (let m = 0; m < 3; m++) {
+          const sx = slotStartX + m * (slotW + 8);
+          const sy = cy + 9;
+          const meal = recordMeals[d][m];
+          const e = parseInt(meal.energy) || 0;
+          const isCrit = meal.isCrit;
 
-        const recipeLvText = `週初Lv.${recordLevel} / FB+${recordFieldBonus}%`;
-        ctx.fillStyle = '#64748b';
-        ctx.font = '700 13px "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText(recipeLvText, textStartX, imgY + 94);
-
-        // 🔥 週間総料理エナジー（特大58px）
-        const energyBlockY = leftCardY + 160;
-        ctx.fillStyle = '#475569';
-        ctx.font = '800 15px "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText('🔥 週間総料理エナジー', leftCardX + 22, energyBlockY);
-
-        ctx.fillStyle = '#d97706';
-        ctx.font = '900 58px "Outfit", "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText(totalEnergy.toLocaleString(), leftCardX + 22, energyBlockY + 58, leftCardW - 44);
-
-        // 大成功サマリーボックス
-        const critBoxY = energyBlockY + 80;
-        const critBoxH = 76;
-        ctx.fillStyle = 'rgba(255, 87, 34, 0.08)';
-        ctx.strokeStyle = '#ff5722';
-        ctx.lineWidth = 1.5;
-        roundRect(ctx, leftCardX + 18, critBoxY, leftCardW - 36, critBoxH, 14);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = '#ea580c';
-        ctx.font = '800 13px "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText('✨ 週間大成功回数・実績率', leftCardX + 32, critBoxY + 26);
-
-        ctx.fillStyle = '#0f172a';
-        ctx.font = '900 25px "Outfit", "M PLUS Rounded 1c", sans-serif';
-        ctx.fillText(`${critCount}回 / 21食 (${critRatePct}%)`, leftCardX + 32, critBoxY + 58);
-
-        // 下部統計リスト
-        const listStartY = critBoxY + 105;
-        const drawStatLine = (icon, label, value, y) => {
-          ctx.fillStyle = '#64748b';
-          ctx.font = '700 14px "M PLUS Rounded 1c", sans-serif';
-          ctx.fillText(`${icon} ${label}`, leftCardX + 22, y);
-          ctx.fillStyle = '#0f172a';
-          ctx.font = '800 15px "Outfit", "M PLUS Rounded 1c", sans-serif';
-          ctx.textAlign = 'right';
-          ctx.fillText(value, leftCardX + leftCardW - 22, y);
-          ctx.textAlign = 'left';
-        };
-
-        drawStatLine('📈', '1食あたり平均', `${avgEnergy.toLocaleString()}`, listStartY);
-        drawStatLine('🎯', '盛った確率(平均)', `${avgCritRateText}`, listStartY + 32);
-        drawStatLine('📅', '平日合計(18食)', `${weekdayEnergy.toLocaleString()}`, listStartY + 64);
-        drawStatLine('🌟', '日曜合計(3食)', `${sundayEnergy.toLocaleString()}`, listStartY + 96);
-
-        // 📅 右側 21食ミニグリッド
-        const gridX = 495;
-        const gridY = 76;
-        const gridW = 655;
-        const cardH = 74;
-        const gapY = 7;
-
-        DAYS_LABEL.forEach((dayName, d) => {
-          const cy = gridY + d * (cardH + gapY);
-          const isSunday = (d === 6);
-          const baseCritMult = isSunday ? 3 : 2;
-          const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
-
-          ctx.fillStyle = isSunday ? 'rgba(254, 243, 199, 0.85)' : 'rgba(255, 255, 255, 0.9)';
-          ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(203, 213, 225, 0.8)';
-          ctx.lineWidth = isSunday ? 1.5 : 1;
-          roundRect(ctx, gridX, cy, gridW, cardH, 12);
+          ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.12)' : '#f8fafc';
+          ctx.strokeStyle = isCrit ? '#ff5722' : '#e2e8f0';
+          ctx.lineWidth = 1;
+          roundRect(ctx, sx, sy, slotW, 56, 8);
           ctx.fill();
           ctx.stroke();
 
-          ctx.fillStyle = isSunday ? '#d97706' : '#0284c7';
-          ctx.font = '900 17px "M PLUS Rounded 1c", sans-serif';
-          ctx.fillText(dayName.slice(0, 1), gridX + 16, cy + 44);
+          ctx.font = '14px "M PLUS Rounded 1c", sans-serif';
+          ctx.fillText(mealIcons[m], sx + 8, sy + 25);
 
-          const slotW = 184;
-          const slotStartX = gridX + 52;
-          const mealIcons = ['☀️', '🍱', '🌙'];
-
-          for (let m = 0; m < 3; m++) {
-            const sx = slotStartX + m * (slotW + 8);
-            const sy = cy + 9;
-            const meal = recordMeals[d][m];
-            const e = parseInt(meal.energy) || 0;
-            const isCrit = meal.isCrit;
-
-            ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.12)' : '#f8fafc';
-            ctx.strokeStyle = isCrit ? '#ff5722' : '#e2e8f0';
-            ctx.lineWidth = 1;
-            roundRect(ctx, sx, sy, slotW, 56, 8);
-            ctx.fill();
-            ctx.stroke();
-
-            ctx.font = '14px "M PLUS Rounded 1c", sans-serif';
-            ctx.fillText(mealIcons[m], sx + 8, sy + 25);
-
-            if (isCrit) {
-              ctx.fillStyle = '#ff3d00';
-              ctx.font = '900 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
-            } else {
-              ctx.fillStyle = e > 0 ? '#0f172a' : '#94a3b8';
-              ctx.font = '700 14px "Outfit", "M PLUS Rounded 1c", sans-serif';
-            }
-            ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 30, sy + 25);
-
-            if (isCrit) {
-              ctx.fillStyle = '#ea580c';
-              ctx.font = '900 11px "Outfit", sans-serif';
-              ctx.fillText(`CRIT ${critMultiplier}x`, sx + 30, sy + 45);
-            } else {
-              ctx.fillStyle = '#64748b';
-              ctx.font = '600 11px "Outfit", sans-serif';
-              const rateDisplay = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '-';
-              ctx.fillText(rateDisplay, sx + 30, sy + 45);
-            }
+          if (isCrit) {
+            ctx.fillStyle = '#ff3d00';
+            ctx.font = '900 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
+          } else {
+            ctx.fillStyle = e > 0 ? '#0f172a' : '#94a3b8';
+            ctx.font = '700 14px "Outfit", "M PLUS Rounded 1c", sans-serif';
           }
-        });
-      }
+          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 30, sy + 25);
 
-      function downloadFromCanvas(c) {
-        return new Promise((resolve, reject) => {
-          try {
-            const dataUrl = c.toDataURL('image/png');
-            const a = document.createElement('a');
-            a.href = dataUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-              document.body.removeChild(a);
-              resolve(true);
-            }, 100);
-          } catch(e) {
-            reject(e);
+          if (isCrit) {
+            ctx.fillStyle = '#ea580c';
+            ctx.font = '900 11px "Outfit", sans-serif';
+            ctx.fillText(`CRIT ${critMultiplier}x`, sx + 30, sy + 45);
+          } else {
+            ctx.fillStyle = '#64748b';
+            ctx.font = '600 11px "Outfit", sans-serif';
+            const rateDisplay = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '-';
+            ctx.fillText(rateDisplay, sx + 30, sy + 45);
           }
-        });
-      }
-
-      // 1. まず画像付きで描画＆ダウンロードを試行
-      const mainCanvas = document.createElement('canvas');
-      drawSceneToCanvas(mainCanvas, true);
-
-      try {
-        await downloadFromCanvas(mainCanvas);
-      } catch (taintErr) {
-        console.warn("Primary canvas export blocked by CORS/file security. Executing safe vector fallback...", taintErr);
-        // 2. Taintedエラー時は、完全に新規のクリーンなキャンバスで画像なし高精度ベクター描画を実行し100%成功させる
-        const fallbackCanvas = document.createElement('canvas');
-        drawSceneToCanvas(fallbackCanvas, false);
-        try {
-          await downloadFromCanvas(fallbackCanvas);
-        } catch(fallbackErr) {
-          console.error("All export attempts failed:", fallbackErr);
-          alert('画像の保存に失敗しました。');
         }
-      }
+      });
+
+      // 保存実行（Base64インライン描画なので100%クリーン）
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+      }, 100);
     }
 
     function roundRect(ctx, x, y, width, height, radius) {
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
       ctx.lineTo(x + width - radius, y);
-      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height);
       ctx.lineTo(x + width, y + height - radius);
       ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
       ctx.lineTo(x + radius, y + height);
