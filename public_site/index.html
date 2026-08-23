@@ -1727,32 +1727,94 @@
       background: var(--hero-bg);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 16px 20px;
+      padding: 16px 18px;
       margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
     .record-recipe-img {
-      width: 68px;
-      height: 68px;
+      width: 88px;
+      height: 88px;
       object-fit: contain;
-      border-radius: 12px;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+      border-radius: 16px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
       background: rgba(255, 255, 255, 0.05);
-      padding: 4px;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+
+    .record-hero-body {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .record-hero-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .record-hero-subtitle {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .record-hero-ings-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    /* イベントボーナス選択ボタン群 */
+    .record-event-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .record-event-btn {
+      flex: 1;
+      min-width: 90px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-sub);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .record-event-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .record-event-btn.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      border-color: #f59e0b;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
     }
 
     .record-day-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 16px;
-      margin-bottom: 16px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
       transition: all 0.25s ease;
     }
 
     .record-day-card.sunday-card {
-      border: 1.5px solid rgba(245, 158, 11, 0.45);
+      border: 1.5px solid rgba(245, 158, 11, 0.5);
       background: linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, var(--bg-card) 100%);
     }
 
@@ -1760,27 +1822,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
       border-bottom: 1px solid var(--border-color-soft);
       font-weight: 900;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
     }
 
     .record-meals-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .record-meal-box {
       background: var(--hero-bg);
       border: 1.5px solid var(--border-color-soft);
       border-radius: var(--radius-md);
-      padding: 12px 14px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       position: relative;
       transition: all 0.25s ease;
     }
@@ -1788,7 +1850,7 @@
     /* 原作再現：大成功時の演出スタイル */
     .record-meal-box.is-crit {
       border-color: #ff5722 !important;
-      background: linear-gradient(135deg, rgba(255, 87, 34, 0.09) 0%, rgba(245, 158, 11, 0.09) 100%) !important;
+      background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%) !important;
       box-shadow: 0 0 14px rgba(255, 87, 34, 0.25);
     }
 
@@ -1796,15 +1858,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 800;
     }
 
     .record-crit-badge {
       display: none;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 900;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 6px;
       background: linear-gradient(135deg, #ff5722, #ff9800);
       color: #fff;
@@ -1823,36 +1885,36 @@
 
     .record-inputs-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
     }
 
     .record-energy-input {
-      flex: 2;
+      flex: 1;
+      min-width: 0;
       font-size: 1.05rem;
       font-weight: 700;
       font-family: inherit;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: 8px;
       border: 1.5px solid var(--border-color);
       background: var(--bg-card);
       color: var(--text-main);
       transition: all 0.2s ease;
-      min-width: 0;
     }
 
     /* 大成功時のテキスト：原作再現（朱色・特大・太字） */
     .record-meal-box.is-crit .record-energy-input {
       color: #ff3d00 !important;
       font-weight: 900 !important;
-      font-size: 1.25rem !important;
+      font-size: 1.2rem !important;
       border-color: #ff5722 !important;
-      background: rgba(255, 87, 34, 0.06) !important;
+      background: rgba(255, 87, 34, 0.07) !important;
       text-shadow: 0 0 1px rgba(255, 61, 0, 0.4);
     }
 
     .record-crit-rate-wrapper {
-      width: 80px;
+      width: 72px;
       display: flex;
       align-items: center;
       gap: 2px;
@@ -1878,11 +1940,13 @@
       outline: none;
     }
 
+    /* 大成功トグルボタン（！ボタン化・省スペース・スマホ快適） */
     .record-crit-toggle-btn {
-      padding: 7px 12px;
+      width: 60px;
+      padding: 7px 4px;
       border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 800;
+      font-size: 0.8rem;
+      font-weight: 900;
       cursor: pointer;
       border: 1.5px solid var(--border-color);
       background: var(--bg-card);
@@ -1890,6 +1954,11 @@
       transition: all 0.2s ease;
       white-space: nowrap;
       flex-shrink: 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
     }
 
     .record-crit-toggle-btn:hover {
@@ -1898,20 +1967,41 @@
     }
 
     .record-meal-box.is-crit .record-crit-toggle-btn {
-      background: linear-gradient(135deg, #ff5722, #f59e0b);
-      color: #fff;
-      border-color: #ff5722;
+      background: linear-gradient(135deg, #ff5722, #f59e0b) !important;
+      color: #fff !important;
+      border-color: #ff5722 !important;
       box-shadow: 0 2px 8px rgba(255, 87, 34, 0.35);
     }
 
-    /* 週間リザルトサマリーカード */
+    /* 週間リザルトサマリーカード（記録シート下・共有上に配置） */
     .record-summary-banner {
       background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(16, 185, 129, 0.12));
       border: 2px solid var(--accent-blue);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 18px 20px;
+      margin-top: 24px;
       margin-bottom: 24px;
       text-align: center;
+    }
+
+    .record-sum-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .record-sum-img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 14px;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px;
+      flex-shrink: 0;
     }
 
     .record-total-energy {
@@ -1919,43 +2009,43 @@
       font-weight: 900;
       color: var(--accent-yellow);
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-      line-height: 1.2;
-      margin: 8px 0;
+      line-height: 1.15;
+      margin: 4px 0;
     }
 
     .record-stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
     }
 
     .record-stat-box {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 10px 12px;
       text-align: center;
     }
 
     .record-stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
       color: var(--text-sub);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .record-stat-value {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--text-main);
     }
 
     .record-action-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 14px;
     }
 
     .record-action-btn {
@@ -1963,7 +2053,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 13px 18px;
+      padding: 12px 16px;
       border-radius: 12px;
       font-size: 0.95rem;
       font-weight: 800;
@@ -2537,10 +2627,10 @@
   
   <!-- TAB 6: 料理記録 -->
   <div id="tab-record" class="tab-content">
-    <!-- カード①: メイン料理選択 ＆ 基礎設定 -->
+    <!-- カード①: メイン料理選択 ＆ 基礎・イベント設定 -->
     <div class="card">
       <div class="card-title">
-        <span>🍽️</span> 週間メイン料理 ＆ 基礎設定
+        <span>🍽️</span> 週間メイン料理 ＆ 基礎・イベント設定
       </div>
 
       <div class="control-group">
@@ -2563,43 +2653,67 @@
       <!-- 選択中料理のプレビュー -->
       <div class="record-hero" id="record-recipe-hero">
         <img id="record-hero-img" src="./assets/recipes/れんごくコーンスコーン.png" class="record-recipe-img" alt="料理画像">
-        <div style="flex: 1; min-width: 200px;">
-          <div id="record-hero-name" style="font-size: 1.25rem; font-weight: 900; color: var(--text-main);">れんごくコーンスコーン</div>
-          <div id="record-hero-details" style="font-size: 0.85rem; color: var(--text-sub); margin-top: 4px;">基礎エナジー: 14,015 / 必要食材: 77個</div>
-          <div id="record-hero-ings" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px;"></div>
+        <div class="record-hero-body">
+          <div id="record-hero-name" class="record-hero-title">れんごくコーンスコーン</div>
+          <div id="record-hero-details" class="record-hero-subtitle">基礎エナジー: 14,015 / 必要食材: 77個 (Lv.70: 49,053)</div>
+          <div id="record-hero-ings" class="record-hero-ings-grid"></div>
         </div>
       </div>
 
-      <!-- 環境設定 ＆ 下書き入力 -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color-soft);">
+      <!-- 環境設定（2段組・レスポンシブ） -->
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color-soft);">
+        <!-- 段1: 料理イベント倍率 -->
         <div>
-          <label class="control-label" style="font-size: 0.85rem;">週初めのレシピレベル (Lv.1〜70)</label>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="range" class="rl-slider" id="record-level-slider" min="1" max="70" value="1" oninput="onRecordLevelChange(this.value)">
-            <span id="record-level-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-blue);">Lv.1</span>
+          <label class="control-label" style="font-size: 0.85rem; margin-bottom: 6px;">🎉 料理イベントボーナス (エナジー＆大成功倍率)</label>
+          <div class="record-event-btn-group">
+            <button type="button" class="record-event-btn active" id="record-event-100-btn" onclick="setRecordEventBonus(1.0, this)">通常 (1.0x)</button>
+            <button type="button" class="record-event-btn" id="record-event-125-btn" onclick="setRecordEventBonus(1.25, this)">1.25倍 イベント</button>
+            <button type="button" class="record-event-btn" id="record-event-150-btn" onclick="setRecordEventBonus(1.50, this)">1.50倍 イベント</button>
           </div>
         </div>
-        <div>
-          <label class="control-label" style="font-size: 0.85rem;">フィールドボーナス (0〜85%)</label>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="range" class="rl-slider" id="record-fb-slider" min="0" max="85" value="0" oninput="onRecordFieldBonusChange(this.value)">
-            <span id="record-fb-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-green);">+0%</span>
-          </div>
-        </div>
-      </div>
 
-      <div style="margin-top: 14px; display: flex; justify-content: flex-end;">
-        <button type="button" class="btn-primary" onclick="applyBaseEnergyToAllMeals()" style="background: var(--hero-bg); color: var(--accent-blue); border: 1.5px solid var(--accent-blue); padding: 8px 16px; font-size: 0.85rem; border-radius: 20px; font-weight: 800; cursor: pointer;">
-          💡 基礎エナジー（推定値）を全食に下書き入力
-        </button>
+        <!-- 段2: レシピレベル ＆ フィールドボーナス -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+          <div>
+            <label class="control-label" style="font-size: 0.85rem;">週初めのレシピレベル (Lv.1〜70)</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="range" class="rl-slider" id="record-level-slider" min="1" max="70" value="1" oninput="onRecordLevelChange(this.value)">
+              <span id="record-level-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-blue);">Lv.1</span>
+            </div>
+          </div>
+          <div>
+            <label class="control-label" style="font-size: 0.85rem;">フィールドボーナス (0〜85%)</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="range" class="rl-slider" id="record-fb-slider" min="0" max="85" value="0" oninput="onRecordFieldBonusChange(this.value)">
+              <span id="record-fb-badge" style="font-weight: 900; font-size: 0.95rem; min-width: 50px; text-align: right; color: var(--accent-green);">+0%</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- カード②: 📊 週間リザルトサマリー（リアルタイム集計） -->
-    <div class="record-summary-banner">
-      <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub);">🔥 週間合計料理エナジー</div>
-      <div class="record-total-energy" id="record-sum-total-energy">0</div>
-      <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-sub);" id="record-sum-recipe-name">- (0/21食 記録済み)</div>
+    <!-- カード②: 📅 週間21食の記録シート -->
+    <div class="card">
+      <div class="card-title" style="justify-content: space-between; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>📅</span> 週間21食 料理エナジー記録シート
+        </div>
+        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-sub);">※ 料理後の実際のエナジーを入力</span>
+      </div>
+
+      <div id="record-days-container"></div>
+    </div>
+
+    <!-- カード③: 📊 週間リザルトサマリー（記録シート下・共有上に配置） -->
+    <div class="record-summary-banner" id="record-summary-section">
+      <div class="record-sum-hero">
+        <img id="record-sum-img" src="./assets/recipes/れんごくコーンスコーン.png" class="record-sum-img" alt="料理画像">
+        <div style="text-align: left;">
+          <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">🔥 週間合計料理エナジー</div>
+          <div class="record-total-energy" id="record-sum-total-energy">0</div>
+          <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-main);" id="record-sum-recipe-name">- (0/21食 記録済み)</div>
+        </div>
+      </div>
 
       <div class="record-stats-grid">
         <div class="record-stat-box">
@@ -2619,18 +2733,6 @@
           <div class="record-stat-value" id="record-sum-weekday-sunday" style="font-size: 1rem;">0 / 0</div>
         </div>
       </div>
-    </div>
-
-    <!-- カード③: 📅 週間21食の記録シート -->
-    <div class="card">
-      <div class="card-title" style="justify-content: space-between; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span>📅</span> 週間21食 料理エナジー記録シート
-        </div>
-        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-sub);">※ 料理後の実際のエナジーを入力</span>
-      </div>
-
-      <div id="record-days-container"></div>
     </div>
 
     <!-- カード④: 🚀 共有 & エクスポート & リセット -->
@@ -2661,7 +2763,6 @@
       <canvas id="record-share-canvas" width="1200" height="675" style="display: none;"></canvas>
     </div>
   </div>
-
 
   <!-- TAB 5: レシピレベル -->
   <div id="tab-recipe-level" class="tab-content">
@@ -4015,6 +4116,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         recordCategory: recordCategory,
         recordLevel: recordLevel,
         recordFieldBonus: recordFieldBonus,
+        recordEventBonus: recordEventBonus,
         recordMeals: recordMeals,
           potBaseCap: document.getElementById('opt-pot-select') ? document.getElementById('opt-pot-select').value : '21',
           isCampTicketOn: isCampTicketOn,
@@ -4205,6 +4307,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         if (s.recordCategory) recordCategory = s.recordCategory;
         if (typeof s.recordLevel === 'number') recordLevel = s.recordLevel;
         if (typeof s.recordFieldBonus === 'number') recordFieldBonus = s.recordFieldBonus;
+        if (typeof s.recordEventBonus === 'number') recordEventBonus = s.recordEventBonus;
         if (Array.isArray(s.recordMeals) && s.recordMeals.length === 7) {
           recordMeals = s.recordMeals;
         }
@@ -4228,6 +4331,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     let recordCategory = 'curry';
     let recordLevel = 1;
     let recordFieldBonus = 0;
+    let recordEventBonus = 1.0;
 
     const DAYS_LABEL = ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'];
     const MEALS_LABEL = [
@@ -4258,6 +4362,22 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecordCalculation();
     }
 
+    function setRecordEventBonus(val, btnElem) {
+      const targetVal = parseFloat(val) || 1.0;
+      recordEventBonus = targetVal;
+
+      document.querySelectorAll('.record-event-btn').forEach(btn => btn.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      else {
+        if (targetVal === 1.0) document.getElementById('record-event-100-btn')?.classList.add('active');
+        if (targetVal === 1.25) document.getElementById('record-event-125-btn')?.classList.add('active');
+        if (targetVal === 1.50) document.getElementById('record-event-150-btn')?.classList.add('active');
+      }
+
+      renderRecordGrid();
+      updateRecordCalculation();
+    }
+
     function onRecordLevelChange(val) {
       recordLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
       const slider = document.getElementById('record-level-slider');
@@ -4276,26 +4396,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecordCalculation();
     }
 
-    function applyBaseEnergyToAllMeals() {
-      const recipe = RECIPES.find(r => r.id === recordRecipeId);
-      if (!recipe) return;
-
-      const bonusPct = RECIPE_LEVEL_DATA[recordLevel - 1] ? RECIPE_LEVEL_DATA[recordLevel - 1][0] : 0;
-      const baseCookEnergy = recipe.energy + Math.round(recipe.energy * bonusPct / 100);
-      const fieldMult = 1 + (recordFieldBonus / 100);
-      const standardEnergy = Math.floor(baseCookEnergy * fieldMult);
-
-      for (let d = 0; d < 7; d++) {
-        for (let m = 0; m < 3; m++) {
-          const isSunday = (d === 6);
-          const mult = recordMeals[d][m].isCrit ? (isSunday ? 3 : 2) : 1;
-          recordMeals[d][m].energy = standardEnergy * mult;
-        }
-      }
-      renderRecordGrid();
-      updateRecordCalculation();
-    }
-
     function onRecordMealEnergyChange(dayIndex, mealIndex, val) {
       const num = parseInt(val) || '';
       recordMeals[dayIndex][mealIndex].energy = num;
@@ -4311,7 +4411,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     function toggleRecordMealCrit(dayIndex, mealIndex) {
       const meal = recordMeals[dayIndex][mealIndex];
       const isSunday = (dayIndex === 6);
-      const critMultiplier = isSunday ? 3 : 2;
+      const baseCritMult = isSunday ? 3 : 2;
+      const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
 
       meal.isCrit = !meal.isCrit;
 
@@ -4342,16 +4443,20 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           if (recordMeals[d][m].isCrit) dayCritCount++;
         }
 
+        const baseCritMult = isSunday ? 3 : 2;
+        const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
+        const sundayBadgeText = recordEventBonus > 1.0 ? `🌟 日曜大成功 ${critMultiplier}倍` : '🌟 日曜大成功 3倍';
+
         html += `
           <div class="record-day-card ${isSunday ? 'sunday-card' : ''}">
             <div class="record-day-header">
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span style="color: ${isSunday ? '#f59e0b' : 'var(--accent-blue)'};">${dayName}</span>
-                ${isSunday ? '<span style="font-size:0.75rem; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; padding:2px 8px; border-radius:10px; font-weight:900;">🌟 大成功3倍</span>' : ''}
+                ${isSunday ? `<span style="font-size:0.72rem; background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; padding:2px 8px; border-radius:10px; font-weight:900;">${sundayBadgeText}</span>` : ''}
               </div>
-              <div style="font-size: 0.9rem; color: var(--text-sub);">
+              <div style="font-size: 0.88rem; color: var(--text-sub);">
                 日計: <b style="color: var(--text-main);">${dayTotal.toLocaleString()}</b>
-                ${dayCritCount > 0 ? `<span style="color:#ff5722; margin-left:6px; font-weight:800;">(✨${dayCritCount})</span>` : ''}
+                ${dayCritCount > 0 ? `<span style="color:#ff5722; margin-left:6px; font-weight:900;">(✨${dayCritCount})</span>` : ''}
               </div>
             </div>
 
@@ -4361,8 +4466,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         MEALS_LABEL.forEach((mealInfo, m) => {
           const meal = recordMeals[d][m];
           const isCrit = meal.isCrit;
-          const critBadgeText = isSunday ? '🌟 大成功! 3x' : '✨ 大成功! 2x';
-          const btnText = isCrit ? (isSunday ? '🌟 3倍' : '✨ 2倍') : '通常';
+          const critBadgeText = isSunday ? `🌟 大成功! ${critMultiplier}x` : `✨ 大成功! ${critMultiplier}x`;
+          const btnText = isCrit ? `❗ ${critMultiplier}x` : '❗ 通常';
 
           html += `
             <div class="record-meal-box ${isCrit ? 'is-crit' : ''}" id="record-box-${d}-${m}">
@@ -4375,14 +4480,14 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
                   placeholder="エナジー値" value="${meal.energy !== '' ? meal.energy : ''}" 
                   oninput="onRecordMealEnergyChange(${d}, ${m}, this.value)">
                 <div class="record-crit-rate-wrapper" title="この食事での大成功確率（料理チャンス含む）">
-                  <span style="font-size: 0.75rem; color: var(--text-sub);">確率</span>
+                  <span style="font-size: 0.72rem; color: var(--text-sub);">確率</span>
                   <input type="number" class="record-crit-rate-input" 
                     min="0" max="100" value="${meal.critRate !== undefined ? meal.critRate : (isSunday ? 20 : 10)}" 
                     oninput="onRecordMealCritRateChange(${d}, ${m}, this.value)">
-                  <span style="font-size: 0.75rem; color: var(--text-sub);">%</span>
+                  <span style="font-size: 0.72rem; color: var(--text-sub);">%</span>
                 </div>
-                <button type="button" class="record-crit-toggle-btn" 
-                  onclick="toggleRecordMealCrit(${d}, ${m})">
+                <button type="button" class="record-crit-toggle-btn ${isCrit ? 'active-crit' : ''}" 
+                  onclick="toggleRecordMealCrit(${d}, ${m})" title="大成功を切り替え">
                   ${btnText}
                 </button>
               </div>
@@ -4408,8 +4513,11 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const heroDetails = document.getElementById('record-hero-details');
       const heroIngs = document.getElementById('record-hero-ings');
       const pickerLabel = document.getElementById('record-picker-label');
+      const sumImg = document.getElementById('record-sum-img');
 
-      if (heroImg) heroImg.src = getRecipeImg(recipe.name, recipe.cat);
+      const recipeImgSrc = getRecipeImg(recipe.name, recipe.cat);
+      if (heroImg) heroImg.src = recipeImgSrc;
+      if (sumImg) sumImg.src = recipeImgSrc;
       if (heroName) heroName.textContent = recipe.name;
       if (pickerLabel) pickerLabel.textContent = recipe.name;
 
@@ -4440,6 +4548,12 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const fbBadge = document.getElementById('record-fb-badge');
       if (fbSlider) fbSlider.value = recordFieldBonus;
       if (fbBadge) fbBadge.textContent = `+${recordFieldBonus}%`;
+
+      // Event bonus buttons UI
+      document.querySelectorAll('.record-event-btn').forEach(btn => btn.classList.remove('active'));
+      if (recordEventBonus === 1.0) document.getElementById('record-event-100-btn')?.classList.add('active');
+      if (recordEventBonus === 1.25) document.getElementById('record-event-125-btn')?.classList.add('active');
+      if (recordEventBonus === 1.50) document.getElementById('record-event-150-btn')?.classList.add('active');
 
       let totalEnergy = 0;
       let weekdayEnergy = 0;
@@ -4506,7 +4620,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const critRatePct = recordedCount > 0 ? ((critCount / recordedCount) * 100).toFixed(1) : '0.0';
       const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
 
-      const text = `今週は【${recipe ? recipe.name : '料理'}】を21食作りました！🍳\n\n` +
+      const eventText = recordEventBonus > 1.0 ? ` (イベント ${recordEventBonus}x)` : '';
+      const text = `今週は【${recipe ? recipe.name : '料理'}】を21食作りました！🍳${eventText}\n\n` +
         `🔥 週間料理エナジー: ${totalEnergy.toLocaleString()}\n` +
         `✨ 大成功: ${critCount}回 / 21食 (${critRatePct}%)\n` +
         `📊 1食平均: ${avgEnergy.toLocaleString()} (平日: ${weekdayEnergy.toLocaleString()} / 日曜: ${sundayEnergy.toLocaleString()})\n\n` +
@@ -4528,20 +4643,23 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       DAYS_LABEL.forEach((dayName, d) => {
         const isSunday = (d === 6);
+        const baseCritMult = isSunday ? 3 : 2;
+        const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
+
         MEALS_LABEL.forEach((mealInfo, m) => {
           const meal = recordMeals[d][m];
           const e = parseInt(meal.energy) || 0;
           totalEnergy += e;
           if (meal.isCrit) critCount++;
           const critText = meal.isCrit ? '大成功' : '通常';
-          const mult = meal.isCrit ? (isSunday ? '3.0' : '2.0') : '1.0';
+          const mult = meal.isCrit ? `${critMultiplier}` : '1.0';
           const rate = meal.critRate !== undefined ? `${meal.critRate}%` : (isSunday ? '20%' : '10%');
 
           csvContent += `"${dayName}","${mealInfo.name}","${recipeName}",${e},"${rate}","${critText}",${mult}\r\n`;
         });
       });
 
-      csvContent += `\r\n"合計エナジー",${totalEnergy},"大成功回数","${critCount}/21","平均エナジー",${Math.round(totalEnergy / 21)},,\r\n`;
+      csvContent += `\r\n"合計エナジー",${totalEnergy},"大成功回数","${critCount}/21","平均エナジー",${Math.round(totalEnergy / 21)},"イベント倍率",${recordEventBonus}\r\n`;
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -4655,9 +4773,10 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         ctx.font = '900 26px "Noto Sans JP", sans-serif';
         ctx.fillText(recipeName, 195, 155, 230);
 
+        const subBadgeText = recordEventBonus > 1.0 ? `21食完走 (イベ ${recordEventBonus}x)` : '21食 完走記録';
         ctx.fillStyle = '#38bdf8';
         ctx.font = '800 15px "Noto Sans JP", sans-serif';
-        ctx.fillText('21食 完走記録', 195, 185);
+        ctx.fillText(subBadgeText, 195, 185);
 
         ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
         ctx.font = '800 16px "Noto Sans JP", sans-serif';
@@ -4697,6 +4816,8 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         DAYS_LABEL.forEach((dayName, d) => {
           const cy = gridY + d * (cardH + gapY);
           const isSunday = (d === 6);
+          const baseCritMult = isSunday ? 3 : 2;
+          const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
 
           ctx.fillStyle = isSunday ? 'rgba(245, 158, 11, 0.12)' : 'rgba(255, 255, 255, 0.04)';
           ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(255, 255, 255, 0.08)';
@@ -4742,7 +4863,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
             if (isCrit) {
               ctx.fillStyle = '#ff9800';
               ctx.font = '900 11px "Noto Sans JP", sans-serif';
-              ctx.fillText(isSunday ? 'CRIT 3x' : 'CRIT 2x', sx + 32, sy + 45);
+              ctx.fillText(`CRIT ${critMultiplier}x`, sx + 32, sy + 45);
             } else {
               ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
               ctx.font = '600 11px "Noto Sans JP", sans-serif';
@@ -4780,7 +4901,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       renderRecordGrid();
       updateRecordCalculation();
     }
-
 
     function initApp() {
       if (RECIPES.length > 0) {
