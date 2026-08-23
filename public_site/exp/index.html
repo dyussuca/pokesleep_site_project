@@ -976,34 +976,23 @@
     }
 
     function onTargetLevelChange(val) {
-      targetLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
-      if (targetLevel < currentLevel) {
-        currentLevel = targetLevel;
-        document.getElementById('current-level-slider').value = currentLevel;
-        document.getElementById('current-level-input').value = currentLevel;
-      }
+      const parsed = parseInt(val) || 1;
+      targetLevel = Math.min(70, Math.max(currentLevel, parsed));
+      document.getElementById('target-level-slider').value = targetLevel;
       document.getElementById('target-level-input').value = targetLevel;
       calculateSimulation();
     }
 
     function onTargetLevelInputChange(val) {
-      targetLevel = Math.min(70, Math.max(1, parseInt(val) || 1));
-      if (targetLevel < currentLevel) {
-        currentLevel = targetLevel;
-        document.getElementById('current-level-slider').value = currentLevel;
-        document.getElementById('current-level-input').value = currentLevel;
-      }
+      const parsed = parseInt(val) || 1;
+      targetLevel = Math.min(70, Math.max(currentLevel, parsed));
       document.getElementById('target-level-slider').value = targetLevel;
+      document.getElementById('target-level-input').value = targetLevel;
       calculateSimulation();
     }
 
     function setTargetLevelPreset(val) {
-      targetLevel = val;
-      if (currentLevel > targetLevel) {
-        currentLevel = targetLevel;
-        document.getElementById('current-level-slider').value = currentLevel;
-        document.getElementById('current-level-input').value = currentLevel;
-      }
+      targetLevel = Math.min(70, Math.max(currentLevel, val));
       document.getElementById('target-level-slider').value = targetLevel;
       document.getElementById('target-level-input').value = targetLevel;
       calculateSimulation();
