@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXP育成計算機の使い勝手を大幅改善！目標レベル下限制御＆最大EXP自動入力、性格別アメ仕様の精密再現アップデート | dyussuca.com</title>
+  <meta name="description"
+    content="ポケスリEXP育成計算機を大幅アップデート！手持ちアメ数合わせが快適になる目標レベル下限制御、現在レベル選択時の最大必要EXP自動入力、性格補正別アメ獲得EXP確定値＆余剰EXP持ち越しシミュレーションを実装しました。">
+  <meta name="keywords" content="ポケモンスリープ,ポケスリ,EXP計算機,アメ計算,性格補正,おひるね島,レベル上げ,ゆめのかけら,dyussuca">
+  <link rel="icon" href="../../favicon.ico">
+
+  <!-- OGP / SNS Card -->
+  <meta property="og:title" content="EXP育成計算機の使い勝手を大幅改善！目標レベル下限制御＆最大EXP自動入力、性格別アメ仕様の精密再現アップデート">
+  <meta property="og:description" content="手持ちアメ数合わせの逆算が快適に！目標Lv下限制御、最大EXP自動補完、性格別アメ獲得EXPの完全一致シミュレーションを実装しました。">
+  <meta property="og:image" content="https://dyussuca.com/blog/dev/assets/003_thumb.png">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dyussuca.com/blog/dev/003_exp_calculator_ux_update.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EXP育成計算機の使い勝手を大幅改善！目標レベル下限制御＆最大EXP自動入力">
+  <meta name="twitter:description" content="目標Lv下限制御、最大EXP自動補完、性格別アメ獲得EXPの完全一致シミュレーションを実装！">
+  <meta name="twitter:image" content="https://dyussuca.com/blog/dev/assets/003_thumb.png">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "EXP育成計算機の使い勝手を大幅改善！目標レベル下限制御＆最大EXP自動入力、性格別アメ仕様の精密再現アップデート",
+    "image": "https://dyussuca.com/blog/dev/assets/003_thumb.png",
+    "datePublished": "2026-08-23",
+    "dateModified": "2026-08-23",
+    "author": {
+      "@type": "Person",
+      "name": "dyussuca"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "dyussuca.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://dyussuca.com/assets/favicon.png"
+      }
+    },
+    "description": "ポケスリEXP育成計算機を大幅アップデート！手持ちアメ数合わせが快適になる目標レベル下限制御、現在レベル選択時の最大必要EXP自動入力、性格補正別アメ獲得EXP確定値＆余剰EXP持ち越しシミュレーションを実装しました。"
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #2563eb;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-purple: #7c3aed;
+      --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #3b82f6;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-purple: #a78bfa;
+      --hero-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(167, 139, 250, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      padding-bottom: 60px;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .site-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-blue);
+      object-fit: cover;
+    }
+
+    .site-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .article-wrap {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      .article-wrap {
+        padding: 24px 16px;
+      }
+    }
+
+    .breadcrumb {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .article-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .article-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border-color-soft);
+    }
+
+    .article-thumb-main {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 28px;
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .article-thumb-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .article-body h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin: 36px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-body h3 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .article-body p {
+      margin-bottom: 16px;
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+
+    .feature-card {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .comparison-box {
+      background: var(--bg-main);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .comparison-box.good {
+      border-color: var(--accent-green);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .comparison-box.bad {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .comparison-box h4 {
+      font-size: 0.92rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: center;
+      background: var(--bg-card);
+    }
+
+    th {
+      background: var(--hero-bg);
+      color: var(--text-main);
+      font-weight: 900;
+      padding: 10px 12px;
+      border-bottom: 1.5px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color-soft);
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* CTA Card */
+    .cta-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.12));
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+      margin: 40px 0 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cta-card h3 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .cta-card p {
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 900;
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+    }
+  </style>
+
+  <!-- Google AdSense Tag -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- ARTICLE_ID: DEV-003 -->
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../" class="site-brand">
+        <img src="../../assets/favicon.png" alt="サイトアイコン">
+        <div class="site-title">ポケスリ攻略 ＆ 開発ブログ</div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="../../" class="nav-btn">🍳 料理計算機</a>
+        <a href="../../exp/" class="nav-btn">💤 EXP計算機</a>
+        <a href="../" class="nav-btn">📝 ブログ一覧</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <article class="article-wrap">
+      <!-- BREADCRUMB -->
+      <div class="breadcrumb">
+        <a href="../../">ホーム</a> &gt; <a href="../">ブログ</a> &gt; <span>開発日誌</span>
+      </div>
+
+      <!-- TAG & META -->
+      <div class="article-tag-wrap">
+        <span class="article-tag">🛠️ 開発日誌</span>
+      </div>
+
+      <h1>EXP育成計算機の使い勝手を大幅改善！目標レベル下限制御＆最大EXP自動入力、性格別アメ仕様の精密再現アップデート</h1>
+
+      <div class="article-info">
+        <span>投稿日: 2026.08.23</span>
+        <span>著者: dyussuca</span>
+      </div>
+
+      <!-- MAIN THUMBNAIL -->
+      <div class="article-thumb-main">
+        <img src="./assets/003_thumb.png" alt="EXP育成計算機 UX＆計算精度大幅アップデート サムネイル">
+      </div>
+
+      <!-- ARTICLE BODY -->
+      <div class="article-body">
+        <p>
+          こんにちは！管理者・開発者の <b>dyussuca</b> です。
+        </p>
+        <p>
+          ポケモンスリープで新しいポケモンを育成するときや、アメブーストイベントに向けて計画を立てるときに多くの方にご活用いただいている当サイトの<a href="../../exp/" style="color: var(--accent-blue); font-weight: 900;">「EXP育成計算機」</a>。
+        </p>
+        <p>
+          日頃のプレイ感や皆様からのフィードバックをもとに、<b>「手持ちのアメ数から逆算したいときの操作性」「現在レベル設定時のスムーズさ」「ゲーム内実数値との100%完全一致」</b>を徹底追求した大幅アップデートを実施しました！
+        </p>
+        <p>
+          今回は、今回の改善点やこだわりの計算ロジックについて詳しくご紹介します。
+        </p>
+
+        <!-- SECTION 1 -->
+        <h2>1. 目標レベルの下限制御：手持ちアメ数に合わせた逆算が超快適に！</h2>
+        <p>
+          ポケスリで育成計画を立てるとき、<b>「今バッグにアメが150個あるから、どこまでレベルを上げられるかな？」</b>とスライダーを動かして調整することがよくありますよね。
+        </p>
+
+        <div class="comparison-grid">
+          <div class="comparison-box bad">
+            <h4 style="color: #ef4444;">❌ 以前の挙動</h4>
+            <p style="font-size: 0.88rem; margin: 0;">
+              目標レベルを下げてアメの数を調整しようとした際、現在レベルを下回ろうとすると<b>「現在レベルまで一緒に下がってしまう」</b>仕様でした。<br>
+              そのため、うっかり現在レベルが書き換わってしまい、再設定が必要になるストレスがありました。
+            </p>
+          </div>
+          <div class="comparison-box good">
+            <h4 style="color: var(--accent-green);">✨ アップデート後の挙動</h4>
+            <p style="font-size: 0.88rem; margin: 0;">
+              目標レベルを下げても<b>「現在レベル未満には下がらない（現在レベルでピタッとストップする）」</b>下限制御を導入！<br>
+              現在レベルが勝手に変動しなくなったため、手持ちのアメ数を見ながら目標レベルを上下させる逆算が非常に快適になりました。
+            </p>
+          </div>
+        </div>
+
+        <p>
+          もちろん、現在レベルを上げたときに目標レベルが自動で追従して押し上げられる便利機能はそのまま維持しています！
+        </p>
+
+        <!-- SECTION 2 -->
+        <h2>2. 現在レベル選択時に「次のレベルまでの最大必要EXP」を満額自動補完！</h2>
+        <p>
+          手持ち個体のレベルに合わせて現在レベルを設定した際、入力フォームの挙動をより親切に改善しました。
+        </p>
+
+        <div class="feature-card">
+          <div class="feature-card-title">
+            <span>⚡</span> 自動初期入力機能のポイント
+          </div>
+          <ul style="padding-left: 20px; font-size: 0.92rem; font-weight: 700; color: var(--text-main);">
+            <li style="margin-bottom: 6px;">現在レベルのスライダーや数値を変更した際、そのレベルから次のレベルへ上がるための<b>「最大必要EXP（満額）」が自動的にセット</b>されます。</li>
+            <li style="margin-bottom: 6px;">通常ポケモン（1.0倍）、600族（1.5倍）、伝説（1.8倍）などのポケモン区分を切り替えた際も、それぞれの倍率に応じた必要EXPへ即座に更新されます。</li>
+            <li>レベルが上がったばかりの個体ならそのまま計算でき、少し経験値が入っている個体ならゲーム内の「あと◯◯EXP」の数値を直接打ち込むだけでOKです！</li>
+          </ul>
+        </div>
+
+        <p>
+          以前は初期値として「0」が入っていましたが、「次のレベルまで0 EXP」というのは通常あり得ない状態だったため、満額EXPが最初から入ることで直感的にわかりやすくなりました。
+        </p>
+
+        <!-- SECTION 3 -->
+        <h2>3. 性格補正別アメ獲得EXPの確定値反映 ＆ 余剰EXP持ち越しシミュレーション</h2>
+        <p>
+          Ver.3.6.0で新しくなった段階的アメ仕様（Lv.25まで40EXP、Lv.30まで35EXP、Lv.31〜25EXP）について、性格補正の確定値を直接反映しました。
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>レベル帯</th>
+                <th>➡️ 普通 (±0%)</th>
+                <th>⬆️ EXP上昇 (+20%)</th>
+                <th>⬇️ EXP下降 (-16%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Lv.1 〜 Lv.25</b></td>
+                <td><b>40 EXP</b></td>
+                <td><b>47 EXP</b></td>
+                <td><b>33 EXP</b></td>
+              </tr>
+              <tr>
+                <td><b>Lv.26 〜 Lv.30</b></td>
+                <td><b>35 EXP</b></td>
+                <td><b>41 EXP</b></td>
+                <td><b>29 EXP</b></td>
+              </tr>
+              <tr>
+                <td><b>Lv.31 〜 Lv.70</b></td>
+                <td><b>25 EXP</b></td>
+                <td><b>30 EXP</b></td>
+                <td><b>21 EXP</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>💡 レベルアップ時の「余剰EXP持ち越し」を完全再現</h3>
+        <p>
+          これまでの計算機では、レベルごとに独立してアメ数を切り上げ計算していたため、レベルアップ時に余ったEXPが次のレベルへ引き継がれず、複数レベルを上げる際に実際のアメ数よりも多く表示されてしまう現象がありました。
+        </p>
+        <p>
+          今回のアップデートでは、ゲーム内で実際にアメを1個ずつ投入する動作を完全にシミュレートするエンジンへと刷新！
+        </p>
+        <div class="feature-card" style="background: rgba(124, 58, 237, 0.06); border-color: var(--accent-purple);">
+          <div class="feature-card-title" style="color: var(--accent-purple);">
+            <span>🍬</span> アメ投入シミュレーションの仕組み
+          </div>
+          <p style="font-size: 0.9rem; margin-bottom: 0; font-weight: 700;">
+            アメを投与してレベルアップした際の「余ったEXP」が次のレベルのゲージに正確に引き継がれ、さらにLv.25やLv.30の境界を跨いだ瞬間にアメの獲得EXPとゆめのかけら単価がリアルタイムに切り替わります。<br>
+            これにより、<b>ゲーム内でアメを与えた際の結果と1個の狂いもなく完全一致</b>するようになりました！
+          </p>
+        </div>
+
+        <!-- SECTION 4 -->
+        <h2>4. 不要なボタンを整理してUIをスッキリ化！</h2>
+        <p>
+          よりシンプルで迷わず使えるツールを目指し、実用性の低い設定項目を整理しました。
+        </p>
+        <ul style="padding-left: 20px; font-size: 0.94rem; font-weight: 700; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><b>通常睡眠リサーチ</b>: 現実的に毎日使用することのない「成長のおこう常時使用」トグルを削除。大好評の「🌕 グッドスリープデー考慮」はそのまま維持しています。</li>
+          <li style="margin-bottom: 8px;"><b>おひるね島</b>: 7日以上預けるのが通常プレイの基本であるため、「7日間満喫」トグルを排除し、常に満額（100%獲得）で計算する仕様に一本化。</li>
+          <li><b>スマホ表示最適化</b>: スマートフォンの狭い画面でもタブが改行・圧迫されないよう、タブバー表記をコンパクトな「`🏝️ ゴン平島`」に調整。</li>
+        </ul>
+
+        <!-- CTA SECTION -->
+        <div class="cta-card">
+          <h3>⚡ 新しくなったEXP育成計算機を試してみよう！</h3>
+          <p>
+            レベル指定・アメブースト・通常睡眠リサーチ・おひるね島放置まで、あなたの厳選個体の育成計画を瞬時にシミュレーションできます。
+          </p>
+          <a href="../../exp/" class="cta-btn">
+            <span>💤 EXP育成計算機を使ってみる</span>
+            <span>➔</span>
+          </a>
+        </div>
+
+        <p>
+          今後もポケモンスリープのリサーチがもっと楽しく、快適になるような便利ツール・機能アップデートをお届けしてまいります！気になる点やリクエストがありましたら、お気軽にお問い合わせフォームからお寄せください。
+        </p>
+      </div>
+
+      <!-- FOOTER LINKS -->
+      <footer>
+        <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 12px; font-weight: 800; flex-wrap: wrap;">
+          <a href="../../" style="color: var(--accent-blue); text-decoration: none;">🍳 料理計算機</a>
+          <a href="../../exp/" style="color: var(--accent-blue); text-decoration: none;">💤 EXP計算機</a>
+          <a href="../" style="color: var(--accent-blue); text-decoration: none;">📝 ブログ一覧</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue); text-decoration: none;">✉️ お問合せ</a>
+        </div>
+        dyussuca.com 公式ブログ | ポケスリ育成シミュレーター
+      </footer>
+    </article>
+  </div>
+</body>
+
+</html>
