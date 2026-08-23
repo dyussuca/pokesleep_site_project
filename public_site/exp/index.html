@@ -653,14 +653,6 @@
         </div>
 
         <div class="toggle-row">
-          <span style="font-weight: 800; font-size: 0.88rem;">🌾 成長のおこう常時使用 (睡眠EXP 2倍)</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="sleep-incense-toggle" onchange="calculateSimulation()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="toggle-row">
           <span style="font-weight: 800; font-size: 0.88rem;">🌕 グッドスリープデー考慮 (月1回 GSD)</span>
           <label class="toggle-switch">
             <input type="checkbox" id="sleep-gsd-toggle" checked onchange="calculateSimulation()">
@@ -1159,7 +1151,6 @@
       // 【2. 通常睡眠リサーチ計算】
       let dailyBaseSleepExp = sleepScore * sleepNatureMult;
       let dailySleepExp = dailyBaseSleepExp * (1 + sleepExpBonusCount * 0.14);
-      if (document.getElementById('sleep-incense-toggle').checked) dailySleepExp *= 2;
       const isSleepGsd = document.getElementById('sleep-gsd-toggle').checked;
 
       let sleepDays = 0;
