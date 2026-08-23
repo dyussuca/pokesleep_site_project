@@ -1890,42 +1890,81 @@
 
     /* 週間リザルトサマリーカード（記録シート下・共有上に配置） */
     .record-summary-banner {
-      background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(16, 185, 129, 0.12));
+      background: linear-gradient(145deg, rgba(2, 132, 199, 0.14), rgba(16, 185, 129, 0.14));
       border: 2px solid var(--accent-blue);
       border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      padding: 24px 20px;
       margin-top: 24px;
       margin-bottom: 24px;
       text-align: center;
+      box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
     }
 
     .record-sum-hero {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .record-sum-img {
-      width: 72px;
-      height: 72px;
+      width: 92px;
+      height: 92px;
       object-fit: contain;
-      border-radius: 14px;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
-      background: rgba(255, 255, 255, 0.05);
-      padding: 4px;
+      border-radius: 18px;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      padding: 6px;
       flex-shrink: 0;
     }
 
+    .record-sum-hero-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
     .record-total-energy {
-      font-size: 2.3rem;
+      font-size: 3.4rem;
       font-weight: 900;
       color: var(--accent-yellow);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      text-shadow: 0 4px 16px rgba(217, 119, 6, 0.22);
       line-height: 1.15;
-      margin: 4px 0;
+      margin: 4px 0 6px 0;
+      font-family: 'Outfit', 'M PLUS Rounded 1c', sans-serif;
+    }
+
+    .record-sum-recipe-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .record-sum-badge {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-blue);
+      background: var(--bg-card);
+      padding: 3px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    @media (max-width: 600px) {
+      .record-total-energy {
+        font-size: 2.8rem;
+      }
+      .record-sum-img {
+        width: 80px;
+        height: 80px;
+      }
     }
 
     .record-stats-grid {
@@ -2649,10 +2688,15 @@
     <div class="record-summary-banner" id="record-summary-section">
       <div class="record-sum-hero">
         <img id="record-sum-img" src="./assets/recipes/れんごくコーンスコーン.png" class="record-sum-img" alt="料理画像">
-        <div style="text-align: left;">
-          <div style="font-size: 0.85rem; font-weight: 800; color: var(--text-sub);">🔥 週間合計料理エナジー</div>
+        <div class="record-sum-hero-text">
+          <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub); display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <span>🔥</span> 週間合計料理エナジー
+          </div>
           <div class="record-total-energy" id="record-sum-total-energy">0</div>
-          <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-main);" id="record-sum-recipe-name">- (0/21食 記録済み)</div>
+          <div id="record-sum-recipe-name" class="record-sum-recipe-title">-</div>
+          <div style="margin-top: 4px;">
+            <span id="record-sum-progress-badge" class="record-sum-badge">0/21食 記録済み</span>
+          </div>
         </div>
       </div>
 
@@ -2663,7 +2707,7 @@
         </div>
         <div class="record-stat-box">
           <div class="record-stat-label">🎯 平均大成功確率</div>
-          <div class="record-stat-value" id="record-sum-avg-crit-rate">11.4%</div>
+          <div class="record-stat-value" id="record-sum-avg-crit-rate">未入力</div>
         </div>
         <div class="record-stat-box">
           <div class="record-stat-label">📈 1食あたり平均エナジー</div>
@@ -2671,7 +2715,7 @@
         </div>
         <div class="record-stat-box">
           <div class="record-stat-label">📅 平日(18食) / 日曜(3食)</div>
-          <div class="record-stat-value" id="record-sum-weekday-sunday" style="font-size: 1rem;">0 / 0</div>
+          <div class="record-stat-value" id="record-sum-weekday-sunday" style="font-size: 1.05rem;">0 / 0</div>
         </div>
       </div>
     </div>
@@ -4553,7 +4597,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const weekdaySundayElem = document.getElementById('record-sum-weekday-sunday');
 
       if (totalElem) totalElem.textContent = totalEnergy.toLocaleString();
-      if (recipeNameElem) recipeNameElem.textContent = `${recipe.name} (${recordedCount}/21食 記録済み)`;
+      if (recipeNameElem) recipeNameElem.textContent = recipe.name;
+      const progressBadge = document.getElementById('record-sum-progress-badge');
+      if (progressBadge) progressBadge.textContent = `${recordedCount}/21食 記録済み`;
       if (critStatElem) critStatElem.textContent = `${critCount}回 / 21食 (${actualCritPct}%)`;
       if (avgCritRateElem) avgCritRateElem.textContent = avgCritRate;
       if (avgEnergyElem) avgEnergyElem.textContent = avgEnergy.toLocaleString();
