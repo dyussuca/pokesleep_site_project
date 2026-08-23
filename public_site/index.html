@@ -4730,18 +4730,25 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const avgEnergy = recordedCount > 0 ? Math.round(totalEnergy / recordedCount) : 0;
       const avgCritRateText = critRateEnteredCount > 0 ? `+${(sumCritRate / critRateEnteredCount).toFixed(1)}%` : '未入力';
 
-      // 🌤️ 背景：爽やかなライトモード水色グラデーション
+      // 🌤️ 背景：白飛び感を抑えた落ち着きと深みのあるスカイブルーグラデーション
       const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-      bgGrad.addColorStop(0, '#e0f2fe');   // 水色
-      bgGrad.addColorStop(0.5, '#f0fdf4'); // 若草
-      bgGrad.addColorStop(1, '#e0e7ff');   // ラベンダー
+      bgGrad.addColorStop(0, '#c7e2fe');   // 深みのあるペールブルー
+      bgGrad.addColorStop(0.5, '#dbeafe'); // 優しいスカイブルー
+      bgGrad.addColorStop(1, '#cfe0fc');   // 落ち着いたソフトラベンダー
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, W, H);
 
-      // グロー
+      // 外周ビネット（周辺減光）シャドウで中央のカードを立体的に強調
+      const vignetteGrad = ctx.createRadialGradient(W / 2, H / 2, 350, W / 2, H / 2, 750);
+      vignetteGrad.addColorStop(0, 'transparent');
+      vignetteGrad.addColorStop(1, 'rgba(15, 23, 42, 0.12)');
+      ctx.fillStyle = vignetteGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // グローアクセント
       const glowGrad = ctx.createRadialGradient(250, 180, 20, 250, 180, 450);
-      glowGrad.addColorStop(0, 'rgba(2, 132, 199, 0.14)');
-      glowGrad.addColorStop(0.6, 'rgba(16, 185, 129, 0.07)');
+      glowGrad.addColorStop(0, 'rgba(2, 132, 199, 0.18)');
+      glowGrad.addColorStop(0.6, 'rgba(16, 185, 129, 0.08)');
       glowGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = glowGrad;
       ctx.fillRect(0, 0, W, H);
@@ -4749,8 +4756,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       // ✨ ヘッダー部
       if (logoImg) {
         ctx.save();
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.12)';
-        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(15, 23, 42, 0.2)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 2;
         roundRect(ctx, 50, 22, 40, 40, 20);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
@@ -4772,19 +4780,19 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       ctx.fillText('dyussuca.com / ポケスリ計算機', W - 50, 50);
       ctx.textAlign = 'left';
 
-      // 🎴 左側メインカード
+      // 🎴 左側メインカード（リッチなドロップシャドウ付き白カード）
       const leftCardX = 50;
       const leftCardY = 76;
       const leftCardW = 420;
       const leftCardH = 564;
 
       ctx.save();
-      ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
-      ctx.shadowBlur = 16;
-      ctx.shadowOffsetY = 4;
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-      ctx.strokeStyle = 'rgba(2, 132, 199, 0.25)';
-      ctx.lineWidth = 1.5;
+      ctx.shadowColor = 'rgba(15, 23, 42, 0.16)';
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 8;
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = 'rgba(2, 132, 199, 0.35)';
+      ctx.lineWidth = 2;
       roundRect(ctx, leftCardX, leftCardY, leftCardW, leftCardH, 20);
       ctx.fill();
       ctx.stroke();
@@ -4797,7 +4805,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       ctx.fillStyle = '#f8fafc';
       ctx.strokeStyle = '#cbd5e1';
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 1.5;
       roundRect(ctx, imgX, imgY, imgSize, imgSize, 18);
       ctx.fill();
       ctx.stroke();
@@ -4891,13 +4899,19 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         const baseCritMult = isSunday ? 3 : 2;
         const critMultiplier = Math.round(baseCritMult * recordEventBonus * 100) / 100;
 
-        ctx.fillStyle = isSunday ? 'rgba(254, 243, 199, 0.85)' : 'rgba(255, 255, 255, 0.9)';
-        ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(203, 213, 225, 0.8)';
-        ctx.lineWidth = isSunday ? 1.5 : 1;
+        ctx.save();
+        ctx.shadowColor = 'rgba(15, 23, 42, 0.1)';
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetY = 3;
+        ctx.fillStyle = isSunday ? 'rgba(254, 243, 199, 0.95)' : '#ffffff';
+        ctx.strokeStyle = isSunday ? '#f59e0b' : 'rgba(203, 213, 225, 0.9)';
+        ctx.lineWidth = isSunday ? 2 : 1.5;
         roundRect(ctx, gridX, cy, gridW, cardH, 12);
         ctx.fill();
         ctx.stroke();
+        ctx.restore();
 
+        // 曜日ラベル
         ctx.fillStyle = isSunday ? '#d97706' : '#0284c7';
         ctx.font = '900 17px "M PLUS Rounded 1c", sans-serif';
         ctx.fillText(dayName.slice(0, 1), gridX + 16, cy + 44);
@@ -4912,40 +4926,41 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
           const e = parseInt(meal.energy) || 0;
           const isCrit = meal.isCrit;
 
-          ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.12)' : '#f8fafc';
+          ctx.fillStyle = isCrit ? 'rgba(255, 87, 34, 0.14)' : '#f8fafc';
           ctx.strokeStyle = isCrit ? '#ff5722' : '#e2e8f0';
-          ctx.lineWidth = 1;
+          ctx.lineWidth = isCrit ? 1.5 : 1;
           roundRect(ctx, sx, sy, slotW, 56, 8);
           ctx.fill();
           ctx.stroke();
 
+          // エナジー文字の更なる拡大（通常: 18px / 大成功: 20px 特大太字）
           if (isCrit) {
             ctx.fillStyle = '#ff3d00';
-            ctx.font = '900 18px "Outfit", "M PLUS Rounded 1c", sans-serif';
+            ctx.font = '900 20px "Outfit", "M PLUS Rounded 1c", sans-serif';
           } else {
             ctx.fillStyle = e > 0 ? '#0f172a' : '#94a3b8';
-            ctx.font = '800 16px "Outfit", "M PLUS Rounded 1c", sans-serif';
+            ctx.font = '800 18px "Outfit", "M PLUS Rounded 1c", sans-serif';
           }
-          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 12, sy + 25);
+          ctx.fillText(e > 0 ? e.toLocaleString() : '---', sx + 10, sy + 26);
 
           const rateVal = (meal.critRate !== undefined && meal.critRate !== '') ? `+${meal.critRate}%` : '';
 
           if (isCrit) {
             ctx.fillStyle = '#ea580c';
             ctx.font = '900 12px "Outfit", "M PLUS Rounded 1c", sans-serif';
-            ctx.fillText(`✨ CRIT ${critMultiplier}x`, sx + 12, sy + 45);
+            ctx.fillText(`✨ CRIT ${critMultiplier}x`, sx + 10, sy + 46);
 
             if (rateVal) {
               ctx.fillStyle = '#c2410c';
               ctx.font = '800 12px "Outfit", sans-serif';
               ctx.textAlign = 'right';
-              ctx.fillText(rateVal, sx + slotW - 10, sy + 45);
+              ctx.fillText(rateVal, sx + slotW - 10, sy + 46);
               ctx.textAlign = 'left';
             }
           } else {
             ctx.fillStyle = '#64748b';
             ctx.font = '700 12px "Outfit", sans-serif';
-            ctx.fillText(rateVal ? rateVal : '-', sx + 12, sy + 45);
+            ctx.fillText(rateVal ? rateVal : '-', sx + 10, sy + 46);
           }
         }
       });
