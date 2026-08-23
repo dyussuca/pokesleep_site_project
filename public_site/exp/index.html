@@ -580,7 +580,7 @@
         <span>💤</span> 睡眠
       </button>
       <button class="tab-btn island-tab" id="tab-btn-island" onclick="switchTab('island')">
-        <span>🏝️</span> ゴン平島
+        <span>🏝️</span> おひるね島
       </button>
     </div>
 
@@ -690,18 +690,6 @@
               リラックスチケット<br><span style="font-size:0.72rem; font-weight:700;">600 EXP / 日 (+450EXP)</span>
             </button>
           </div>
-        </div>
-
-        <!-- 7日間満喫ルール (早期引き取り半減) -->
-        <div class="toggle-row" style="margin-top: 8px;">
-          <div>
-            <span style="font-weight: 800; font-size: 0.88rem; color: var(--accent-yellow);">✨ 7日間以上満喫して引き取る (100%
-              獲得)</span>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="island-7days-toggle" checked onchange="calculateSimulation()">
-            <span class="toggle-slider"></span>
-          </label>
         </div>
 
         <!-- 🎁 ゴンベのものひろい還元考慮ボタン + ℹ️ モーダルボタン -->
@@ -1169,10 +1157,7 @@
       // 【3. おひるね島 (公式完全仕様) 計算】
       const baseIslandExpPerDay = isIslandTicket ? 600 : 150;
       const islandNatureMult = (natureType === 'up') ? 1.18 : 1.0;
-      const is7DaysFulfilled = document.getElementById('island-7days-toggle').checked;
-      const earlyWithdrawMult = is7DaysFulfilled ? 1.0 : 0.5;
-
-      const dailyIslandExp = Math.floor(baseIslandExpPerDay * islandNatureMult * earlyWithdrawMult);
+      const dailyIslandExp = Math.floor(baseIslandExpPerDay * islandNatureMult);
 
       // ゴンベのものひろいアメ還元計算
       const isPickupConsidered = document.getElementById('island-pickup-toggle').checked;
