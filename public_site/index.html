@@ -1058,6 +1058,15 @@
       .header-title {
         font-size: 1.8rem;
       }
+    }
+
+    @media (max-width: 440px) {
+      .header-title {
+        font-size: 1.45rem;
+      }
+    }
+
+    @media (max-width: 680px) {
 
       .container {
         padding: 12px;
@@ -1195,14 +1204,24 @@
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 
+    /* 通常はタイトルの上に右寄せで配置（タイトルと重ならない） */
     .header-btn-group {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       display: flex;
+      justify-content: flex-end;
       gap: 8px;
       align-items: center;
+      margin-bottom: 12px;
       z-index: 10;
+    }
+
+    /* 中央タイトルと干渉しない十分な横幅がある時だけ右上に浮かせる */
+    @media (min-width: 1320px) {
+      .header-btn-group {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        margin-bottom: 0;
+      }
     }
 
     .credit-btn,
@@ -1238,14 +1257,12 @@
 
     @media (max-width: 680px) {
       header {
-        padding-top: 48px;
+        padding-top: 12px;
       }
 
       .header-btn-group {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        margin: 0;
+        justify-content: center;
+        margin-bottom: 10px;
       }
 
       .credit-btn {
