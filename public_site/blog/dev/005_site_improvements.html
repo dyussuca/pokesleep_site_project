@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!-- ARTICLE_ID: DEV-005 -->
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../assets/theme.js"></script>
+  <title>サイトをまるっと改善しました！表示速度アップ・スマホ最適化・不具合修正まとめ | dyussuca.com</title>
+  <link rel="canonical" href="https://dyussuca.com/blog/dev/005_site_improvements">
+  <meta name="description"
+    content="料理計算機・EXP計算機・ブログ全体を改善。トップの表示速度が大幅アップ、スマホで使いやすいレイアウトに調整、EXP計算機の初期表示の不具合修正、ダークモード統一などをまとめました。">
+  <meta name="keywords" content="ポケモンスリープ,ポケスリ,料理計算機,EXP計算機,アップデート,スマホ対応,dyussuca">
+  <link rel="icon" href="../../favicon.ico">
+
+  <!-- OGP / SNS Card -->
+  <meta property="og:title" content="サイトをまるっと改善しました！表示速度アップ・スマホ最適化・不具合修正まとめ">
+  <meta property="og:description" content="料理計算機・EXP計算機・ブログ全体を改善。トップの表示速度が大幅アップ、スマホで使いやすいレイアウトに調整、EXP計算機の初期表示の不具合修正、ダークモード統一などをまとめました。">
+  <meta property="og:image" content="https://dyussuca.com/blog/dev/assets/005_thumb.jpg">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dyussuca.com/blog/dev/005_site_improvements">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="サイトをまるっと改善しました！表示速度アップ・スマホ最適化・不具合修正まとめ">
+  <meta name="twitter:description" content="料理計算機・EXP計算機・ブログ全体を改善。トップの表示速度が大幅アップ、スマホで使いやすいレイアウトに調整、EXP計算機の初期表示の不具合修正、ダークモード統一などをまとめました。">
+  <meta name="twitter:image" content="https://dyussuca.com/blog/dev/assets/005_thumb.jpg">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "サイトをまるっと改善しました！表示速度アップ・スマホ最適化・不具合修正まとめ",
+    "image": "https://dyussuca.com/blog/dev/assets/005_thumb.jpg",
+    "datePublished": "2026-10-15",
+    "dateModified": "2026-10-15",
+    "author": {
+      "@type": "Person",
+      "name": "dyussuca"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "dyussuca.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://dyussuca.com/assets/favicon.png"
+      }
+    },
+    "description": "料理計算機・EXP計算機・ブログ全体を改善。トップの表示速度が大幅アップ、スマホで使いやすいレイアウトに調整、EXP計算機の初期表示の不具合修正、ダークモード統一などをまとめました。"
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"></noscript>
+
+  <style>
+    :root {
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-color: #94a3b8;
+      --border-color-soft: #cbd5e1;
+      --accent-blue: #0284c7;
+      --accent-green: #10b981;
+      --accent-yellow: #d97706;
+      --accent-orange: #ea580c;
+      --hero-bg: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(16, 185, 129, 0.08));
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 3px 10px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --border-color-soft: #1e293b;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-orange: #fb923c;
+      --hero-bg: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(52, 211, 153, 0.12));
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Zen Maru Gothic', 'Outfit', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.8;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    .logo-link img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--text-main);
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .container {
+      max-width: 840px;
+      margin: 24px auto 0;
+      padding: 0 16px;
+    }
+
+    .article-wrap {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 640px) {
+      .article-wrap {
+        padding: 24px 16px;
+      }
+    }
+
+    .breadcrumb {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    .article-tag-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .article-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--border-color-soft);
+    }
+
+    .article-thumb-main {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 28px;
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .article-thumb-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .article-body h2 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin: 36px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-body h3 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .article-body p {
+      margin-bottom: 16px;
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+
+    .feature-card {
+      background: var(--hero-bg);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-card-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .feature-list li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: var(--accent-green);
+      font-weight: 900;
+    }
+
+    .sample-img-box {
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .sample-img-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sample-caption {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .dev-note-box {
+      background: rgba(217, 119, 6, 0.08);
+      border-left: 4px solid var(--accent-yellow);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+
+    .dev-note-box p {
+      margin-bottom: 8px;
+      font-size: 0.94rem;
+      color: var(--text-main);
+    }
+
+    .dev-note-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.14), rgba(16, 185, 129, 0.14));
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin: 40px 0 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cta-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 900;
+      padding: 12px 28px;
+      border-radius: var(--radius-md);
+      margin-top: 12px;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color-soft);
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="https://dyussuca.com/" class="logo-link">
+        <img src="../../assets/favicon.png" alt="Logo">
+        <span>ポケスリ備蓄＆調理計算機</span>
+      </a>
+      <div class="header-nav">
+        <a href="../index.html" class="nav-btn">📖 ブログ一覧</a>
+        <a href="https://dyussuca.com/" class="nav-btn">🍳 計算機本体</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="article-wrap">
+      <div class="breadcrumb">
+        <a href="https://dyussuca.com/">TOP</a> &gt; <a href="../index.html">公式ブログ</a> &gt; 開発日誌 #005
+      </div>
+
+      <div class="article-tag-wrap">
+        <span class="article-tag">開発日誌 #005</span>
+        <span class="article-tag" style="background: linear-gradient(135deg, #10b981, #047857);">改善・修正</span>
+      </div>
+
+      <h1>サイトをまるっと改善しました！表示速度アップ・スマホ最適化・不具合修正まとめ</h1>
+
+      <div class="article-info">
+        <span>📅 2026年10月15日</span>
+        <span>✍️ dyussuca</span>
+      </div>
+
+      <div class="article-thumb-main">
+        <img src="./assets/005_thumb.jpg" alt="開発日誌 #005 サイト改善まとめ サムネイル" width="1280" height="720">
+      </div>
+
+      <div class="article-body">
+        <p>
+          今回は新機能ではなく、サイト全体の「見えにくいところ」をまとめて手入れしました。<br>
+          使い方は何も変わっていないので、いつも通り使ってもらえればOKです。やったことをざっくり並べておきます。
+        </p>
+
+        <h2><span>⚡</span> 表示が速くなりました</h2>
+        <ul class="feature-list">
+          <li>料理計算機のトップを開いたとき、最初に表示されるまでの時間を大幅に短縮（スマホ回線想定のテストで約13秒 → 約3秒）</li>
+          <li>料理画像をすべて軽い形式（WebP）に変換。グラフ用の部品やリザルト画像用のデータは、使うときだけ読み込むように変更</li>
+          <li>ブログのサムネイルやアイコン画像も軽量化</li>
+        </ul>
+
+        <h2><span>📱</span> スマホで使いやすくしました</h2>
+        <ul class="feature-list">
+          <li>トップのタブを2列に並べて、開いてすぐ本題が見えるように</li>
+          <li>料理記録は1食を1行にまとめて、21食分の入力がスクロール少なめに</li>
+          <li>iPhoneで入力欄をタップしたときに、画面が勝手にズームしないよう調整</li>
+          <li>ボタン類を指で押しやすい大きさに。小さい画面のスマホで横にはみ出していた部分も修正</li>
+        </ul>
+
+        <h2><span>🛠️</span> 不具合を直しました</h2>
+        <ul class="feature-list">
+          <li>EXP計算機を開いた直後、結果が「0日」のままになっていた問題を修正（何か入力すれば計算されていました）</li>
+          <li>画面幅によって、上部の「ブログ / EXP計算機 / お問合せ」ボタンがタイトルに重なっていた問題を修正</li>
+          <li>料理記録タブの初期表示で、存在しない料理の画像を読みに行っていた問題を修正</li>
+        </ul>
+
+        <h2><span>🎨</span> 見た目まわり</h2>
+        <ul class="feature-list">
+          <li>ダークモードを全ページで統一。スマホ/PCのダーク設定に自動で合わせます（Ctrl + Shift + L で手動切り替えも可能）</li>
+          <li>トップのヘッダー背景画像を外して、シンプルなグラデーションに</li>
+          <li>存在しないページを開いたときに、専用の「ページが見つかりません」画面を出すように</li>
+        </ul>
+
+        <div class="dev-note-box">
+          <p>
+            地味な更新ですが、特にスマホで外出先から開いたときの体感はかなり変わったと思います。
+          </p>
+          <p>
+            「ここが使いにくい」「表示が崩れてる」などあれば、お問い合わせフォームから気軽に教えてください！
+          </p>
+        </div>
+
+        <div class="cta-banner">
+          <div class="cta-title">🍳 軽くなった計算機を使ってみる</div>
+          <p style="font-size: 0.92rem; color: var(--text-sub); margin-bottom: 12px;">
+            無料・登録不要・スマホ/PCどちらでも使えます。
+          </p>
+          <a href="https://dyussuca.com/" class="cta-btn">
+            <span>🍽️</span> 備蓄＆調理計算機を開く
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 dyussuca.com / ポケモンスリープ 備蓄＆調理計算機</p>
+  </footer>
+</body>
+
+</html>
