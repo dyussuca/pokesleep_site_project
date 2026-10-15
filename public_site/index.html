@@ -3078,9 +3078,9 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label">平日 調理回数 (0〜100回)</label>
+          <label class="control-label">平日 調理回数 (1週間=18回 / 数値入力なら最大100回)</label>
           <div class="rl-level-input-group">
-            <input type="range" class="rl-slider" id="rl-weekday-times-slider" min="0" max="100" value="18"
+            <input type="range" class="rl-slider" id="rl-weekday-times-slider" min="0" max="18" value="18"
               oninput="onRLWeekdayTimesChange(this.value)">
             <div style="display: flex; align-items: center; gap: 6px;">
               <input type="number" class="number-input" id="rl-weekday-times-input" min="0" max="100" value="18"
@@ -3147,9 +3147,9 @@
         </div>
 
         <div class="control-group">
-          <label class="control-label">日曜日 調理回数 (0〜50回)</label>
+          <label class="control-label">日曜日 調理回数 (1週間=3回 / 数値入力なら最大50回)</label>
           <div class="rl-level-input-group">
-            <input type="range" class="rl-slider" id="rl-sunday-times-slider" min="0" max="50" value="3"
+            <input type="range" class="rl-slider" id="rl-sunday-times-slider" min="0" max="3" value="3"
               oninput="onRLSundayTimesChange(this.value)">
             <div style="display: flex; align-items: center; gap: 6px;">
               <input type="number" class="number-input" id="rl-sunday-times-input" min="0" max="50" value="3"
