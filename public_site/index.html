@@ -408,7 +408,7 @@
 
     .ingredients-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
       gap: 14px;
       margin-top: 14px;
     }
@@ -458,7 +458,7 @@
     /* Weekly Grid Cards */
     .weekly-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
       gap: 20px;
     }
 
@@ -940,7 +940,7 @@
     /* Book Grid */
     .book-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(310px, 100%), 1fr));
       gap: 16px;
     }
 
@@ -1306,7 +1306,7 @@
 
     .guide-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
       gap: 16px;
     }
 
@@ -1523,7 +1523,7 @@
 
     .rl-stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
       gap: 14px;
       margin-top: 18px;
     }
@@ -1763,7 +1763,7 @@
 
     .record-meals-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
       gap: 10px;
     }
 
@@ -1984,7 +1984,7 @@
 
     .record-stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
       gap: 10px;
       margin-top: 14px;
     }
@@ -2012,7 +2012,7 @@
 
     .record-action-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
       gap: 10px;
       margin-top: 14px;
     }
@@ -2064,6 +2064,184 @@
     .btn-reset-all:hover {
       background: rgba(239, 68, 68, 0.1);
       border-color: #ef4444 !important;
+    }
+
+    /* ===== スマホ最適化 (タップ領域 40px 以上・iOS入力ズーム防止・縦の詰め) ===== */
+    @media (max-width: 680px) {
+      /* タブ: 6個を2列グリッドにして、ファーストビューを本文に譲る */
+      .nav-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .tab-btn {
+        justify-content: center;
+        padding: 10px 6px;
+        font-size: clamp(0.78rem, 3.6vw, 0.9rem);
+        border-radius: 14px;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      .credit-btn {
+        min-height: 40px;
+      }
+
+      /* グリッド内カードが中身の最小幅で列を押し広げ、横スクロールを出さないように */
+      .week-card {
+        min-width: 0;
+        padding: 14px;
+      }
+
+      .week-header {
+        gap: 8px;
+      }
+
+      .week-title-left {
+        font-size: 1.1rem !important;
+        white-space: nowrap;
+      }
+
+      .ignore-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        min-height: 40px;
+      }
+
+      .recipe-picker-trigger {
+        min-width: 0;
+      }
+
+      .recipe-picker-trigger > span:first-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .time-btn-planner {
+        min-height: 40px;
+        min-width: 48px;
+      }
+
+      .quick-preset-btn {
+        min-height: 38px;
+      }
+
+      .modal-close-btn {
+        min-width: 40px;
+        min-height: 40px;
+      }
+
+      footer a {
+        display: inline-block;
+        padding: 8px 4px;
+      }
+
+      /* 料理記録: 1食を1行に収めて縦の長さを約半分に */
+      .record-day-card {
+        padding: 12px;
+      }
+
+      .record-meals-grid {
+        gap: 6px;
+      }
+
+      .record-meal-box {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .record-meal-title-row {
+        flex: 0 0 auto;
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+
+      .record-crit-badge {
+        position: absolute;
+        top: -9px;
+        right: 8px;
+        font-size: 0.66rem;
+      }
+
+      .record-inputs-row {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .record-energy-input {
+        min-height: 40px;
+      }
+
+      .record-crit-rate-wrapper {
+        width: 84px;
+        min-height: 40px;
+        white-space: nowrap;
+      }
+
+      /* iOS Safari は 16px 未満の入力欄にフォーカスすると自動ズームする */
+      .record-crit-rate-input {
+        font-size: 16px;
+      }
+
+      .record-crit-toggle-btn {
+        width: 42px;
+        height: 40px;
+      }
+    }
+
+    @media (max-width: 440px) {
+      /* アイコンとタイトルを1行に保つ */
+      .header-title {
+        font-size: 1.35rem;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        white-space: nowrap;
+      }
+
+      .header-title img {
+        width: 34px !important;
+        height: 34px !important;
+      }
+
+      /* ナビ3ボタンを1行に収める */
+      .header-btn-group {
+        gap: 6px;
+      }
+
+      .credit-btn {
+        padding: 6px 10px;
+        font-size: 0.78rem;
+        gap: 4px;
+      }
+    }
+
+    /* 幅 360px 未満の小型端末: タブ名と食材カードを折り返し可能に */
+    @media (max-width: 359px) {
+      .header-title {
+        font-size: 1.12rem;
+      }
+
+      .week-title-left {
+        font-size: 0.98rem !important;
+      }
+
+      .tab-btn {
+        white-space: normal;
+        line-height: 1.25;
+      }
+
+      .planner-ing-card {
+        padding: 10px 12px !important;
+      }
+
+      .planner-ing-card span {
+        font-size: 0.98rem !important;
+      }
     }
   </style>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
@@ -2160,7 +2338,7 @@
         </p>
 
         <div
-          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; margin-bottom: 24px;">
           <div
             style="background: var(--hero-bg); border: 1px solid var(--border-color-soft); border-radius: var(--radius-md); padding: 18px;">
             <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">🍳 1.
@@ -2473,7 +2651,7 @@
       </p>
 
       <div
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin-bottom: 20px;">
         <div class="control-group">
           <label class="control-label">🍲 鍋の基本容量を選択</label>
           <select id="opt-pot-select" class="select-input" onchange="runOptimizerCalculation()"
@@ -4466,15 +4644,15 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
               </div>
               <div class="record-inputs-row">
                 <input type="number" class="record-energy-input" 
-                  placeholder="エナジー値" value="${meal.energy !== '' ? meal.energy : ''}" 
+                  placeholder="エナジー" inputmode="numeric" value="${meal.energy !== '' ? meal.energy : ''}" 
                   oninput="onRecordMealEnergyChange(${d}, ${m}, this.value)">
-                <div class="record-crit-rate-wrapper" title="料理チャンス等で盛った大成功確率">
+                <label class="record-crit-rate-wrapper" title="料理チャンス等で盛った大成功確率">
                   <span style="font-size: 0.72rem; color: var(--text-sub);">確率</span>
-                  <input type="number" class="record-crit-rate-input" 
-                    placeholder="0" min="0" max="100" value="${meal.critRate !== undefined && meal.critRate !== '' ? meal.critRate : ''}" 
+                  <input type="number" class="record-crit-rate-input" inputmode="numeric"
+                    placeholder="0" min="0" max="100" value="${meal.critRate !== undefined && meal.critRate !== '' ? meal.critRate : ''}"
                     oninput="onRecordMealCritRateChange(${d}, ${m}, this.value)">
                   <span style="font-size: 0.72rem; color: var(--text-sub);">%</span>
-                </div>
+                </label>
                 <button type="button" class="record-crit-toggle-btn ${isCrit ? 'active-crit' : ''}" 
                   onclick="toggleRecordMealCrit(${d}, ${m})" title="大成功を切り替え">
                   ❗

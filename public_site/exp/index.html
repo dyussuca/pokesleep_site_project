@@ -472,6 +472,52 @@
       color: var(--text-sub);
       font-weight: 700;
     }
+
+    /* ===== スマホ最適化 (タップ領域 40px 以上・iOS入力ズーム防止) ===== */
+    @media (max-width: 680px) {
+      /* タイトルを1行に保ち、ナビはその下に中央寄せ（トップと同じ並び） */
+      .header-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .site-title {
+        white-space: nowrap;
+        font-size: 1.15rem;
+      }
+
+      .header-inner > div {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .header-inner > div a {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .pill-btn {
+        min-height: 40px;
+      }
+
+      /* 細いトラックのままだと指で掴みにくいので当たり判定を広げる */
+      .slider-input {
+        height: 28px;
+      }
+
+      /* iOS Safari は 16px 未満の入力欄にフォーカスすると自動ズームする */
+      input:not([type="range"]),
+      select {
+        font-size: 16px !important;
+      }
+
+      footer a {
+        display: inline-block;
+        padding: 8px 4px;
+      }
+    }
   </style>
 </head>
 
