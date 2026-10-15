@@ -5,6 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="assets/theme.js"></script>
   <title>ポケスリ 料理計算機＆食材備蓄シミュレーター | dyussuca.com</title>
   <meta name="description"
     content="『Pokémon Sleep（ポケモンスリープ）』の全79種レシピ対応！「ワカクサカレーパン」「とびはねるカレーうどん」等最新レシピ掲載。鍋容量拡張（スキル・いいキャンプチケット1.5倍）、3ジャンル（カレー・サラダ・デザート）の最適備蓄トリオ算出、除外食材フィルター搭載の無料高機能計算ツール。">
@@ -141,7 +142,7 @@
       background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+      margin: 0 0 8px;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
@@ -2082,13 +2083,13 @@
       <a href="./exp/" class="credit-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;"><span>💤</span> EXP計算機</a>
       <button class="credit-btn" onclick="openCreditModal()"><span>✉️</span> お問合せ</button>
     </div>
-    <div class="header-title"
+    <h1 class="header-title"
       style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
       <img src="./assets/favicon.png"
         style="width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.18); border: 2px solid #ffffff; object-fit: cover;"
         alt="カビゴンアイコン">
       <span>ポケスリ 備蓄＆調理計算機</span>
-    </div>
+    </h1>
   </header>
 
   <div class="container">
@@ -3507,24 +3508,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       initApp();
     }
 
-    function initTheme() {
-      const savedTheme = localStorage.getItem('pokesleep_theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-      } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-      }
-
-      if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-          if (!localStorage.getItem('pokesleep_theme')) {
-            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-          }
-        });
-      }
-    }
-
     let isGuideVisible = false;
 
     function toggleUsageGuide(forceState) {
@@ -3576,29 +3559,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const modal = document.getElementById('credit-modal');
       if (modal) modal.classList.remove('open');
     }
-
-    function showThemeToast(msg) {
-      const toast = document.getElementById('theme-toast');
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 2000);
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('pokesleep_theme', next);
-      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
-        e.preventDefault();
-        toggleTheme();
-      }
-    });
 
     let isCampTicketOn = false;
 
@@ -5103,7 +5063,6 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
       loadRecipesCSV();
     });
 

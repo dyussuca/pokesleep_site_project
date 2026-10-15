@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="light">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../assets/theme.js"></script>
   <title>ポケスリ ポケモンレベル育成＆EXP計算機 | Pokesleep EXP Simulator</title>
+  <link rel="canonical" href="https://dyussuca.com/exp/">
   <!-- Google Fonts (Zen Maru Gothic & Outfit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -479,9 +481,11 @@
 
   <header class="header">
     <div class="header-inner">
-      <a href="/" style="text-decoration: none;" class="site-title">
-        <span>⚡</span> ポケスリ 育成シミュ
-      </a>
+      <h1 style="margin: 0; font-size: inherit; line-height: inherit;">
+        <a href="/" style="text-decoration: none;" class="site-title">
+          <span>⚡</span> ポケスリ 育成シミュ
+        </a>
+      </h1>
       <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
         <a href="/" style="text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 800; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--border-color);">🍳 料理計算機</a>
         <a href="/blog/" style="text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md); font-size: 0.84rem; font-weight: 800; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--border-color);">📝 ブログ</a>
@@ -850,34 +854,6 @@
 
     let isIslandTicket = false;
 
-    // --- 3. テーマ切り替え ---
-    function initTheme() {
-      const savedTheme = localStorage.getItem('pokesleep_theme') || localStorage.getItem('exp_sim_theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      updateThemeUI(savedTheme);
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('pokesleep_theme', next);
-      localStorage.setItem('exp_sim_theme', next);
-      updateThemeUI(next);
-    }
-
-    function updateThemeUI(theme) {
-      document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
-      document.getElementById('theme-text').textContent = theme === 'dark' ? 'ライト' : 'ダーク';
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
-        e.preventDefault();
-        toggleTheme();
-      }
-    });
-
     // モーダル開閉
     function openPickupModal() {
       document.getElementById('pickup-modal-overlay').classList.add('active');
@@ -1191,7 +1167,6 @@
 
     // --- 8. 初期化 ---
     window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
       updateNextLevelExpInput();
       calculateSimulation();
     });

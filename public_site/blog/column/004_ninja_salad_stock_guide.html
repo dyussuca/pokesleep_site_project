@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="light">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../assets/theme.js"></script>
   <title>ニンジャサラダの寿命が長すぎる！鍋容量57〜94まで現役な理由とABBウェーニバルの圧倒的強み | dyussuca.com</title>
+  <link rel="canonical" href="https://dyussuca.com/blog/column/004_ninja_salad_stock_guide">
   <meta name="description"
     content="最適備蓄シミュレーターで発覚！鍋容量57から未来の94までトップに君臨し続ける「ニンジャサラダ」の驚異的な寿命と、大豆・ネギを両方カバーできるABBウェーニバルの厳選おすすめ理由を徹底解説します。">
   <link rel="icon" href="../../favicon.ico">
@@ -746,37 +748,6 @@
     <div>&copy; 2026 dyussuca.com - ポケスリ 料理計算機＆シミュレーター 公式ブログ</div>
   </footer>
 
-  <script>
-    function initTheme() {
-      const saved = localStorage.getItem('pokesleep_theme') || 'light';
-      document.documentElement.setAttribute('data-theme', saved);
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('pokesleep_theme', next);
-      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
-    }
-
-    function showThemeToast(msg) {
-      const toast = document.getElementById('theme-toast');
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 2000);
-    }
-
-    window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
-        e.preventDefault();
-        toggleTheme();
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', initTheme);
-  </script>
 </body>
 
 </html>

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="light">
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../assets/theme.js"></script>
   <title>ポケスリ攻略コラム＆開発日誌 | dyussuca.com 公式ブログ</title>
+  <link rel="canonical" href="https://dyussuca.com/blog/">
   <meta name="description" content="ポケモンスリープの料理備蓄戦略やEXP育成仕様の解説、ポケスリ計算機ツールの開発情報をお届けするブログポータルです。">
   <link rel="icon" href="../favicon.ico">
 
@@ -815,41 +817,10 @@
   </footer>
 
   <script>
-    // --- 1. テーマ制御 ＆ ショートカット (Ctrl+Shift+L) ---
-    function initTheme() {
-      const saved = localStorage.getItem('pokesleep_theme') || 'light';
-      document.documentElement.setAttribute('data-theme', saved);
-      updateThemeIcon(saved);
-    }
 
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('pokesleep_theme', next);
-      updateThemeIcon(next);
-      showThemeToast(next === 'dark' ? '🌙 ダークモードに切り替えました' : '☀️ ライトモードに切り替えました');
-    }
 
-    function updateThemeIcon(theme) {
-      const icon = document.getElementById('theme-icon');
-      if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-    }
 
-    function showThemeToast(msg) {
-      const toast = document.getElementById('theme-toast');
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 2000);
-    }
 
-    window.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l' || e.code === 'KeyL')) {
-        e.preventDefault();
-        toggleTheme();
-      }
-    });
 
     // --- 2. カテゴリフィルター (dev / column) ---
     function filterArticles(cat, btn) {
@@ -868,9 +839,6 @@
       });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
-    });
   </script>
 </body>
 

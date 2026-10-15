@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/assets/theme.js"></script>
+  <title>ページが見つかりません | dyussuca.com</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #e2e8f0;
+      --bg-card: #ffffff;
+      --accent-blue: #0284c7;
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --border-color: #94a3b8;
+      --shadow-glass: 0 10px 25px -4px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0b1329;
+      --bg-card: rgba(20, 31, 54, 0.95);
+      --accent-blue: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.14);
+      --shadow-glass: 0 10px 35px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: var(--shadow-glass);
+      padding: 40px 28px;
+      text-align: center;
+    }
+
+    .code {
+      font-size: 3.6rem;
+      font-weight: 900;
+      color: var(--accent-blue);
+      line-height: 1;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin: 14px 0 10px;
+    }
+
+    p {
+      color: var(--text-sub);
+      font-weight: 600;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 2px solid var(--border-color);
+    }
+
+    .links a:hover {
+      border-color: var(--accent-blue);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="code">404</div>
+    <h1>ページが見つかりません</h1>
+    <p>URLが間違っているか、ページが移動・削除された可能性があります。</p>
+    <div class="links">
+      <a href="/">🍳 料理計算機</a>
+      <a href="/exp/">💤 EXP計算機</a>
+      <a href="/blog/">📝 ブログ</a>
+    </div>
+  </main>
+</body>
+
+</html>
