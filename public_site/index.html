@@ -46,9 +46,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;600;800;900&family=Outfit:wght@500;700;800&display=swap"
-    rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;600;800;900&family=Outfit:wght@500;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;600;800;900&family=Outfit:wght@500;700;800&display=swap"></noscript>
   <style>
     :root,
     :root[data-theme="light"] {
@@ -129,7 +127,7 @@
 
     header {
       position: relative;
-      background: var(--header-bg), url('./assets/pokesleep_banner_1785393795627.jpg') center/cover no-repeat;
+      background: var(--header-bg);
       padding: 26px 20px 20px;
       text-align: center;
       border-bottom: 2px solid var(--border-color);
@@ -2068,7 +2066,6 @@
       border-color: #ef4444 !important;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7117224755395397"
     crossorigin="anonymous"></script>
   <link rel="icon" type="image/png" href="./assets/favicon.png">
@@ -2304,7 +2301,7 @@
         <div class="recipe-hero"
           style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
           <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
-            <img id="res-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img"
+            <img id="res-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.webp" class="recipe-hero-img"
               alt="Recipe Image">
             <div>
               <div class="recipe-name" id="res-recipe-name"
@@ -2676,7 +2673,7 @@
       <div class="recipe-hero"
         style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
         <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
-          <img id="record-hero-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img" alt="Recipe Image">
+          <img id="record-hero-img" src="./assets/recipes/しんりょくアボカドグラタン.webp" class="recipe-hero-img" alt="Recipe Image">
           <div>
             <div id="record-hero-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">しんりょくアボカドグラタン</div>
             <div style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
@@ -2704,7 +2701,7 @@
     <!-- カード③: 📊 週間リザルトサマリー（記録シート下・共有上に配置） -->
     <div class="record-summary-banner" id="record-summary-section">
       <div class="record-sum-hero">
-        <img id="record-sum-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="record-sum-img" alt="料理画像">
+        <img id="record-sum-img" src="./assets/recipes/しんりょくアボカドグラタン.webp" class="record-sum-img" alt="料理画像">
         <div class="record-sum-hero-text">
           <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub); display: flex; align-items: center; justify-content: center; gap: 4px;">
             <span>🔥</span> 週間合計料理エナジー
@@ -2847,7 +2844,7 @@
       <div class="recipe-hero"
         style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
         <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
-          <img id="rl-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img" alt="Recipe Image">
+          <img id="rl-recipe-img" src="./assets/recipes/しんりょくアボカドグラタン.webp" class="recipe-hero-img" alt="Recipe Image">
           <div>
             <div id="rl-recipe-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">
               しんりょくアボカドグラタン</div>
@@ -3363,83 +3360,83 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
     };
 
     const RECIPE_IMAGE_MAP = {
-      "しんりょくアボカドグラタン": "./assets/recipes/しんりょくアボカドグラタン.png",
-      "いあいぎりすき焼きカレー": "./assets/recipes/いあいぎりすき焼きカレー.png",
-      "めざめるパワーシチュー": "./assets/recipes/めざめるパワーシチュー.png",
-      "なりきりバケッチャシチュー": "./assets/recipes/なりきりバケッチャシチュー.png",
-      "れんごくコーンキーマカレー": "./assets/recipes/れんごくコーンキーマカレー.png",
-      "ニンジャカレー": "./assets/recipes/ニンジャカレー.png",
-      "ぜったいねむりバターカレー": "./assets/recipes/ぜったいねむりバターカレー.png",
-      "あぶりテールカレー": "./assets/recipes/あぶりテールカレー.png",
-      "からくちネギもりカレー": "./assets/recipes/からくちネギもりカレー.png",
-      "ピヨピヨパンチ辛口カレー": "./assets/recipes/ピヨピヨパンチ辛口カレー.png",
-      "じゅうなんコーンシチュー": "./assets/recipes/じゅうなんコーンシチュー.png",
-      "おやこあいカレー": "./assets/recipes/おやこあいカレー.png",
-      "キノコのほうしカレー": "./assets/recipes/キノコのほうしカレー.png",
-      "ビルドアップマメカレー": "./assets/recipes/ビルドアップマメカレー.png",
-      "ほっこりホワイトシチュー": "./assets/recipes/ほっこりホワイトシチュー.png",
-      "とけるオムカレー": "./assets/recipes/とけるオムカレー.png",
-      "サンパワートマトカレー": "./assets/recipes/サンパワートマトカレー.png",
-      "ひでりカツレツカレー": "./assets/recipes/ひでりカツレツカレー.png",
-      "満腹チーズバーグカレー": "./assets/recipes/満腹チーズバーグカレー.png",
-      "マメバーグカレー": "./assets/recipes/マメバーグカレー.png",
-      "ベイビィハニーカレー": "./assets/recipes/ベイビィハニーカレー.png",
-      "たんじゅんホワイトシチュー": "./assets/recipes/たんじゅんホワイトシチュー.png",
-      "とくせんリンゴカレー": "./assets/recipes/とくせんリンゴカレー.png",
-      "ごろごろねっとうサラダ": "./assets/recipes/ごろごろねっとうサラダ.png",
-      "じならしワカモレチップス": "./assets/recipes/じならしワカモレチップス.png",
-      "まけんきコーヒーサラダ": "./assets/recipes/まけんきコーヒーサラダ.png",
-      "りんごさんヨーグルトサラダ": "./assets/recipes/りんごさんヨーグルトサラダ.png",
-      "はなふぶきミモザサラダ": "./assets/recipes/はなふぶきミモザサラダ.png",
-      "ニンジャサラダ": "./assets/recipes/ニンジャサラダ.png",
-      "ワカクササラダ": "./assets/recipes/ワカクササラダ.png",
-      "クロスチョップドサラダ": "./assets/recipes/クロスチョップドサラダ.png",
-      "ヤドンテールのペッパーサラダ": "./assets/recipes/ヤドンテールのペッパーサラダ.png",
-      "めいそうスイートサラダ": "./assets/recipes/めいそうスイートサラダ.png",
-      "くだけるアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.png",
-      "キノコのほうしサラダ": "./assets/recipes/キノコのほうしサラダ.png",
-      "オーバーヒートサラダ": "./assets/recipes/オーバーヒートサラダ.png",
-      "くいしんぼうポテトサラダ": "./assets/recipes/くいしんぼうポテトサラダ.png",
-      "ハツラツアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.png",
-      "ムラっけチョコミートサラダ": "./assets/recipes/ムラっけチョコミートサラダ.png",
-      "うるおいとうふサラダ": "./assets/recipes/うるおいとうふサラダ.png",
-      "ばかぢからワイルドサラダ": "./assets/recipes/ばかぢからワイルドサラダ.png",
-      "モーモーカプレーゼ": "./assets/recipes/モーモーカプレーゼ.png",
-      "めんえきねぎサラダ": "./assets/recipes/めんえきねぎサラダ.png",
-      "みだれづきコーンサラダ": "./assets/recipes/みだれづきコーンサラダ.png",
-      "メロメロりんごのチーズサラダ": "./assets/recipes/メロメロりんごのチーズサラダ.png",
-      "ねっぷうとうふサラダ": "./assets/recipes/ねっぷうとうふサラダ.png",
-      "ゆきかきシーザーサラダ": "./assets/recipes/ゆきかきシーザーサラダ.png",
-      "あんみんトマトサラダ": "./assets/recipes/あんみんトマトサラダ.png",
-      "マメハムサラダ": "./assets/recipes/マメハムサラダ.png",
-      "とくせんリンゴサラダ": "./assets/recipes/とくせんリンゴサラダ.png",
-      "みつあつめチョコワッフル": "./assets/recipes/みつあつめチョコワッフル.png",
-      "ドキドキこわいかおパンケーキ": "./assets/recipes/ドキドキこわいかおパンケーキ.png",
-      "ドオーのエクレア": "./assets/recipes/ドオーのエクレア.png",
-      "スパークスパイスコーラ": "./assets/recipes/スパークスパイスコーラ.png",
-      "フラワーギフトマカロン": "./assets/recipes/フラワーギフトマカロン.png",
-      "おちゃかいコーンスコーン": "./assets/recipes/おちゃかいコーンスコーン.png",
-      "グラスミキサースムージー": "./assets/recipes/グラスミキサースムージー.png",
-      "プリンのプリンアラモード": "./assets/recipes/プリンのプリンアラモード.png",
-      "かたやぶりコーンティラミス": "./assets/recipes/かたやぶりコーンティラミス.png",
-      "はやおきコーヒーゼリー": "./assets/recipes/はやおきコーヒーゼリー.png",
-      "だいばくはつポップコーン": "./assets/recipes/だいばくはつポップコーン.png",
-      "ちからもちソイドーナッツ": "./assets/recipes/ちからもちソイドーナッツ.png",
-      "ネロリのデトックスティー": "./assets/recipes/ネロリのデトックスティー.png",
-      "ふくつのジンジャークッキー": "./assets/recipes/ふくつのジンジャークッキー.png",
-      "あくまのキッスフルーツオレ": "./assets/recipes/あくまのキッスフルーツオレ.png",
-      "あまいかおりチョコケーキ": "./assets/recipes/あまいかおりチョコケーキ.png",
-      "はなびらのまいチョコタルト": "./assets/recipes/はなびらのまいチョコタルト.png",
-      "はりきりプロテインスムージー": "./assets/recipes/はりきりプロテインスムージー.png",
-      "おおきいマラサダ": "./assets/recipes/おおきいマラサダ.png",
-      "マイペースやさいジュース": "./assets/recipes/マイペースやさいジュース.png",
-      "かるわざソイケーキ": "./assets/recipes/かるわざソイケーキ.png",
-      "ひのこのジンジャーティー": "./assets/recipes/ひのこのジンジャーティー.png",
-      "じゅくせいスイートポテト": "./assets/recipes/じゅくせいスイートポテト.png",
-      "ねがいごとアップルパイ": "./assets/recipes/ねがいごとアップルパイ.png",
-      "クラフトサイコソーダ": "./assets/recipes/クラフトサイコソーダ.png",
-      "とくせんリンゴジュース": "./assets/recipes/とくせんリンゴジュース.png",
-      "モーモーホットミルク": "./assets/recipes/モーモーホットミルク.png",
+      "しんりょくアボカドグラタン": "./assets/recipes/しんりょくアボカドグラタン.webp",
+      "いあいぎりすき焼きカレー": "./assets/recipes/いあいぎりすき焼きカレー.webp",
+      "めざめるパワーシチュー": "./assets/recipes/めざめるパワーシチュー.webp",
+      "なりきりバケッチャシチュー": "./assets/recipes/なりきりバケッチャシチュー.webp",
+      "れんごくコーンキーマカレー": "./assets/recipes/れんごくコーンキーマカレー.webp",
+      "ニンジャカレー": "./assets/recipes/ニンジャカレー.webp",
+      "ぜったいねむりバターカレー": "./assets/recipes/ぜったいねむりバターカレー.webp",
+      "あぶりテールカレー": "./assets/recipes/あぶりテールカレー.webp",
+      "からくちネギもりカレー": "./assets/recipes/からくちネギもりカレー.webp",
+      "ピヨピヨパンチ辛口カレー": "./assets/recipes/ピヨピヨパンチ辛口カレー.webp",
+      "じゅうなんコーンシチュー": "./assets/recipes/じゅうなんコーンシチュー.webp",
+      "おやこあいカレー": "./assets/recipes/おやこあいカレー.webp",
+      "キノコのほうしカレー": "./assets/recipes/キノコのほうしカレー.webp",
+      "ビルドアップマメカレー": "./assets/recipes/ビルドアップマメカレー.webp",
+      "ほっこりホワイトシチュー": "./assets/recipes/ほっこりホワイトシチュー.webp",
+      "とけるオムカレー": "./assets/recipes/とけるオムカレー.webp",
+      "サンパワートマトカレー": "./assets/recipes/サンパワートマトカレー.webp",
+      "ひでりカツレツカレー": "./assets/recipes/ひでりカツレツカレー.webp",
+      "満腹チーズバーグカレー": "./assets/recipes/満腹チーズバーグカレー.webp",
+      "マメバーグカレー": "./assets/recipes/マメバーグカレー.webp",
+      "ベイビィハニーカレー": "./assets/recipes/ベイビィハニーカレー.webp",
+      "たんじゅんホワイトシチュー": "./assets/recipes/たんじゅんホワイトシチュー.webp",
+      "とくせんリンゴカレー": "./assets/recipes/とくせんリンゴカレー.webp",
+      "ごろごろねっとうサラダ": "./assets/recipes/ごろごろねっとうサラダ.webp",
+      "じならしワカモレチップス": "./assets/recipes/じならしワカモレチップス.webp",
+      "まけんきコーヒーサラダ": "./assets/recipes/まけんきコーヒーサラダ.webp",
+      "りんごさんヨーグルトサラダ": "./assets/recipes/りんごさんヨーグルトサラダ.webp",
+      "はなふぶきミモザサラダ": "./assets/recipes/はなふぶきミモザサラダ.webp",
+      "ニンジャサラダ": "./assets/recipes/ニンジャサラダ.webp",
+      "ワカクササラダ": "./assets/recipes/ワカクササラダ.webp",
+      "クロスチョップドサラダ": "./assets/recipes/クロスチョップドサラダ.webp",
+      "ヤドンテールのペッパーサラダ": "./assets/recipes/ヤドンテールのペッパーサラダ.webp",
+      "めいそうスイートサラダ": "./assets/recipes/めいそうスイートサラダ.webp",
+      "くだけるアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.webp",
+      "キノコのほうしサラダ": "./assets/recipes/キノコのほうしサラダ.webp",
+      "オーバーヒートサラダ": "./assets/recipes/オーバーヒートサラダ.webp",
+      "くいしんぼうポテトサラダ": "./assets/recipes/くいしんぼうポテトサラダ.webp",
+      "ハツラツアボカドサラダ": "./assets/recipes/くだけるアボカドサラダ.webp",
+      "ムラっけチョコミートサラダ": "./assets/recipes/ムラっけチョコミートサラダ.webp",
+      "うるおいとうふサラダ": "./assets/recipes/うるおいとうふサラダ.webp",
+      "ばかぢからワイルドサラダ": "./assets/recipes/ばかぢからワイルドサラダ.webp",
+      "モーモーカプレーゼ": "./assets/recipes/モーモーカプレーゼ.webp",
+      "めんえきねぎサラダ": "./assets/recipes/めんえきねぎサラダ.webp",
+      "みだれづきコーンサラダ": "./assets/recipes/みだれづきコーンサラダ.webp",
+      "メロメロりんごのチーズサラダ": "./assets/recipes/メロメロりんごのチーズサラダ.webp",
+      "ねっぷうとうふサラダ": "./assets/recipes/ねっぷうとうふサラダ.webp",
+      "ゆきかきシーザーサラダ": "./assets/recipes/ゆきかきシーザーサラダ.webp",
+      "あんみんトマトサラダ": "./assets/recipes/あんみんトマトサラダ.webp",
+      "マメハムサラダ": "./assets/recipes/マメハムサラダ.webp",
+      "とくせんリンゴサラダ": "./assets/recipes/とくせんリンゴサラダ.webp",
+      "みつあつめチョコワッフル": "./assets/recipes/みつあつめチョコワッフル.webp",
+      "ドキドキこわいかおパンケーキ": "./assets/recipes/ドキドキこわいかおパンケーキ.webp",
+      "ドオーのエクレア": "./assets/recipes/ドオーのエクレア.webp",
+      "スパークスパイスコーラ": "./assets/recipes/スパークスパイスコーラ.webp",
+      "フラワーギフトマカロン": "./assets/recipes/フラワーギフトマカロン.webp",
+      "おちゃかいコーンスコーン": "./assets/recipes/おちゃかいコーンスコーン.webp",
+      "グラスミキサースムージー": "./assets/recipes/グラスミキサースムージー.webp",
+      "プリンのプリンアラモード": "./assets/recipes/プリンのプリンアラモード.webp",
+      "かたやぶりコーンティラミス": "./assets/recipes/かたやぶりコーンティラミス.webp",
+      "はやおきコーヒーゼリー": "./assets/recipes/はやおきコーヒーゼリー.webp",
+      "だいばくはつポップコーン": "./assets/recipes/だいばくはつポップコーン.webp",
+      "ちからもちソイドーナッツ": "./assets/recipes/ちからもちソイドーナッツ.webp",
+      "ネロリのデトックスティー": "./assets/recipes/ネロリのデトックスティー.webp",
+      "ふくつのジンジャークッキー": "./assets/recipes/ふくつのジンジャークッキー.webp",
+      "あくまのキッスフルーツオレ": "./assets/recipes/あくまのキッスフルーツオレ.webp",
+      "あまいかおりチョコケーキ": "./assets/recipes/あまいかおりチョコケーキ.webp",
+      "はなびらのまいチョコタルト": "./assets/recipes/はなびらのまいチョコタルト.webp",
+      "はりきりプロテインスムージー": "./assets/recipes/はりきりプロテインスムージー.webp",
+      "おおきいマラサダ": "./assets/recipes/おおきいマラサダ.webp",
+      "マイペースやさいジュース": "./assets/recipes/マイペースやさいジュース.webp",
+      "かるわざソイケーキ": "./assets/recipes/かるわざソイケーキ.webp",
+      "ひのこのジンジャーティー": "./assets/recipes/ひのこのジンジャーティー.webp",
+      "じゅくせいスイートポテト": "./assets/recipes/じゅくせいスイートポテト.webp",
+      "ねがいごとアップルパイ": "./assets/recipes/ねがいごとアップルパイ.webp",
+      "クラフトサイコソーダ": "./assets/recipes/クラフトサイコソーダ.webp",
+      "とくせんリンゴジュース": "./assets/recipes/とくせんリンゴジュース.webp",
+      "モーモーホットミルク": "./assets/recipes/モーモーホットミルク.webp",
       "とびはねるカレーうどん": "./assets/recipes/とびはねるカレーうどん.webp",
       "ワカクサカレーパン": "./assets/recipes/ワカクサカレーパン.webp"
     };
@@ -3448,7 +3445,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       if (RECIPE_IMAGE_MAP[name]) return RECIPE_IMAGE_MAP[name];
       const cleanName = name ? name.replace(/\s/g, '') : '';
       if (RECIPE_IMAGE_MAP[cleanName]) return RECIPE_IMAGE_MAP[cleanName];
-      return `./assets/recipes/${name}.png`;
+      return `./assets/recipes/${name}.webp`;
     }
 
     let RECIPES = [];
@@ -4038,7 +4035,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         card.style.alignItems = 'flex-start';
 
         card.innerHTML = `
-          <img src="${getRecipeImg(r.name, r.cat)}" class="book-recipe-img" alt="${r.name}">
+          <img src="${getRecipeImg(r.name, r.cat)}" class="book-recipe-img" alt="${r.name}" loading="lazy">
           <div style="flex:1; min-width:0; overflow:hidden;">
             <div style="margin-bottom:6px;">
               <div style="font-size:1.12rem; font-weight:900; color:var(--text-main); line-height:1.3; white-space:nowrap !important; word-break:keep-all !important;">${r.name}</div>
@@ -4677,20 +4674,26 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecordCalculation();
     }
 
-    // 3.4MBのBase64マップは画像出力時にだけ読み込む（トップ表示をブロックしない）
-    let recipeBase64MapPromise = null;
-    function loadRecipeBase64Map() {
-      if (window.RECIPE_BASE64_MAP) return Promise.resolve();
-      if (!recipeBase64MapPromise) {
-        recipeBase64MapPromise = new Promise((resolve) => {
+    // 重いスクリプトは必要になった時に1回だけ読み込む（トップ表示をブロックしない）
+    const CHART_JS_URL = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js';
+    const scriptLoadPromises = {};
+    function loadScriptOnce(src) {
+      if (!scriptLoadPromises[src]) {
+        scriptLoadPromises[src] = new Promise((resolve) => {
           const script = document.createElement('script');
-          script.src = './recipe_base64_data.js';
+          script.src = src;
           script.onload = resolve;
-          script.onerror = () => { recipeBase64MapPromise = null; resolve(); };
+          script.onerror = () => { delete scriptLoadPromises[src]; resolve(); };
           document.head.appendChild(script);
         });
       }
-      return recipeBase64MapPromise;
+      return scriptLoadPromises[src];
+    }
+
+    // 3.4MBのBase64マップは画像出力時にだけ読み込む
+    function loadRecipeBase64Map() {
+      if (window.RECIPE_BASE64_MAP) return Promise.resolve();
+      return loadScriptOnce('./recipe_base64_data.js');
     }
 
     async function generateRecordCanvasImage() {
@@ -5170,7 +5173,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         card.onclick = () => selectRecipeFromModal(r.id);
         card.setAttribute('style', 'display: flex !important; align-items: flex-start !important; gap: 12px !important; text-align: left !important; justify-content: flex-start !important; width: 100% !important; box-sizing: border-box !important;');
         card.innerHTML = `
-          <img src="${getRecipeImg(r.name, r.cat)}" class="modal-recipe-img" alt="${r.name}" style="width: 48px; height: 48px; border-radius: 8px; flex-shrink: 0;">
+          <img src="${getRecipeImg(r.name, r.cat)}" class="modal-recipe-img" alt="${r.name}" loading="lazy" style="width: 48px; height: 48px; border-radius: 8px; flex-shrink: 0;">
           <div style="flex: 1; min-width: 0; text-align: left !important;">
             <div style="font-size: 1.08rem; font-weight: 900; color: var(--text-main); text-align: left !important; line-height: 1.3;">${r.name}</div>
 
@@ -5758,6 +5761,14 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
 
       // Skip rendering if container is hidden (will be rendered on tab switch)
       if (canvas.parentElement && canvas.parentElement.offsetWidth === 0) {
+        return;
+      }
+
+      // Chart.js はグラフを初めて描く時にだけ読み込む（トップ表示をブロックしない）
+      if (typeof Chart === 'undefined') {
+        loadScriptOnce(CHART_JS_URL).then(() => {
+          if (typeof Chart !== 'undefined') updateRecipeLevelChart(recipe);
+        });
         return;
       }
 
