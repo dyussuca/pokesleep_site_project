@@ -43,7 +43,6 @@
   }
   </script>
 
-  <script src="./recipe_base64_data.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -2597,7 +2596,7 @@
       <div class="control-group">
         <label class="control-label">今週作り続ける料理</label>
         <button class="recipe-picker-trigger" onclick="openRecipeModal('record')">
-          <span id="record-picker-label">れんごくコーンスコーン</span>
+          <span id="record-picker-label">しんりょくアボカドグラタン</span>
           <span style="color: var(--accent-yellow);"> ▾</span>
         </button>
       </div>
@@ -2659,13 +2658,13 @@
       <div class="recipe-hero"
         style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:20px; border-radius:var(--radius-md); background:var(--hero-bg); border:1px solid var(--hero-border);">
         <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1; min-width:240px;">
-          <img id="record-hero-img" src="./assets/recipes/れんごくコーンスコーン.png" class="recipe-hero-img" alt="Recipe Image">
+          <img id="record-hero-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="recipe-hero-img" alt="Recipe Image">
           <div>
-            <div id="record-hero-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">れんごくコーンスコーン</div>
+            <div id="record-hero-name" style="font-size:1.55rem; font-weight:900; color:var(--text-main);">しんりょくアボカドグラタン</div>
             <div style="font-size:1.02rem; font-weight:800; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-              <span>必要食材 <b id="record-hero-total-val" style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">77</b></span>
-              <span id="record-hero-energy-val" style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">基礎: 14,015</span>
-              <span class="modal-energy-tag" id="record-hero-energy-max-tag" style="font-size:0.92rem;">Lv.70: 49,053</span>
+              <span>必要食材 <b id="record-hero-total-val" style="color:var(--accent-yellow); font-size:1.25rem; font-weight:900;">115</b></span>
+              <span id="record-hero-energy-val" style="color:var(--accent-green-dark); font-weight:800; font-size:0.95rem;">基礎: 24,802</span>
+              <span class="modal-energy-tag" id="record-hero-energy-max-tag" style="font-size:0.92rem;">Lv.70: 88,791</span>
             </div>
           </div>
         </div>
@@ -2687,7 +2686,7 @@
     <!-- カード③: 📊 週間リザルトサマリー（記録シート下・共有上に配置） -->
     <div class="record-summary-banner" id="record-summary-section">
       <div class="record-sum-hero">
-        <img id="record-sum-img" src="./assets/recipes/れんごくコーンスコーン.png" class="record-sum-img" alt="料理画像">
+        <img id="record-sum-img" src="./assets/recipes/しんりょくアボカドグラタン.png" class="record-sum-img" alt="料理画像">
         <div class="record-sum-hero-text">
           <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-sub); display: flex; align-items: center; justify-content: center; gap: 4px;">
             <span>🔥</span> 週間合計料理エナジー
@@ -4701,9 +4700,26 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       updateRecordCalculation();
     }
 
+    // 3.4MBのBase64マップは画像出力時にだけ読み込む（トップ表示をブロックしない）
+    let recipeBase64MapPromise = null;
+    function loadRecipeBase64Map() {
+      if (window.RECIPE_BASE64_MAP) return Promise.resolve();
+      if (!recipeBase64MapPromise) {
+        recipeBase64MapPromise = new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = './recipe_base64_data.js';
+          script.onload = resolve;
+          script.onerror = () => { recipeBase64MapPromise = null; resolve(); };
+          document.head.appendChild(script);
+        });
+      }
+      return recipeBase64MapPromise;
+    }
+
     async function generateRecordCanvasImage() {
       const W = 1200;
       const H = 675;
+      await loadRecipeBase64Map();
 
       const recipe = RECIPES.find(r => r.id === recordRecipeId) || RECIPES[0];
       const recipeName = recipe ? recipe.name : '料理';
