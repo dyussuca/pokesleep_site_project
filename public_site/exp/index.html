@@ -29,6 +29,7 @@
     crossorigin="anonymous"></script>
   <style>
     :root {
+      --on-accent: #ffffff;
       --bg-main: #f1f5f9;
       --bg-card: #ffffff;
       --bg-input: #ffffff;
@@ -37,7 +38,7 @@
       --border-color: #94a3b8;
       --border-color-soft: #cbd5e1;
       --accent-blue: #2563eb;
-      --accent-green: #10b981;
+      --accent-green: #047857;
       --accent-yellow: #d97706;
       --accent-purple: #7c3aed;
       --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08));
@@ -56,7 +57,8 @@
       --text-sub: #94a3b8;
       --border-color: #334155;
       --border-color-soft: #1e293b;
-      --accent-blue: #3b82f6;
+      --accent-blue: #60a5fa;
+      --on-accent: #0f172a;
       --accent-green: #34d399;
       --accent-yellow: #fbbf24;
       --accent-purple: #a78bfa;
@@ -202,7 +204,7 @@
 
     .pill-btn.active {
       background: var(--accent-blue);
-      color: #ffffff;
+      color: var(--on-accent);
       border-color: var(--accent-blue);
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
     }
@@ -314,19 +316,19 @@
 
     .tab-btn.active.candy-tab {
       background: var(--accent-purple);
-      color: #ffffff;
+      color: var(--on-accent);
       box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
     }
 
     .tab-btn.active.sleep-tab {
       background: var(--accent-green);
-      color: #ffffff;
+      color: var(--on-accent);
       box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
     .tab-btn.active.island-tab {
       background: var(--accent-yellow);
-      color: #ffffff;
+      color: var(--on-accent);
       box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
     }
 
@@ -445,7 +447,7 @@
 
     .info-modal-btn:hover {
       background: var(--accent-blue);
-      color: #ffffff;
+      color: var(--on-accent);
     }
 
     .modal-overlay {
@@ -550,7 +552,7 @@
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" role="main">
 
     <!-- 常時トップ表示: ポケモン基本設定カード (タイプ・性格・Lv) -->
     <div class="card">
@@ -592,9 +594,9 @@
           <div class="control-group">
             <label class="control-label">現在のレベル (Lv.1 〜 70)</label>
             <div class="input-row">
-              <input type="range" class="slider-input" id="current-level-slider" min="1" max="70" value="1"
+              <input type="range" class="slider-input" id="current-level-slider" aria-label="現在のレベル（スライダー）" min="1" max="70" value="1"
                 oninput="onCurrentLevelChange(this.value)">
-              <input type="number" class="number-input" id="current-level-input" min="1" max="70" value="1"
+              <input type="number" class="number-input" id="current-level-input" aria-label="現在のレベル" min="1" max="70" value="1"
                 oninput="onCurrentLevelInputChange(this.value)">
             </div>
           </div>
@@ -606,7 +608,7 @@
               <label class="control-label" style="margin: 0; color: var(--accent-blue); font-size: 0.8rem;">🔻
                 次のレベルまでの残りEXP</label>
               <div style="display: flex; align-items: center; gap: 4px;">
-                <input type="number" class="number-input" id="next-level-exp-input" min="0" max="20000" value="54"
+                <input type="number" class="number-input" id="next-level-exp-input" aria-label="次のレベルまでの残りEXP" min="0" max="20000" value="54"
                   style="width: 95px; padding: 4px 6px; font-size: 0.9rem;" oninput="calculateSimulation()">
                 <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-sub);">EXP</span>
               </div>
@@ -616,9 +618,9 @@
           <div class="control-group" style="margin-top: 10px;">
             <label class="control-label">目標レベル (Lv.1 〜 70)</label>
             <div class="input-row">
-              <input type="range" class="slider-input" id="target-level-slider" min="1" max="70" value="30"
+              <input type="range" class="slider-input" id="target-level-slider" aria-label="目標レベル（スライダー）" min="1" max="70" value="30"
                 oninput="onTargetLevelChange(this.value)">
-              <input type="number" class="number-input" id="target-level-input" min="1" max="70" value="30"
+              <input type="number" class="number-input" id="target-level-input" aria-label="目標レベル" min="1" max="70" value="30"
                 oninput="onTargetLevelInputChange(this.value)">
             </div>
             <div class="preset-chips">
@@ -801,7 +803,7 @@
         <span style="color: var(--accent-purple);">※拾ったアメはアメブースト非適用・かけら消費なしで通常使用する計算です。</span>
       </div>
       <button type="button" onclick="closePickupModal()"
-        style="margin-top: 14px; width: 100%; padding: 9px; background: var(--accent-yellow); color: #fff; border: none; border-radius: var(--radius-md); font-weight: 900; cursor: pointer;">閉じる</button>
+        style="margin-top: 14px; width: 100%; padding: 9px; background: var(--accent-yellow); color: var(--on-accent); border: none; border-radius: var(--radius-md); font-weight: 900; cursor: pointer;">閉じる</button>
     </div>
   </div>
 

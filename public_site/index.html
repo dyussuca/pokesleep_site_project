@@ -60,11 +60,11 @@
       --bg-main: #e2e8f0;
       --bg-card: #ffffff;
       --bg-card-hover: #f8fafc;
-      --accent-green: #059669;
+      --accent-green: #047857;
       --accent-green-dark: #047857;
-      --accent-yellow: #d97706;
-      --accent-orange: #ea580c;
-      --accent-blue: #0284c7;
+      --accent-yellow: #b45309;
+      --accent-orange: #c2410c;
+      --accent-blue: #0369a1;
       --accent-blue-dark: #0369a1;
       --accent-purple: #7c3aed;
       --accent-red: #dc2626;
@@ -294,21 +294,21 @@
     }
 
     .cat-btn.active.curry {
-      background: rgba(234, 88, 12, 0.15);
+      background: rgba(234, 88, 12, 0.1);
       border-color: #ea580c;
-      color: #f97316;
+      color: var(--accent-orange);
     }
 
     .cat-btn.active.salad {
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.1);
       border-color: #10b981;
-      color: #10b981;
+      color: var(--accent-green);
     }
 
     .cat-btn.active.dessert {
-      background: rgba(139, 92, 246, 0.15);
+      background: rgba(139, 92, 246, 0.1);
       border-color: #8b5cf6;
-      color: #a78bfa;
+      color: var(--accent-purple);
     }
 
     .recipe-picker-trigger {
@@ -931,7 +931,7 @@
       font-size: 0.88rem;
       font-weight: 800;
       color: var(--accent-green);
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.1);
       padding: 3px 10px;
       border-radius: 12px;
       white-space: nowrap;
@@ -2274,7 +2274,7 @@
     </h1>
   </header>
 
-  <div class="container">
+  <div class="container" role="main">
 
     <!-- USAGE GUIDE SECTION -->
     <div class="guide-card" id="usage-guide-card">
@@ -2475,7 +2475,7 @@
           </div>
           <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
             <span style="font-size: 0.9rem; color: var(--text-sub);">カスタム回数:</span>
-            <input type="number" id="custom-times-input" class="number-input" style="width: 120px;" value="3" min="1"
+            <input type="number" id="custom-times-input" aria-label="カスタム調理回数" class="number-input" style="width: 120px;" value="3" min="1"
               max="100" oninput="onCustomTimesChange(this.value)">
             <span style="font-size: 0.9rem; color: var(--text-sub);">回</span>
           </div>
@@ -3377,16 +3377,16 @@
       <div
         style="padding: 24px; font-size: 0.92rem; line-height: 1.7; color: var(--text-main); max-height: 70vh; overflow-y: auto;">
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">1. 著作権・商標権 ＆
-          公式様へのリスペクト（非公式ファンツール）</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">1. 著作権・商標権 ＆
+          公式様へのリスペクト（非公式ファンツール）</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイト（dyussuca.com）は、『Pokémon Sleep（ポケモンスリープ）』を愛好するファンによって運営されている<b>非公式の便利ツールポータル</b>です。<br>
           ゲーム内に登場する名称、画像、アセット等の知的財産権および著作権は、<b>任天堂株式会社・株式会社ポケモン・株式会社SELECT
             BUTTON様</b>ならびに関係各社に帰属します。当サイトは開発・運営関係者様とは一切関係ありません。素晴らしいゲーム体験を提供してくださる公式様へ深い感謝とリスペクトを捧げます。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">2.
-          動画配信・SNS・ブログでの利用について（リンクフリー・二次利用歓迎）</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">2.
+          動画配信・SNS・ブログでの利用について（リンクフリー・二次利用歓迎）</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトのツールで算出されたデータ、計算結果、画面のスクリーンショット等は、<b>YouTube・Twitch等の動画実況、ライブ配信、SNS（X /
             Instagram等）への投稿、攻略ブログ・記事等でご自由にご利用いただけます</b>（事前のご連絡は不要です。収益化された配信・動画内での使用も歓迎いたします）。<br>
@@ -3394,8 +3394,8 @@
             style="color: var(--accent-blue); font-weight: 800;">https://dyussuca.com/</a>）のリンクを掲載していただけますと大変励みになります！
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3.
-          個人情報の収集およびお問合せについて</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">3.
+          個人情報の収集およびお問合せについて</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトでは、ユーザーの個人識別情報を直接取得することはありません。お問合せフォーム（<a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfKRDrHR6m6bUIzqq3ERVvR4J6UMzwKTJmTGPm-fm4eSN1ygQ/viewform"
@@ -3403,8 +3403,8 @@
             style="color: var(--accent-blue); font-weight: 800;">Googleフォーム</a>）経由でいただいた情報については、回答およびサービス改善・不具合対応の目的のみに使用し、第三者に提供することはありません。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 広告配信（Google
-          AdSense）および Cookie（クッキー）について</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">4. 広告配信（Google
+          AdSense）および Cookie（クッキー）について</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトでは、第三者配信事業者（Google
           AdSense）による広告サービスを利用しています。広告事業者は、ユーザーの興味に応じた商品やサービスの広告を表示するため、当サイトや他サイトへのアクセスに関する情報「Cookie」（氏名、住所、メール
@@ -3413,19 +3413,19 @@
             target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 800;">Googleの広告設定</a>をご確認ください。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">5.
-          ローカルストレージ（localStorage）の使用</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">5.
+          ローカルストレージ（localStorage）の使用</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトでは、ユーザーが選択した「鍋容量」「除外食材」「選択料理」「テーマ設定」などのシミュレーション条件をブラウザに自動保存するため、お客様の端末のローカルストレージを利用しています。このデータが外部サーバーへ送信されることはありません。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">6. 免責事項</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">6. 免責事項</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトのデータ計算精度には万全を期しておりますが、ゲームの仕様変更やアプデ等により実際のゲーム内データと相違が生じる場合があります。当サイトの利用によって生じたトラブルや損害について、当サイトは一切の責任を負いかねます。
         </p>
 
-        <h3 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">7.
-          参考文献・謝辞（スペシャルサンクス）</h3>
+        <h2 style="font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; color: var(--accent-blue);">7.
+          参考文献・謝辞（スペシャルサンクス）</h2>
         <p style="color: var(--text-sub); margin-bottom: 14px;">
           当サイトの各種計算機能やデータの構築にあたり、<b>RaenonXポケスリ攻略ツール様</b>、<b>ポケモンスリープ攻略・検証Wiki様</b>の検証データおよび情報を参考にさせていただきました。素晴らしい検証とデータ共有に心より感謝申し上げます。<br>
           ・<a href="https://pks.raenonx.cc/ja" target="_blank" rel="noopener"
@@ -3933,7 +3933,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
         let overlapSummaryHtml = '';
         if (combo.overlap3Keys.length > 0) {
           const names = combo.overlap3Keys.map(k => `${INGREDIENTS[k] ? INGREDIENTS[k].name : k}`).join(', ');
-          overlapSummaryHtml += `<div style="color:#d97706; font-size:0.92rem; font-weight:800;">🔥 3被り: <b>${names}</b></div>`;
+          overlapSummaryHtml += `<div style="color:var(--accent-yellow); font-size:0.92rem; font-weight:800;">🔥 3被り: <b>${names}</b></div>`;
         }
         if (combo.overlap2Keys.length > 0) {
           const names = combo.overlap2Keys.map(k => `${INGREDIENTS[k] ? INGREDIENTS[k].name : k}`).join(', ');
@@ -3988,7 +3988,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
                 <span>📦</span> 備蓄計画シミュレータで開く ➔
               </button>
             </div>
-            <div style="font-size:1.15rem; font-weight:900; color:#d97706;">
+            <div style="font-size:1.15rem; font-weight:900; color:var(--accent-yellow);">
               3食合計Lv.70: <b>${combo.totalEnergy.toLocaleString()}</b> エナジー
             </div>
           </div>
@@ -4071,13 +4071,13 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
             <img src="${ing.img}" class="planner-ing-img-icon" alt="${ing.name}">
             <span style="font-size:1.25rem; font-weight:900;">${ing.name}</span>
           </div>
-          <span style="font-size:1.95rem; font-weight:900; color:#d97706; margin-left:14px;">${qty}</span>
+          <span style="font-size:1.95rem; font-weight:900; color:var(--accent-yellow); margin-left:14px;">${qty}</span>
         `;
         singleGrid.appendChild(card);
       });
 
       document.getElementById('res-total-count').textContent = totalCount;
-      document.getElementById('single-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name}`;
+      document.getElementById('single-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img" alt=""> ${recipe.name}`;
     }
 
     function toggleIgnoreWeek(cat) {
@@ -4115,9 +4115,9 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       const saladR = RECIPES.find(r => r.id === plannerSaladId);
       const dessertR = RECIPES.find(r => r.id === plannerDessertId);
 
-      document.getElementById('planner-curry-label').innerHTML = curryR ? `<img src="${getRecipeImg(curryR.name, curryR.cat)}" class="trigger-img"> ${curryR.name}` : '料理を選択';
-      document.getElementById('planner-salad-label').innerHTML = saladR ? `<img src="${getRecipeImg(saladR.name, saladR.cat)}" class="trigger-img"> ${saladR.name}` : '料理を選択';
-      document.getElementById('planner-dessert-label').innerHTML = dessertR ? `<img src="${getRecipeImg(dessertR.name, dessertR.cat)}" class="trigger-img"> ${dessertR.name}` : '料理を選択';
+      document.getElementById('planner-curry-label').innerHTML = curryR ? `<img src="${getRecipeImg(curryR.name, curryR.cat)}" class="trigger-img" alt=""> ${curryR.name}` : '料理を選択';
+      document.getElementById('planner-salad-label').innerHTML = saladR ? `<img src="${getRecipeImg(saladR.name, saladR.cat)}" class="trigger-img" alt=""> ${saladR.name}` : '料理を選択';
+      document.getElementById('planner-dessert-label').innerHTML = dessertR ? `<img src="${getRecipeImg(dessertR.name, dessertR.cat)}" class="trigger-img" alt=""> ${dessertR.name}` : '料理を選択';
 
       const totals = {};
       const usageCounts = {};
@@ -5796,7 +5796,7 @@ d27,dessert,モーモーホットミルク,7,814,2914,milk,7\n\n`;
       document.getElementById('rl-recipe-name').textContent = recipe.name;
       document.getElementById('rl-recipe-img').src = getRecipeImg(recipe.name, recipe.cat);
       document.getElementById('rl-base-energy').textContent = recipe.energy.toLocaleString();
-      document.getElementById('rl-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img"> ${recipe.name}`;
+      document.getElementById('rl-picker-label').innerHTML = `<img src="${getRecipeImg(recipe.name, recipe.cat)}" class="trigger-img" alt=""> ${recipe.name}`;
 
       // Update RL category buttons
       document.querySelectorAll('.rl-cat-btn').forEach(btn => btn.classList.remove('active'));

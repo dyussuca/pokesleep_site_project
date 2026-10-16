@@ -28,8 +28,10 @@
     :root {
       --bg-main: #e2e8f0;
       --bg-card: #ffffff;
-      --accent-green: #059669;
-      --accent-blue: #0284c7;
+      --accent-green: #047857;
+      --accent-blue: #0369a1;
+      --accent-purple: #7c3aed;
+      --on-accent: #ffffff;
       --text-main: #0f172a;
       --text-sub: #334155;
       --border-color: #94a3b8;
@@ -42,6 +44,8 @@
       --bg-card: rgba(20, 31, 54, 0.95);
       --accent-green: #10b981;
       --accent-blue: #38bdf8;
+      --accent-purple: #a78bfa;
+      --on-accent: #0f172a;
       --text-main: #f1f5f9;
       --text-sub: #94a3b8;
       --border-color: rgba(255, 255, 255, 0.14);
@@ -137,7 +141,7 @@
       margin-bottom: 20px;
       padding: 10px 20px;
       background: var(--accent-blue);
-      color: #ffffff;
+      color: var(--on-accent);
       text-decoration: none;
       border-radius: 12px;
       font-weight: 800;
@@ -161,7 +165,7 @@
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" role="main">
     <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
       <a href="/" class="back-btn" style="margin-bottom: 0;">← 料理計算機トップ</a>
       <a href="/exp/" class="back-btn" style="margin-bottom: 0; background: var(--accent-green);">💤 EXP計算機</a>

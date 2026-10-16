@@ -30,6 +30,7 @@
 
   <style>
     :root {
+      --on-accent: #ffffff;
       --bg-main: #f1f5f9;
       --bg-card: #ffffff;
       --text-main: #0f172a;
@@ -37,7 +38,7 @@
       --border-color: #94a3b8;
       --border-color-soft: #cbd5e1;
       --accent-blue: #2563eb;
-      --accent-green: #10b981;
+      --accent-green: #047857;
       --accent-yellow: #d97706;
       --accent-purple: #7c3aed;
       --hero-bg: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08));
@@ -54,7 +55,8 @@
       --text-sub: #94a3b8;
       --border-color: #334155;
       --border-color-soft: #1e293b;
-      --accent-blue: #3b82f6;
+      --accent-blue: #60a5fa;
+      --on-accent: #0f172a;
       --accent-green: #34d399;
       --accent-yellow: #fbbf24;
       --accent-purple: #a78bfa;
@@ -334,7 +336,7 @@
       gap: 8px;
       padding: 10px 24px;
       background: var(--accent-blue);
-      color: #ffffff;
+      color: var(--on-accent);
       font-weight: 900;
       text-decoration: none;
       border-radius: var(--radius-md);
@@ -387,6 +389,10 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
+    .breadcrumb a {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
   </style>
 
   <!-- Google AdSense Tag -->
@@ -409,7 +415,7 @@
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" role="main">
     <article class="article-wrap">
       <!-- ARTICLE_ID: DEV-001 -->
       <div class="breadcrumb">
